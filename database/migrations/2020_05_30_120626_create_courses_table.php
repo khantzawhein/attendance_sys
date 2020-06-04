@@ -17,11 +17,11 @@ class CreateCoursesTable extends Migration
             $table->id();
             $table->string("module_no");
             $table->string("module_name");
-            $table->string("academic_year");
             $table->foreignId('teacher_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('term_id')->constrained()->cascadeOnDelete();
+            $table->string('access_code');
             $table->timestamps();
-
-            $table->unique(['module_no', 'module_name', 'academic_year']);
+            $table->unique(['module_no', 'term_id']);
         });
     }
 

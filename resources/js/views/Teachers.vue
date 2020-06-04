@@ -1,9 +1,7 @@
 <template>
     <div>
         <div class="loading text-center align-items-center justify-content-center d-flex vh-100" v-if="!loaded">
-            <div class="spinner-border text-primary" role="status">
-                <span class="sr-only">Loading...</span>
-            </div>
+            <loader-component></loader-component>
         </div>
         <div class="error mt-4" v-if="error" >
             <div class="alert alert-danger" role="alert">
@@ -12,14 +10,16 @@
         </div>
         <div class="row">
             <div class="col-sm-12">
-                <p v-if="!teachers">There's nothing to show</p>
-                <table class="table table-striped" v-show="loaded&&!error&&teachers">
+                <p v-if="!teachers.length">There's nothing to show</p>
+                <table class="table table-striped" v-show="loaded&&!error&&teachers.length">
                     <thead>
                         <tr>
                             <th>ID</th>
                             <th>Name</th>
                             <th>Email</th>
+                            <th>Role</th>
                             <th>Department</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                         <tbody>
@@ -27,7 +27,11 @@
                                 <td>{{teacher.id}}</td>
                                 <td>{{teacher.name}}</td>
                                 <td>{{teacher.email}}</td>
+                                <td>{{teacher.role}}</td>
                                 <td>{{teacher.department}}</td>
+                                <td>
+                                    <button class="btn btn-secondary">Manage</button>
+                                </td>
                             </tr>
                         </tbody>
                 </table>
@@ -40,7 +44,7 @@
     export default {
         data() {
             return {
-                teachers: null,
+                teachers: {},
                 error: null,
                 loaded: false
             }
@@ -59,8 +63,6 @@
                     this.loaded = true;
                     this.error = error.response.data.message || error.message;
                 })
-
-
             }
         }
     }

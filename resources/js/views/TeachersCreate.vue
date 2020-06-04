@@ -1,9 +1,7 @@
 <template>
     <div>
         <div class="loading text-center align-items-center justify-content-center d-flex vh-100" v-if="!loaded">
-            <div class="spinner-border text-primary" role="status">
-                <span class="sr-only">Loading...</span>
-            </div>
+            <loader-component></loader-component>
         </div>
         <div class="error mt-4" v-if="error" >
             <div class="alert alert-danger" role="alert">
@@ -34,6 +32,10 @@
                         <input v-model="formData.name" type="text" id="name" class="form-control" placeholder="Kyaw Kyaw" required>
                     </div>
                     <div class="form-group">
+                        <label for="role">Role:</label>
+                        <input v-model="formData.role" type="text" id="role" class="form-control" placeholder="Professor, AP, Lecturer.. etc" required>
+                    </div>
+                    <div class="form-group">
                         <label for="department">Department:</label>
                         <input v-model="formData.department" type="text" id="department" class="form-control" placeholder="Computer science, physics,..." required>
                     </div>
@@ -59,6 +61,7 @@
                     email: "",
                     name: "",
                     department: "",
+                    role: "",
                     password: "",
                     password_confirmation: ""
                 },

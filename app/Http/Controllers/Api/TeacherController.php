@@ -12,7 +12,7 @@ class TeacherController extends Controller
 {
     public function index()
     {
-        return Teacher::join('users', 'teachers.user_id', 'users.id')->select('teachers.id', 'users.name', 'users.email', 'teachers.department')->get();
+        return Teacher::join('users', 'teachers.user_id', 'users.id')->select('teachers.id', 'users.name', 'users.email', 'teachers.role',  'teachers.department')->get();
     }
     public function store()
     {
@@ -20,6 +20,7 @@ class TeacherController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'role' => ['required', 'string'],
             'department' => ['required', 'string', 'max:255']
         ]);
         $user = User::create([
@@ -29,6 +30,7 @@ class TeacherController extends Controller
             'approved' => true,
         ]);
         $teacher = new Teacher([
+            'role' => $data['role'],
             'department' => $data['department']
         ]);
         $user->teacher()->save($teacher);

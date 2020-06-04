@@ -72,7 +72,7 @@
 
                             <div class="col-md-6">
                                 <div>
-                                    <select name="nrc_region" id="nrc_region" class="form-control d-inline-block" style="width: 20%" required>
+                                    <select name="nrc_region" id="nrc_region" class="form-control d-inline-block @error('nrc_region') is-invalid @enderror" style="width: 20%" required>
                                         <option value="၁" selected>၁</option>
                                         <option value="၂">၂</option>
                                         <option value="၃">၃</option>
@@ -88,9 +88,19 @@
                                         <option value="၁၄">၁၄</option>
                                         <option value="၁၅">၁၅</option>
                                     </select>
+                                    @error('nrc_region')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
                                     /
-                                    <input type="text" name="nrc_township" class="form-control d-inline-block" minlength="3" maxlength="3" pattern=".*[က-အ]" title="က မှ အ အတွင်းအက္ခရာသာရိုက်ပါ" required style="width: 22%">
-                                    <select name="nrc_type" id="nrc_type" class="form-control w-25 d-inline-block" required>
+                                    <input type="text" name="nrc_township" class="form-control d-inline-block @error('nrc_township') is-invalid @enderror" minlength="3" maxlength="3" pattern=".*[က-အ]" title="က မှ အ အတွင်းအက္ခရာသာရိုက်ပါ" required style="width: 22%" value="{{old('nrc_township')}}">
+                                    @error('nrc_township')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                    <select name="nrc_type" id="nrc_type" class="form-control w-25 d-inline-block @error('nrc_type') is-invalid @enderror" required>
                                         <option value="နိုင်" selected>(နိုင်)</option>
                                         <option value="ဧည့်">(ဧည့်)</option>
                                         <option value="ပြု">(ပြု)</option>
@@ -98,7 +108,17 @@
                                         <option value="စီ">(စီ)</option>
                                         <option value="သ">(သ)</option>
                                     </select>
-                                    <input type="text" class="form-control d-inline-block w-25" minlength="6" maxlength="6" pattern=".*[၀-၉]" required title="၀ မှ ၉ အတွင်းသာရိုက်ထည့်ပါ">
+                                    @error('nrc_type')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                    <input name="nrc_number" type="text" class="form-control d-inline-block w-25 @error('nrc_number') is-invalid @enderror" minlength="6" maxlength="6" pattern=".*[၀-၉]" required title="၀ မှ ၉ အတွင်းသာရိုက်ထည့်ပါ" value={{old('nrc_number')}}>
+                                    @error('nrc_number')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
                                 </div>
                             </div>
                         </div>
@@ -133,8 +153,21 @@
                         </div>
 
                         <div class="form-group row">
-                            <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
+                            <label for="phone" class="col-md-4 col-form-label text-md-right">Mobile No</label>
 
+                            <div class="col-md-6">
+                                <input id="phone" pattern=".*[0-9]" type="number" class="form-control @error('phone') is-invalid @enderror" name="phone" value="{{ old('phone') }}" placeholder="eg. 09790001234" required>
+
+                                @error('phone')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
                             <div class="col-md-6">
                                 <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
 
@@ -172,11 +205,14 @@
         $haveID = $('input[type=radio][name=haveID]:checked').val();
         if($haveID == 0) {
             $('.urn').hide();
-            $('#urn').attr('required', false);
+            $('#urn').attr('required', false).val("");
+            $('#urn').attr('name', "no_urn");
         }
         else {
             $('.urn').show();
             $('#urn').attr('required', true);
+            $('#urn').attr('name', "urn");
+
         }
     }
 </script>

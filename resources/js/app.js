@@ -1,12 +1,7 @@
-
-
 require('./bootstrap');
-
 window.Vue = require('vue');
 import VueRouter from 'vue-router'
-import Vuex from 'vuex';
 Vue.use(VueRouter);
-Vue.use(Vuex);
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
@@ -19,8 +14,10 @@ import Home from './views/Home.vue'
 import Teachers from './views/Teachers.vue'
 import TeachersCreate from './views/TeachersCreate.vue'
 import Students from './views/Students.vue'
-// const files = require.context('./', true, /\.vue$/i)
-// files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
+import Courses from "./views/Courses.vue";
+const files = require.context('./', true, /\.vue$/i)
+files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
+
 const router = new VueRouter({
    mode: 'history',
    routes: [
@@ -44,6 +41,11 @@ const router = new VueRouter({
            name: 'students',
            component: Students,
        },
+       {
+           path: '/app/courses',
+           name: 'courses',
+           component: Courses,
+       },
 
    ]
 });
@@ -52,7 +54,6 @@ const router = new VueRouter({
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
-
 const app = new Vue({
     el: '#app',
     components: { App },

@@ -12,7 +12,7 @@ use Illuminate\Http\Request;
 Use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-
+use Illuminate\Validation\Rule;
 class RegisterController extends Controller
 {
     /*
@@ -69,11 +69,20 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
+        $type = ['နိုင်', 'ဧည့်', 'ပြု', 'ယာယီ', 'စီ', 'သ'];
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
-            'urn' => ['required', 'digits:6', 'unique:students']
+            'urn' => ['digits:6', 'unique:students'],
+            'nrc_region' => ['required', 'regex:/.*[၁-၉]/', 'between:1,2'],
+            'nrc_township' => ['required', 'regex:/.*[က-အ]/', 'size:3'],
+            'nrc_type' => ['required', Rule::in($type)],
+            'nrc_number' => ['required', 'regex:/.*[၀-၉]/', 'size:6'],
+            'father_name' => ['required', 'string'],
+            'batch' => ['required', 'digits:4'],
+            'phone' => ['required', 'digits_between:8,11', 'unique:students']
+
         ]);
     }
 
@@ -90,7 +99,14 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
-        $student = new Student(['urn' => $data['urn']]);
+        $nrc = "{$data['nrc_region']}/{$data['nrc_township']}({$data['nrc_type']}){$data['nrc_number']}";
+        $student = new Student([
+            'urn' => isset($data['urn']) ? $data['urn'] : null,
+            'nrc' => $nrc,
+            'batch' => $data['batch'],
+            'father_name' => $data['father_name'],
+            'phone' => $data['phone']
+        ]);
         $user->student()->save($student);
         return $user;
     }

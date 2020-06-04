@@ -17,6 +17,9 @@
                         <li class="nav-item">
                             <router-link to="/app/students" class="nav-link" >Manage Students<span class="sr-only">Manage Students</span></router-link>
                         </li>
+                        <li class="nav-item">
+                            <router-link to="/app/courses" class="nav-link" >Manage Courses<span class="sr-only">Manage Courses</span></router-link>
+                        </li>
                     </ul>
                 </div>
             </nav>

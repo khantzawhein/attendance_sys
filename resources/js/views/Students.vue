@@ -1,8 +1,11 @@
 <template>
     <div>
         <div class="loading text-center align-items-center justify-content-center d-flex vh-100" v-if="!loaded">
-            <div class="spinner-border text-primary" role="status">
-                <span class="sr-only">Loading...</span>
+            <loader-component></loader-component>
+        </div>
+        <div class="error mt-4" v-if="error" >
+            <div class="alert alert-danger" role="alert">
+                {{error}}
             </div>
         </div>
         <div class="row">
@@ -21,51 +24,64 @@
                 </nav>
                 <div class="tab-content" id="nav-tabContent">
                     <div class="tab-pane fade show active" id="nav-approved" role="tabpanel" aria-labelledby="nav-approved-tab">
-                        <p v-if="!approvedStudents">There's nothing to show</p>
-                        <table class="table table-striped" v-show="loaded&&!error&&approvedStudents">
+                        <p v-if="!approvedStudents.length">There's nothing to show</p>
+                        <table class="table table-striped" v-show="loaded&&!error&&approvedStudents.length">
                             <thead>
                                 <tr>
-                                    <th>ID</th>
+                                    <th>Student ID</th>
                                     <th>Name</th>
                                     <th>Email</th>
+                                    <th>NRC</th>
+                                    <th>Father Name</th>
                                     <th>URN</th>
+                                    <th>Phone</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                            <tr v-for="approvedStudent in approvedStudents">
+                            <tr v-for="approvedStudent in approvedStudents" :key="approvedStudent.id">
                                 <td>{{approvedStudent.id}}</td>
                                 <td>{{approvedStudent.name}}</td>
                                 <td>{{approvedStudent.email}}</td>
+                                <td>{{approvedStudent.nrc}}</td>
+                                <td>{{approvedStudent.father_name}}</td>
                                 <td>{{approvedStudent.urn}}</td>
+                                <td>{{approvedStudent.phone}}</td>
                                 <td>
-                                    <button class="btn btn-primary">Manage</button>
+                                    <button class="btn btn-secondary">Manage</button>
                                     <button @click="disapprove(approvedStudent.id)" class="btn btn-danger">Disable</button>
                                 </td>
                             </tr>
                             </tbody>
                         </table>
                     </div>
+
                     <div class="tab-pane fade" id="nav-unapproved" role="tabpanel" aria-labelledby="nav-unapproved-tab">
-                        <p v-if="!unapprovedStudents">There's nothing to show</p>
-                        <table class="table table-striped" v-show="loaded&&!error&&unapprovedStudents">
+                        <p v-if="!unapprovedStudents.length">There's nothing to show</p>
+                        <table class="table table-striped" v-show="loaded&&!error&&unapprovedStudents.length">
                             <thead>
                                 <tr>
-                                    <th>ID</th>
+                                    <th>Student ID</th>
                                     <th>Name</th>
                                     <th>Email</th>
+                                    <th>NRC</th>
+                                    <th>Father Name</th>
                                     <th>URN</th>
+                                    <th>Phone</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                            <tr v-for="unapprovedStudent in unapprovedStudents">
+                            <tr v-for="unapprovedStudent in unapprovedStudents" :key="unapprovedStudent.id">
                                 <td>{{unapprovedStudent.id}}</td>
                                 <td>{{unapprovedStudent.name}}</td>
                                 <td>{{unapprovedStudent.email}}</td>
+                                <td>{{unapprovedStudent.nrc}}</td>
+                                <td>{{unapprovedStudent.father_name}}</td>
                                 <td>{{unapprovedStudent.urn}}</td>
+                                <td>{{unapprovedStudent.phone}}</td>
                                 <td>
-                                    <button class="btn btn-primary">Manage</button>
+                                    <button class="btn btn-secondary">Manage</button>
                                     <button @click="approve(unapprovedStudent.id)" class="btn btn-success">Approve</button>
                                 </td>
                             </tr>
@@ -81,8 +97,8 @@
     export default {
         data() {
             return {
-                approvedStudents: null,
-                unapprovedStudents: null,
+                approvedStudents: {},
+                unapprovedStudents: {},
                 error: null,
                 loaded: false,
                 successMsg: null
@@ -111,7 +127,6 @@
                     this.getStudentData();
                     this.loaded = true;
                     this.successMsg = "Successfully enabled that account."
-                    this.$router.push({name: 'students'})
                 })
                 .catch(error => {
                     this.loaded = true;
@@ -125,7 +140,6 @@
                     this.getStudentData();
                     this.loaded = true;
                     this.successMsg = "Successfully disabled that account."
-                    this.$router.push({name: 'students'})
                 })
                 .catch(error => {
                     this.loaded = true;
