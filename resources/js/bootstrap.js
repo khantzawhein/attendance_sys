@@ -9,7 +9,7 @@ window._ = require('lodash');
 try {
     window.Popper = require('popper.js').default;
     window.$ = window.jQuery = require('jquery');
-
+    require('select2/dist/js/select2.min.js');
     require('bootstrap');
 } catch (e) {}
 
@@ -40,3 +40,4 @@ window.axios.defaults.withCredentials = true;
 //     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
 //     forceTLS: true
 // });
+

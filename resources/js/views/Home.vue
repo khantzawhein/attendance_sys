@@ -1,5 +1,5 @@
 <template>
-    <div v-if="this.user">
+    <div>
         Hello
     </div>
 </template>

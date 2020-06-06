@@ -76,7 +76,7 @@
 
             handleForm() {
                 this.loaded = false;
-                axios.post('/api/teachers/create', this.formData)
+                axios.post('/api/teachers', this.formData)
                 .then(response => {
                     this.$router.push({name: 'teachers'})
                 }).catch(error => {

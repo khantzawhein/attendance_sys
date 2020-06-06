@@ -7,6 +7,8 @@ use Illuminate\Support\Str;
 
 class Course extends Model
 {
+protected $guarded = [];
+
     public function teacher() {
         return $this->belongsTo(Teacher::class);
     }
