@@ -23,8 +23,8 @@
                         </tr>
                     </thead>
                         <tbody>
-                            <tr v-for="course in courses" :key="course.id">
-                                <td>{{course.id}}</td>
+                            <tr v-for="(course, index) in courses" :key="course.id">
+                                <td>{{index+1}}</td>
                                 <td>{{course.module_no}}</td>
                                 <td>{{course.module_name}}</td>
                                 <td>{{course.teacher_name}}</td>

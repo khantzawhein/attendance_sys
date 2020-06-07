@@ -30,8 +30,8 @@
             options: function(options) {
             // update options
                 $(this.$el)
-                .empty()
-                .select2({ data: options });
+                .find('*').not('.default').remove();
+                $(this.$el).select2({ data: options });
             }
         },
         destroyed() {

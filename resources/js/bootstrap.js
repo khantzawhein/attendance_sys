@@ -10,6 +10,8 @@ try {
     window.Popper = require('popper.js').default;
     window.$ = window.jQuery = require('jquery');
     require('select2/dist/js/select2.min.js');
+    require('air-datepicker/dist/js/datepicker.min.js')
+    require('air-datepicker/dist/js/i18n/datepicker.en.js')
     require('bootstrap');
 } catch (e) {}
 

@@ -35,5 +35,15 @@ const Routes = [
            name: 'courses.create',
            component: require('./views/Courses/CoursesCreate.vue').default,
        },
+       {
+           path: '/app/terms',
+           name: 'terms',
+           component: require('./views/Terms/Terms.vue').default,
+       },
+       {
+           path: '/app/terms/create',
+           name: 'terms.create',
+           component: require('./views/Terms/TermsCreate.vue').default,
+       },
     ];
 export default Routes;

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\TermResource;
 use App\Term;
 use Illuminate\Http\Request;
 
@@ -15,7 +16,7 @@ class TermController extends Controller
      */
     public function index()
     {
-        return Term::all();
+        return TermResource::collection(Term::all());
     }
 
     /**
@@ -33,7 +34,13 @@ class TermController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->validate([
+           'name' => 'required|unique:terms',
+           'start_date' => 'required|date_format:yy/m/d',
+           'end_date' => 'required|date_format:yy/m/d|after:start_date'
+        ]);
+        Term::create($data);
+        return response('', 201);
     }
 
     /**
@@ -73,11 +80,13 @@ class TermController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Term $term
+     * @return void
+     * @throws \Exception
      */
-    public function destroy($id)
+    public function destroy(Term $term)
     {
-        //
+        $term->delete();
+        return response('', 201);
     }
 }

@@ -23,8 +23,10 @@ const router = new VueRouter({
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
+window.Bus = new Vue();
 const app = new Vue({
     el: '#app',
     components: { App },
     router,
 });
+

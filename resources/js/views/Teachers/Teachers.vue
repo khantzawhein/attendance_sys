@@ -23,8 +23,8 @@
                         </tr>
                     </thead>
                         <tbody>
-                            <tr v-for="teacher in teachers" :key="teacher.id">
-                                <td>{{teacher.id}}</td>
+                            <tr v-for="(teacher, index) in teachers" :key="teacher.id">
+                                <td>{{index+1}}</td>
                                 <td>{{teacher.name}}</td>
                                 <td>{{teacher.email}}</td>
                                 <td>{{teacher.role}}</td>

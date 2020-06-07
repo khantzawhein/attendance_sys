@@ -78,6 +78,7 @@
                 this.loaded = false;
                 axios.post('/api/teachers', this.formData)
                 .then(response => {
+                    Bus.$emit('flash-success', "Successfully created.")
                     this.$router.push({name: 'teachers'})
                 }).catch(error => {
                     this.loaded = true;

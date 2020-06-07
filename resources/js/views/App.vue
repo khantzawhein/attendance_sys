@@ -20,10 +20,21 @@
                         <li class="nav-item">
                             <router-link to="/app/courses" class="nav-link" >Manage Courses<span class="sr-only">Manage Courses</span></router-link>
                         </li>
+                        <li class="nav-item">
+                            <router-link to="/app/terms" class="nav-link" >Manage Terms<span class="sr-only">Manage Terms</span></router-link>
+                        </li>
                     </ul>
                 </div>
             </nav>
             <div class="content">
+                <div v-if="flashSuccess">
+                    <div class="flashSuccess alert alert-success alert-dismissible fade show">
+                        {{flashSuccess}}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                </div>
                 <router-view></router-view>
             </div>
         </div>
@@ -33,8 +44,18 @@
     export default {
         data() {
             return {
-
+                flashSuccess: null
             }
+        },
+        mounted() {
+            Bus.$on('flash-success', (message) => {
+                  this.flashSuccess = message;
+                  $('.flashSuccess').alert()
+                  setTimeout(() => {
+                      $('.flashSuccess').alert('close')
+                      this.flashSuccess = null
+                  }, 5000)
+            });
         },
         methods: {
 

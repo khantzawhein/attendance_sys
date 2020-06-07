@@ -39,14 +39,14 @@
                                 </tr>
                             </thead>
                             <tbody>
-                            <tr v-for="approvedStudent in approvedStudents" :key="approvedStudent.id">
-                                <td>{{approvedStudent.id}}</td>
-                                <td>{{approvedStudent.name}}</td>
-                                <td>{{approvedStudent.email}}</td>
-                                <td>{{approvedStudent.nrc}}</td>
-                                <td>{{approvedStudent.father_name}}</td>
-                                <td>{{approvedStudent.urn}}</td>
-                                <td>{{approvedStudent.phone}}</td>
+                            <tr v-for="(student, index) in approvedStudents" :key="student.id">
+                                <td>{{index+1}}</td>
+                                <td>{{student.name}}</td>
+                                <td>{{student.email}}</td>
+                                <td>{{student.nrc}}</td>
+                                <td>{{student.father_name}}</td>
+                                <td>{{student.urn}}</td>
+                                <td>{{student.phone}}</td>
                                 <td>
                                     <button class="btn btn-secondary">Manage</button>
                                     <button @click="disapprove(approvedStudent.id)" class="btn btn-danger">Disable</button>

@@ -32,11 +32,15 @@
                     </div>
                     <div class="form-group">
                         <label for="teacher_name" class="d-block">Teacher Name</label>
-                        <select-component :id="'teacher_name'" class="w-100" :options="teachers" v-model="formData.teacher_id"></select-component>
+                        <select-component :id="'teacher_name'" class="w-100" :options="teachers" v-model="formData.teacher_id">
+                            <option value="0" selected class="default">Select Teacher:</option>
+                        </select-component>
                     </div>
                     <div class="form-group">
                         <label for="term" class="d-block">Term</label>
-                        <select-component :id="'term'" class="w-100" :options="terms" v-model="formData.term_id"></select-component>
+                        <select-component :id="'term'" class="w-100" :options="terms" v-model="formData.term_id">
+                            <option value="0" selected class="default">Select Term:</option>
+                        </select-component>
                     </div>
                     <button type="submit" class="btn btn-primary">Create</button>
                 </form>
@@ -58,8 +62,8 @@
                 formData: {
                     module_no: "",
                     module_name: "",
-                    teacher_id: "1",
-                    term_id: "1"
+                    teacher_id: "",
+                    term_id: ""
                 },
                 error: null,
                 errorDetails: null,
@@ -80,6 +84,7 @@
                         data.push({id: teacher.id, text: teacher.name})
                     })
                     this.teachers = data;
+                    console.log(data[0].id)
                     this.loaded = true;
                 })
                 .catch(error => {
@@ -91,10 +96,11 @@
                 axios.get('/api/terms')
                 .then(response => {
                     let data = []
-                    response.data.map(term => {
+                    response.data.data.map(term => {
                         data.push({id: term.id, text: term.name})
                     })
                     this.terms = data;
+                    // this.formData.term_id = data[0].id
                 })
                 .catch(error => {
                     this.error = error.response.data.message || error.message;
@@ -105,13 +111,13 @@
                 axios.post('/api/courses', this.formData)
                 .then(response => {
                     this.loaded = true
+                    Bus.$emit('flash-success', "Successfully created.")
                     this.$router.push({name: "courses"})
                 })
                 .catch(error => {
                     this.loaded = true
                     this.error = error.response.data.message || error.message;
                     this.errorDetails = error.response.data.errors;
-
                 })
             }
         }
