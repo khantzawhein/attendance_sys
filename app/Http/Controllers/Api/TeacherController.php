@@ -10,19 +10,23 @@ use Illuminate\Support\Facades\Hash;
 
 class TeacherController extends Controller
 {
+    public function rules()
+    {
+        return [
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'role' => ['required', 'string'],
+            'department' => ['required', 'string', 'max:255']
+        ];
+    }
     public function index()
     {
         return Teacher::join('users', 'teachers.user_id', 'users.id')->select('teachers.id', 'users.name', 'users.email', 'teachers.role',  'teachers.department')->get();
     }
     public function store()
     {
-        $data = request()->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
-            'role' => ['required', 'string'],
-            'department' => ['required', 'string', 'max:255']
-        ]);
+        $data = request()->validate($this->rules());
         $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
@@ -34,6 +38,19 @@ class TeacherController extends Controller
             'department' => $data['department']
         ]);
         $user->teacher()->save($teacher);
+        return response(["message" => "success"], 201);
+    }
+
+    public function update(Teacher $teacher, Request $request)
+    {
+        $data = $request->validate($this->rules());
+        $teacher->update($data);
+        return response(["message" => "success"], 201);
+    }
+
+    public function destroy(Teacher $teacher)
+    {
+        $teacher->delete();
         return response(["message" => "success"], 201);
     }
 }

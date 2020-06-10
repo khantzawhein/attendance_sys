@@ -9,6 +9,14 @@ use Illuminate\Http\Request;
 
 class TermController extends Controller
 {
+    public function rules()
+    {
+        return [
+           'name' => 'required|unique:terms',
+           'start_date' => 'required|date_format:yy/m/d',
+           'end_date' => 'required|date_format:yy/m/d|after:start_date'
+        ];
+    }
     /**
      * Display a listing of the resource.
      *
@@ -34,35 +42,9 @@ class TermController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->validate([
-           'name' => 'required|unique:terms',
-           'start_date' => 'required|date_format:yy/m/d',
-           'end_date' => 'required|date_format:yy/m/d|after:start_date'
-        ]);
+        $data = $request->validate($this->rules());
         Term::create($data);
         return response('', 201);
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
     }
 
     /**
@@ -72,9 +54,11 @@ class TermController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Term $term)
     {
-        //
+        $data = $request->validate($this->rules());
+        $term->update($data);
+        return response('', 201);
     }
 
     /**

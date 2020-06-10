@@ -1,31 +1,32 @@
 <template>
     <div>
-        <div class="loading text-center align-items-center justify-content-center d-flex vh-100" v-if="!loaded">
-            <loader-component></loader-component>
-        </div>
-        <div class="error mt-4" v-if="error" >
-            <div class="alert alert-danger" role="alert">
-                {{error}}
-            </div>
-        </div>
+        <header-component>
+        <template v-slot:title>Student Lists</template>
+        <template v-slot:breadcrumb>
+            <li class="breadcrumb-item"><router-link :to="{name: 'home'}">Home</router-link></li>
+            <li class="breadcrumb-item">Students</li>
+        </template>
+    </header-component>
+    <!-- Main content -->
+    <div class="content">
+      <div class="container-fluid">
         <div class="row">
-            <div class="col-sm-12" v-show="!error">
-                <div class="alert alert-success alert-dismissible fade show" v-if="successMsg">
-                    {{successMsg}}
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+            <div class="col-lg-12">
+                <div class="loading text-center align-items-center justify-content-center d-flex vh-100" v-if="!loaded">
+                    <loader-component></loader-component>
                 </div>
-                <nav>
-                    <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                        <a class="nav-item nav-link active" id="nav-approved-tab" data-toggle="tab" href="#nav-approved" role="tab" aria-controls="nav-approved" aria-selected="true">Approved</a>
-                        <a class="nav-item nav-link" id="nav-unapproved-tab" data-toggle="tab" href="#nav-unapproved" role="tab" aria-controls="nav-unapproved" aria-selected="false">Not yet approved</a>
+                <div class="error mt-4" v-if="error" >
+                    <div class="alert alert-danger" role="alert">
+                        <strong>{{error}}</strong>
                     </div>
-                </nav>
-                <div class="tab-content" id="nav-tabContent">
-                    <div class="tab-pane fade show active" id="nav-approved" role="tabpanel" aria-labelledby="nav-approved-tab">
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Student Lists</h3>
+                    </div>
+                    <div class="card-body">
                         <p v-if="!approvedStudents.length">There's nothing to show</p>
-                        <table class="table table-striped" v-show="loaded&&!error&&approvedStudents.length">
+                        <table class="table table-hover table-nowrap" v-show="loaded&&!error&&approvedStudents.length">
                             <thead>
                                 <tr>
                                     <th>Student ID</th>
@@ -39,58 +40,30 @@
                                 </tr>
                             </thead>
                             <tbody>
-                            <tr v-for="(student, index) in approvedStudents" :key="student.id">
-                                <td>{{index+1}}</td>
-                                <td>{{student.name}}</td>
-                                <td>{{student.email}}</td>
-                                <td>{{student.nrc}}</td>
-                                <td>{{student.father_name}}</td>
-                                <td>{{student.urn}}</td>
-                                <td>{{student.phone}}</td>
-                                <td>
-                                    <button class="btn btn-secondary">Manage</button>
-                                    <button @click="disapprove(approvedStudent.id)" class="btn btn-danger">Disable</button>
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <div class="tab-pane fade" id="nav-unapproved" role="tabpanel" aria-labelledby="nav-unapproved-tab">
-                        <p v-if="!unapprovedStudents.length">There's nothing to show</p>
-                        <table class="table table-striped" v-show="loaded&&!error&&unapprovedStudents.length">
-                            <thead>
-                                <tr>
-                                    <th>Student ID</th>
-                                    <th>Name</th>
-                                    <th>Email</th>
-                                    <th>NRC</th>
-                                    <th>Father Name</th>
-                                    <th>URN</th>
-                                    <th>Phone</th>
-                                    <th>Action</th>
+                                <tr v-for="(student, index) in approvedStudents" :key="student.id">
+                                    <td>{{index+1}}</td>
+                                    <td>{{student.name}}</td>
+                                    <td>{{student.email}}</td>
+                                    <td>{{student.nrc}}</td>
+                                    <td>{{student.father_name}}</td>
+                                    <td>{{student.urn}}</td>
+                                    <td>{{student.phone}}</td>
+                                    <td>
+                                        <button class="btn btn-secondary">Manage</button>
+                                        <button @click="disapprove(student.id)" class="btn btn-danger">Disable</button>
+                                    </td>
                                 </tr>
-                            </thead>
-                            <tbody>
-                            <tr v-for="unapprovedStudent in unapprovedStudents" :key="unapprovedStudent.id">
-                                <td>{{unapprovedStudent.id}}</td>
-                                <td>{{unapprovedStudent.name}}</td>
-                                <td>{{unapprovedStudent.email}}</td>
-                                <td>{{unapprovedStudent.nrc}}</td>
-                                <td>{{unapprovedStudent.father_name}}</td>
-                                <td>{{unapprovedStudent.urn}}</td>
-                                <td>{{unapprovedStudent.phone}}</td>
-                                <td>
-                                    <button class="btn btn-secondary">Manage</button>
-                                    <button @click="approve(unapprovedStudent.id)" class="btn btn-success">Approve</button>
-                                </td>
-                            </tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
+                <!-- Modal -->
             </div>
         </div>
+        <!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content -->
     </div>
 </template>
 <script>
@@ -98,10 +71,8 @@
         data() {
             return {
                 approvedStudents: {},
-                unapprovedStudents: {},
                 error: null,
                 loaded: false,
-                successMsg: null
             }
         },
         created() {
@@ -112,25 +83,12 @@
                 axios.get('/api/students')
                 .then(response => {
                     this.approvedStudents = response.data.approved;
-                    this.unapprovedStudents = response.data.not_approved;
                     this.loaded = true;
                 })
                 .catch(error => {
                     this.loaded = true;
                     this.error = error.response.data.message || error.message;
-                })
-            },
-            approve(id) {
-                this.loaded = false;
-                axios.post('/api/students/'+ id +'/approve')
-                .then(response => {
-                    this.getStudentData();
-                    this.loaded = true;
-                    this.successMsg = "Successfully enabled that account."
-                })
-                .catch(error => {
-                    this.loaded = true;
-                    this.error = error.response.data.message || error.message;
+                    toastr.error(this.error, 'Error')
                 })
             },
             disapprove(id) {
@@ -139,11 +97,12 @@
                 .then(response => {
                     this.getStudentData();
                     this.loaded = true;
-                    this.successMsg = "Successfully disabled that account."
+                    toastr.success('Successfully disabled.', 'Success')
                 })
                 .catch(error => {
                     this.loaded = true;
                     this.error = error.response.data.message || error.message;
+                    toastr.error(this.error, 'Error')
                 })
             }
         }

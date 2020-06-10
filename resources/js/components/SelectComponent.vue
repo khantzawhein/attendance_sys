@@ -1,5 +1,5 @@
 <template>
-    <select :id="id">
+    <select :id="id" class="form-control">
         <slot></slot>
     </select>
 </template>

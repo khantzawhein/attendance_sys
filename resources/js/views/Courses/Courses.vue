@@ -1,17 +1,35 @@
 <template>
     <div>
-        <div class="loading text-center align-items-center justify-content-center d-flex vh-100" v-if="!loaded">
-            <loader-component></loader-component>
-        </div>
-        <div class="error mt-4" v-if="error" >
-            <div class="alert alert-danger" role="alert">
-                {{error}}
-            </div>
-        </div>
+    <header-component>
+        <template v-slot:title>Courses</template>
+        <template v-slot:breadcrumb>
+            <li class="breadcrumb-item"><router-link :to="{name: 'home'}">Home</router-link></li>
+            <li class="breadcrumb-item">Courses</li>
+        </template>
+    </header-component>
+    <!-- Main content -->
+    <div class="content">
+      <div class="container-fluid">
         <div class="row">
-            <div class="col-sm-12">
-                <p v-if="!courses.length">There's nothing to show</p>
-                <table class="table table-striped" v-show="loaded&&!error&&courses.length">
+            <div class="col-lg-12">
+                <div class="loading text-center align-items-center justify-content-center d-flex vh-100" v-if="!loaded">
+                    <loader-component></loader-component>
+                </div>
+                <div class="error mt-4" v-if="error" >
+                    <div class="alert alert-danger" role="alert">
+                        <strong>{{error}}</strong>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Course List</h3>
+                        <div class="card-tools">
+                            <button class="btn btn-success" @click="$router.push('/app/courses/create')"><i class="fas fa-plus mr-1"></i> Courses</button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <p v-if="!courses.length">There's nothing to show</p>
+                        <table class="table table-hover table-nowrap" v-show="loaded&&!error&&courses.length">
                     <thead>
                         <tr>
                             <th>ID</th>
@@ -61,11 +79,17 @@
                             </tr>
                         </tbody>
                 </table>
-                <button class="btn btn-success" @click="$router.push('/app/courses/create')">Create Courses</button>
+                    </div>
+                </div>
                 <!-- Modal -->
             </div>
         </div>
+        <!-- /.row -->
+      </div><!-- /.container-fluid -->
     </div>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
 </template>
 
 <script>
@@ -118,7 +142,7 @@
                     this.accessCodeLoaded = true;
                     this.error = error.response.data.message || error.message;
                 })
-            }
+            },
         }
     }
 </script>

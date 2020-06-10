@@ -1,10 +1,6 @@
-// Fonts
-@import url('https://fonts.googleapis.com/css?family=Nunito');
-
-// Variables
-@import 'variables';
-
 // Bootstrap
-@import '~bootstrap/scss/bootstrap';
+//@import '~bootstrap/scss/bootstrap';
 
+@import "../css/adminlte.min.css";
 @import '../css/datepicker.min.css';
+@import "~select2/dist/css/select2.min.css";

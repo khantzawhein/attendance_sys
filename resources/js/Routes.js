@@ -17,13 +17,18 @@ const Routes = [
         },
        {
            path: '/app/teachers/create',
-           name: 'teacher.create',
+           name: 'teachers.create',
            component: TeachersCreate,
        },
        {
            path: '/app/students',
            name: 'students',
            component: Students,
+       },
+       {
+           path: '/app/students/pending',
+           name: 'students.pending',
+           component: require('./views/Students/StudentsPending.vue').default,
        },
        {
            path: '/app/courses',

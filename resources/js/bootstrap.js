@@ -5,13 +5,14 @@ window._ = require('lodash');
  * for JavaScript based Bootstrap features such as modals and tabs. This
  * code may be modified to fit the specific needs of your application.
  */
-
+import swal from 'sweetalert';
 try {
     window.Popper = require('popper.js').default;
     window.$ = window.jQuery = require('jquery');
     require('select2/dist/js/select2.min.js');
     require('air-datepicker/dist/js/datepicker.min.js')
     require('air-datepicker/dist/js/i18n/datepicker.en.js')
+    window.toastr = require('toastr/build/toastr.min.js')
     require('bootstrap');
 } catch (e) {}
 

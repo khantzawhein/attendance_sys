@@ -9,13 +9,13 @@ Vue.use(VueRouter)
  *
  * Eg. ./components/ExampleComponent.vue -> <example-component></example-component>
  */
-import App from './views/App.vue'
 const files = require.context('./', true, /\.vue$/i)
 files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
 const router = new VueRouter({
    mode: 'history',
    routes: require('./Routes.js').default,
+   linkActiveClass: 'active'
 
 });
 /**
@@ -26,7 +26,18 @@ const router = new VueRouter({
 window.Bus = new Vue();
 const app = new Vue({
     el: '#app',
-    components: { App },
     router,
+    data: {
+
+    },
+    methods: {
+        logout() {
+            axios.post('/logout')
+            .then(response => {
+                this.$router.push('/')
+                location.reload()
+            })
+        }
+    }
 });
 

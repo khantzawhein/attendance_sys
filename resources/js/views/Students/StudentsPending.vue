@@ -1,10 +1,11 @@
 <template>
-<div>
-    <header-component>
-        <template v-slot:title>Terms</template>
+    <div>
+        <header-component>
+        <template v-slot:title>Student Lists</template>
         <template v-slot:breadcrumb>
             <li class="breadcrumb-item"><router-link :to="{name: 'home'}">Home</router-link></li>
-            <li class="breadcrumb-item">Terms</li>
+            <li class="breadcrumb-item"><router-link :to="{name: 'students'}">Students</router-link></li>
+            <li class="breadcrumb-item">Pending</li>
         </template>
     </header-component>
     <!-- Main content -->
@@ -22,32 +23,35 @@
                 </div>
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Term Lists</h3>
-                        <div class="card-tools">
-                            <button class="btn btn-success" @click="$router.push({name: 'terms.create'})"><i class="fas fa-plus mr-1"></i> Terms</button>
-                        </div>
+                        <h3 class="card-title">Student Lists</h3>
                     </div>
                     <div class="card-body">
-                        <p v-if="!terms.length">There's nothing to show</p>
-                        <table class="table table-hover table-nowrap" v-show="loaded&&!error&&terms.length">
+                        <p v-if="!unapprovedStudents.length">There's nothing to show</p>
+                        <table class="table table-hover table-nowrap" v-show="loaded&&!error&&unapprovedStudents.length">
                             <thead>
                                 <tr>
-                                    <th>ID</th>
+                                    <th>Student ID</th>
                                     <th>Name</th>
-                                    <th>Start Date</th>
-                                    <th>End Date</th>
-                                    <th>Actions</th>
+                                    <th>Email</th>
+                                    <th>NRC</th>
+                                    <th>Father Name</th>
+                                    <th>URN</th>
+                                    <th>Phone</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="(term, index) in terms" :key="term.id">
+                                <tr v-for="(student, index) in unapprovedStudents" :key="student.id">
                                     <td>{{index+1}}</td>
-                                    <td>{{term.name}}</td>
-                                    <td>{{term.start_date}}</td>
-                                    <td>{{term.end_date}}</td>
+                                    <td>{{student.name}}</td>
+                                    <td>{{student.email}}</td>
+                                    <td>{{student.nrc}}</td>
+                                    <td>{{student.father_name}}</td>
+                                    <td>{{student.urn}}</td>
+                                    <td>{{student.phone}}</td>
                                     <td>
                                         <button class="btn btn-secondary">Manage</button>
-                                        <button @click="deleteConfirm(term.id)" class="btn btn-danger">Delete</button>
+                                        <button @click="approve(student.id)" class="btn btn-success">Approve</button>
                                     </td>
                                 </tr>
                             </tbody>
@@ -61,67 +65,48 @@
       </div><!-- /.container-fluid -->
     </div>
     <!-- /.content -->
-  </div>
+    </div>
 </template>
-
 <script>
     export default {
-        name: "Terms.vue",
         data() {
             return {
-                terms: {},
+                unapprovedStudents: {},
                 error: null,
                 loaded: false,
             }
         },
         created() {
-              this.getTermsData();
+            this.getStudentData();
         },
         methods: {
-            getTermsData() {
-                this.loaded = false;
-                axios.get('/api/terms')
+            getStudentData() {
+                axios.get('/api/students')
                 .then(response => {
-                    this.terms = response.data.data;
-                    this.loaded = true
+                    this.unapprovedStudents = response.data.not_approved;
+                    this.loaded = true;
                 })
                 .catch(error => {
-                    this.loaded = true
+                    this.loaded = true;
                     this.error = error.response.data.message || error.message;
+                    toastr.error(this.error, 'Error')
                 })
             },
-            handleDelete(id) {
+            approve(id) {
                 this.loaded = false;
-                axios.delete('/api/terms/' + id)
+                axios.post('/api/students/'+ id +'/approve')
                 .then(response => {
-                    this.getTermsData()
-                    swal("Record has been deleted.", {
-                      icon: "success",
-                    });
+                    this.getStudentData();
+                    this.loaded = true;
+                    toastr.success('Successfully activated.', 'Success')
                 })
                 .catch(error => {
-                    this.loaded = true
+                    this.loaded = true;
                     this.error = error.response.data.message || error.message;
+                    toastr.error(this.error, 'Error')
                 })
             },
-            deleteConfirm(id) {
-                swal({
-                  title: "Are you sure?",
-                  text: "Once deleted, you will not be able to recover this!",
-                  icon: "warning",
-                  buttons: true,
-                  dangerMode: true,
-                })
-                .then((willDelete) => {
-                  if (willDelete) {
-                      this.handleDelete(id)
-                  }
-                });
-            }
         }
     }
+
 </script>
-
-<style scoped>
-
-</style>
