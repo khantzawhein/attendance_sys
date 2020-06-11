@@ -36,6 +36,12 @@ const Routes = [
            component: require('./views/Students/StudentsPending.vue').default,
        },
        {
+           path: '/app/students/:id',
+           name: 'students.manage',
+           component: require('./views/Students/StudentsManage.vue').default,
+       },
+
+       {
            path: '/app/courses',
            name: 'courses',
            component: Courses,
@@ -46,6 +52,11 @@ const Routes = [
            component: require('./views/Courses/CoursesCreate.vue').default,
        },
        {
+           path: '/app/courses/:id',
+           name: 'courses.manage',
+           component: require('./views/Courses/CoursesManage.vue').default,
+       },
+       {
            path: '/app/terms',
            name: 'terms',
            component: require('./views/Terms/Terms.vue').default,
@@ -54,6 +65,11 @@ const Routes = [
            path: '/app/terms/create',
            name: 'terms.create',
            component: require('./views/Terms/TermsCreate.vue').default,
+       },
+       {
+           path: '/app/terms/:id',
+           name: 'terms.manage',
+           component: require('./views/Terms/TermsManage.vue').default,
        },
     ];
 export default Routes;

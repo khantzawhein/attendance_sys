@@ -20,7 +20,7 @@
                         <strong>{{error}}</strong>
                     </div>
                 </div>
-                <div class="card">
+                <div class="card" v-show="loaded&&!error">
                     <div class="card-header">
                         <h3 class="card-title">Course List</h3>
                         <div class="card-tools">
@@ -29,7 +29,7 @@
                     </div>
                     <div class="card-body">
                         <p v-if="!courses.length">There's nothing to show</p>
-                        <table class="table table-hover table-nowrap" v-show="loaded&&!error&&courses.length">
+                        <table class="table table-hover table-nowrap" v-if="courses.length">
                     <thead>
                         <tr>
                             <th>ID</th>
@@ -48,7 +48,7 @@
                                 <td>{{course.teacher_name}}</td>
                                 <td>{{course.term}}</td>
                                 <td>
-                                    <button class="btn btn-secondary">Manage</button>
+                                    <router-link :to="{name: 'courses.manage', params: {id: course.id}}" class="btn btn-secondary">Manage</router-link>
                                     <button @click="getAccessCode(course.id)" class="btn btn-primary" data-toggle="modal" :data-target="'#modal'+course.id">Access Code</button>
                                     <!-- model -->
                                     <div class="modal fade" :id="'modal'+course.id" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">

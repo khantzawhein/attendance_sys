@@ -20,7 +20,7 @@
                         <strong>{{error}}</strong>
                     </div>
                 </div>
-                <div class="card">
+                <div class="card" v-show="loaded&&!error">
                     <div class="card-header">
                         <h3 class="card-title">Teacher Lists</h3>
                         <div class="card-tools">
@@ -29,7 +29,7 @@
                     </div>
                     <div class="card-body">
                         <p v-if="!teachers.length">There's nothing to show</p>
-                        <table class="table table-hover table-nowrap" v-show="loaded&&!error&&teachers.length">
+                        <table class="table table-hover table-nowrap" v-show="teachers.length">
                             <thead>
                                 <tr>
                                     <th>ID</th>

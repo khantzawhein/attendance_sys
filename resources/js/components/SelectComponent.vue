@@ -1,12 +1,12 @@
 <template>
-    <select :id="id" class="form-control">
+    <select class="form-control">
         <slot></slot>
     </select>
 </template>
 
 <script>
     export default {
-        props: ['id', 'value', 'options'],
+        props: ['value', 'options'],
         name: "SelectTwoComponent",
         mounted() {
             var vm = this;

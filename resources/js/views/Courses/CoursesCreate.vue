@@ -16,22 +16,8 @@
                 <div class="loading text-center align-items-center justify-content-center d-flex vh-100" v-if="!loaded">
                     <loader-component></loader-component>
                 </div>
-                <div class="error mt-4" v-if="error" >
-                    <div class="alert alert-danger" role="alert">
-                        <strong>{{error}}</strong>
-                        <ul v-for="(error, index) in errorDetails">
-                            <li>
-                                <strong>{{index}}</strong>
-                                <ul>
-                                    <li v-for="suberror in error">
-                                        {{suberror}}
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="card card-default">
+                <error-component :error="error"></error-component>
+                <div class="card card-default" v-if="loaded">
                     <div class="card-header">
                         <h3 class="card-title">Create Course</h3>
                     </div>
@@ -53,15 +39,15 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Teacher</label>
-                                        <select-component :id="'teacher_name'" class="w-100" :options="teachers" v-model="formData.teacher_id">
+                                        <select-component class="w-100" :options="teachers" v-model="formData.teacher_id">
                                             <option value="0" selected class="default">Select Teacher:</option>
                                         </select-component>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="term" class="d-block">Term</label>
-                                        <select-component :id="'term'" class="w-100" :options="terms" v-model="formData.term_id">
+                                        <label>Term</label>
+                                        <select-component class="w-100" :options="terms" v-model="formData.term_id">
                                             <option value="0" selected class="default">Select Term:</option>
                                         </select-component>
                                     </div>
@@ -96,12 +82,23 @@
                 formData: {
                     module_no: "",
                     module_name: "",
-                    teacher_id: "",
-                    term_id: ""
+                    teacher_id: "0",
+                    term_id: "0"
                 },
-                error: null,
-                errorDetails: null,
-                loaded: false
+                error: {
+                    title: null,
+                    details: {}
+                },
+                loadStatus: {
+                    terms: false,
+                    teachers: false,
+                    course: true
+                }
+            }
+        },
+        computed: {
+            loaded() {
+                return this.loadStatus.terms&&this.loadStatus.teachers&&this.loadStatus.course
             }
         },
         created() {
@@ -110,7 +107,7 @@
         },
         methods: {
             getTeacherData() {
-                this.loaded = false;
+                this.loadStatus.teachers = false;
                 axios.get('/api/teachers')
                 .then(response => {
                     let data = []
@@ -118,15 +115,15 @@
                         data.push({id: teacher.id, text: teacher.name})
                     })
                     this.teachers = data;
-                    console.log(data[0].id)
-                    this.loaded = true;
+                    this.loadStatus.teachers = true;
                 })
                 .catch(error => {
-                    this.loaded = true;
-                    this.error = error.response.data.message || error.message;
+                    this.loadStatus.teachers = true;
+                    this.error.title = error.response.data.message || error.message;
                 })
             },
             getTermData() {
+                this.loadStatus.terms = false;
                 axios.get('/api/terms')
                 .then(response => {
                     let data = []
@@ -134,25 +131,26 @@
                         data.push({id: term.id, text: term.name})
                     })
                     this.terms = data;
-                    // this.formData.term_id = data[0].id
+                    this.loadStatus.terms = true;
                 })
                 .catch(error => {
-                    this.error = error.response.data.message || error.message;
+                    this.loadStatus.terms = true;
+                    this.error.title = error.response.data.message || error.message;
                 })
             },
             handleSubmit() {
-                this.loaded = false
+                this.loadStatus.course = false
                 axios.post('/api/courses', this.formData)
                 .then(response => {
-                    this.loaded = true
+                    this.loadStatus.course = true
                     toastr.success('Course has been created.', 'Success')
                     this.$router.push({name: "courses"})
                 })
                 .catch(error => {
-                    this.loaded = true
-                    this.error = error.response.data.message || error.message;
-                    this.errorDetails = error.response.data.errors;
-                    toastr.error(this.error, 'Error')
+                    this.loadStatus.course = true
+                    this.error.title = error.response.data.message || error.message;
+                    this.error.details = error.response.data.errors;
+                    toastr.error("Validation Failed", 'Error')
                 })
             }
         }

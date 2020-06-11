@@ -20,13 +20,13 @@
                         <strong>{{error}}</strong>
                     </div>
                 </div>
-                <div class="card">
+                <div class="card" v-show="loaded&&!error">
                     <div class="card-header">
                         <h3 class="card-title">Student Lists</h3>
                     </div>
                     <div class="card-body">
                         <p v-if="!approvedStudents.length">There's nothing to show</p>
-                        <table class="table table-hover table-nowrap" v-show="loaded&&!error&&approvedStudents.length">
+                        <table class="table table-hover table-nowrap" v-show="approvedStudents.length">
                             <thead>
                                 <tr>
                                     <th>Student ID</th>
@@ -49,7 +49,7 @@
                                     <td>{{student.urn}}</td>
                                     <td>{{student.phone}}</td>
                                     <td>
-                                        <button class="btn btn-secondary">Manage</button>
+                                        <router-link :to="{name: 'students.manage', params: {id: student.id}}" class="btn btn-secondary">Manage</router-link>
                                         <button @click="disapprove(student.id)" class="btn btn-danger">Disable</button>
                                     </td>
                                 </tr>

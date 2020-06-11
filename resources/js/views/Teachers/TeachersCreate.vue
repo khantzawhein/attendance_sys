@@ -16,22 +16,8 @@
                 <div class="loading text-center align-items-center justify-content-center d-flex vh-100" v-if="!loaded">
                     <loader-component></loader-component>
                 </div>
-                <div class="error mt-4" v-if="error" >
-                    <div class="alert alert-danger" role="alert">
-                        <strong>{{error}}</strong>
-                        <ul v-for="(error, index) in errorDetails">
-                            <li>
-                                <strong>{{index}}</strong>
-                                <ul>
-                                    <li v-for="suberror in error">
-                                        {{suberror}}
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="card card-default">
+                <error-component :error="error"></error-component>
+                <div class="card card-default" v-show="loaded">
                     <div class="card-header">
                         <h3 class="card-title">Create Teacher Account</h3>
                     </div>
@@ -101,8 +87,10 @@
                     password: "",
                     password_confirmation: ""
                 },
-                error: null,
-                errorDetails: "",
+                error: {
+                    title: null,
+                    details: {}
+                },
                 loaded: true
             }
         },
@@ -118,8 +106,8 @@
                     this.$router.push({name: 'teachers'})
                 }).catch(error => {
                     this.loaded = true;
-                    this.error = error.response.data.message || error.message;
-                    this.errorDetails = error.response.data.errors;
+                    this.error.title = error.response.data.message || error.message;
+                    this.error.details = error.response.data.errors;
                 });
             }
         }

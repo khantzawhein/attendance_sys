@@ -38,6 +38,11 @@ class CourseController extends Controller
         Course::create($data);
         return response(['message' => 'success'], 201);
     }
+    public function show(Course $course)
+    {
+        return new CourseResource($course);
+    }
+
     public function update(Course $course, Request $request)
     {
         $data = $request->validate($this->rules());

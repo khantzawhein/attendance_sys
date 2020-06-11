@@ -30,10 +30,13 @@ class TermController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @param Term $term
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
-
-
+    public function show(Term $term)
+    {
+        return $term;
+    }
     /**
      * Store a newly created resource in storage.
      *

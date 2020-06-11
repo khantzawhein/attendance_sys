@@ -20,7 +20,7 @@
                         <strong>{{error}}</strong>
                     </div>
                 </div>
-                <div class="card">
+                <div class="card" v-show="loaded&&!error">
                     <div class="card-header">
                         <h3 class="card-title">Term Lists</h3>
                         <div class="card-tools">
@@ -29,7 +29,7 @@
                     </div>
                     <div class="card-body">
                         <p v-if="!terms.length">There's nothing to show</p>
-                        <table class="table table-hover table-nowrap" v-show="loaded&&!error&&terms.length">
+                        <table class="table table-hover table-nowrap" v-show="terms.length">
                             <thead>
                                 <tr>
                                     <th>ID</th>
@@ -46,7 +46,7 @@
                                     <td>{{term.start_date}}</td>
                                     <td>{{term.end_date}}</td>
                                     <td>
-                                        <button class="btn btn-secondary">Manage</button>
+                                        <router-link :to="{name: 'terms.manage', params: {id : term.id}}" class="btn btn-secondary">Manage</router-link >
                                         <button @click="deleteConfirm(term.id)" class="btn btn-danger">Delete</button>
                                     </td>
                                 </tr>
