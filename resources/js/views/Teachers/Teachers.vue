@@ -48,7 +48,7 @@
                                     <td>{{teacher.role}}</td>
                                     <td>{{teacher.department}}</td>
                                     <td>
-                                        <router-link :to="{name: 'teachers.manage'}" class="btn btn-secondary">Manage</router-link>
+                                        <router-link :to="{name: 'teachers.manage', params: {id: teacher.id}}" class="btn btn-secondary">Manage</router-link>
                                     </td>
                                 </tr>
                             </tbody>

@@ -33,6 +33,7 @@ Route::middleware("auth:sanctum")->group(function () {
         Route::post('students/{student}/disapprove', 'StudentController@disapprove');
         Route::post('courses/{course}/reset-code', 'CourseController@resetAccessCode');
         Route::get('courses/{course}/get-code', 'CourseController@getAccessCode');
+        Route::put('teachers/{teacher}/change-password', 'TeacherController@changePassword');
     });
 
 });

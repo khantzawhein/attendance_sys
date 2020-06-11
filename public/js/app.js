@@ -1933,6 +1933,49 @@ module.exports = {
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ChangePasswordComponent.vue?vue&type=script&lang=js&":
+/*!**********************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/ChangePasswordComponent.vue?vue&type=script&lang=js& ***!
+  \**********************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  name: "ChangePasswordComponent.vue",
+  props: ['loaded']
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ExampleComponent.vue?vue&type=script&lang=js&":
 /*!***************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/ExampleComponent.vue?vue&type=script&lang=js& ***!
@@ -2804,6 +2847,241 @@ __webpack_require__.r(__webpack_exports__);
         _this2.loaded = true;
         _this2.error = error.response.data.message || error.message;
         toastr.error(_this2.error, 'Error');
+      });
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/Teachers/TeacherManage.vue?vue&type=script&lang=js&":
+/*!****************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/Teachers/TeacherManage.vue?vue&type=script&lang=js& ***!
+  \****************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var deep_diff_dist_deep_diff_min_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! deep-diff/dist/deep-diff.min.js */ "./node_modules/deep-diff/dist/deep-diff.min.js");
+/* harmony import */ var deep_diff_dist_deep_diff_min_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(deep_diff_dist_deep_diff_min_js__WEBPACK_IMPORTED_MODULE_0__);
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  name: "TeacherManage",
+  data: function data() {
+    return {
+      id: null,
+      credential: {
+        password: "",
+        password_confirmation: ""
+      },
+      originalData: {},
+      teachers: {},
+      error: null,
+      errorDetails: "",
+      loaded: false,
+      changePasswordLoaded: true
+    };
+  },
+  created: function created() {
+    var _this = this;
+
+    this.id = this.$route.params.id;
+    axios.get('/api/teachers/' + this.id).then(function (response) {
+      _this.loaded = true;
+      _this.originalData = response.data[0];
+      _this.teachers = _objectSpread({}, _this.originalData);
+    })["catch"](function (error) {
+      _this.loaded = true;
+      _this.error = _this.error = error.response.data.message || error.message;
+    });
+  },
+  computed: {
+    hasChanged: function hasChanged() {
+      if (!Object(deep_diff_dist_deep_diff_min_js__WEBPACK_IMPORTED_MODULE_0__["diff"])(this.teachers, this.originalData)) return false;
+      return true;
+    }
+  },
+  methods: {
+    handleSubmit: function handleSubmit() {
+      var _this2 = this;
+
+      this.loaded = false;
+      axios.put('/api/teachers/' + this.id, this.teachers).then(function (response) {
+        _this2.$router.push({
+          name: "teachers"
+        });
+
+        toastr.success('Edit Successful.', 'Success');
+      })["catch"](function (error) {
+        _this2.loaded = true;
+        _this2.error = error.response.data.message || error.message;
+        _this2.errorDetails = error.response.data.errors;
+      });
+    },
+    changePassword: function changePassword() {
+      var _this3 = this;
+
+      this.changePasswordLoaded = false;
+      axios.put('/api/teachers/' + this.id + '/change-password', this.credential).then(function (response) {
+        _this3.changePasswordLoaded = true;
+        toastr.success('Password Changed.', 'Success');
+        $('#changePassword').modal('hide');
+        _this3.credential.password = _this3.credential.password_confirmation = "";
+      })["catch"](function (error) {
+        var message = error.response.data.errors.password.join('<br>') || error.message;
+        _this3.changePasswordLoaded = true;
+        toastr.error(message, 'Validation failed');
+      });
+    },
+    handleDelete: function handleDelete() {
+      var _this4 = this;
+
+      this.loaded = false;
+      axios["delete"]('/api/teachers/' + this.id).then(function (response) {
+        swal("Record has been deleted.", {
+          icon: "success"
+        });
+
+        _this4.$router.push({
+          name: 'teachers'
+        });
+      })["catch"](function (error) {
+        _this4.loaded = true;
+        _this4.error = error.response.data.message || error.message;
+      });
+    },
+    deleteConfirm: function deleteConfirm() {
+      var _this5 = this;
+
+      swal({
+        title: "Are you sure?",
+        text: "Once deleted, you will not be able to recover this!",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true
+      }).then(function (willDelete) {
+        if (willDelete) {
+          _this5.handleDelete();
+        }
       });
     }
   }
@@ -7821,6 +8099,18 @@ __webpack_require__.r(__webpack_exports__);
 })));
 //# sourceMappingURL=bootstrap.js.map
 
+
+/***/ }),
+
+/***/ "./node_modules/deep-diff/dist/deep-diff.min.js":
+/*!******************************************************!*\
+  !*** ./node_modules/deep-diff/dist/deep-diff.min.js ***!
+  \******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var __WEBPACK_AMD_DEFINE_RESULT__;!function(e,t){var n=function(e){var l=["N","E","A","D"];function t(e,t){e.super_=t,e.prototype=Object.create(t.prototype,{constructor:{value:e,enumerable:!1,writable:!0,configurable:!0}})}function n(e,t){Object.defineProperty(this,"kind",{value:e,enumerable:!0}),t&&t.length&&Object.defineProperty(this,"path",{value:t,enumerable:!0})}function D(e,t,n){D.super_.call(this,"E",e),Object.defineProperty(this,"lhs",{value:t,enumerable:!0}),Object.defineProperty(this,"rhs",{value:n,enumerable:!0})}function k(e,t){k.super_.call(this,"N",e),Object.defineProperty(this,"rhs",{value:t,enumerable:!0})}function j(e,t){j.super_.call(this,"D",e),Object.defineProperty(this,"lhs",{value:t,enumerable:!0})}function O(e,t,n){O.super_.call(this,"A",e),Object.defineProperty(this,"index",{value:t,enumerable:!0}),Object.defineProperty(this,"item",{value:n,enumerable:!0})}function f(e,t,n){var r=e.slice((n||t)+1||e.length);return e.length=t<0?e.length+t:t,e.push.apply(e,r),e}function w(e){var t=typeof e;return"object"!==t?t:e===Math?"math":null===e?"null":Array.isArray(e)?"array":"[object Date]"===Object.prototype.toString.call(e)?"date":"function"==typeof e.toString&&/^\/.*\//.test(e.toString())?"regexp":"object"}function u(e){var t=0;if(0===e.length)return t;for(var n=0;n<e.length;n++){var r=e.charCodeAt(n);t=(t<<5)-t+r,t&=t}return t}function x(e){var t=0,n=w(e);if("array"===n){e.forEach(function(e){t+=x(e)});var r="[type: array, hash: "+t+"]";return t+u(r)}if("object"===n){for(var a in e)if(e.hasOwnProperty(a)){var i="[ type: object, key: "+a+", value hash: "+x(e[a])+"]";t+=u(i)}return t}var l="[ type: "+n+" ; value: "+e+"]";return t+u(l)}function A(e,t,n,r,a,i,l,f){n=n||[],l=l||[];var u=(a=a||[]).slice(0);if(null!=i){if(r){if("function"==typeof r&&r(u,i))return;if("object"==typeof r){if(r.prefilter&&r.prefilter(u,i))return;if(r.normalize){var o=r.normalize(u,i,e,t);o&&(e=o[0],t=o[1])}}}u.push(i)}"regexp"===w(e)&&"regexp"===w(t)&&(e=e.toString(),t=t.toString());var h,s,p,c,d=typeof e,v=typeof t,b="undefined"!==d||l&&0<l.length&&l[l.length-1].lhs&&Object.getOwnPropertyDescriptor(l[l.length-1].lhs,i),g="undefined"!==v||l&&0<l.length&&l[l.length-1].rhs&&Object.getOwnPropertyDescriptor(l[l.length-1].rhs,i);if(!b&&g)n.push(new k(u,t));else if(!g&&b)n.push(new j(u,e));else if(w(e)!==w(t))n.push(new D(u,e,t));else if("date"===w(e)&&e-t!=0)n.push(new D(u,e,t));else if("object"===d&&null!==e&&null!==t){for(h=l.length-1;-1<h;--h)if(l[h].lhs===e){c=!0;break}if(c)e!==t&&n.push(new D(u,e,t));else{if(l.push({lhs:e,rhs:t}),Array.isArray(e)){for(f&&(e.sort(function(e,t){return x(e)-x(t)}),t.sort(function(e,t){return x(e)-x(t)})),h=t.length-1,s=e.length-1;s<h;)n.push(new O(u,h,new k(void 0,t[h--])));for(;h<s;)n.push(new O(u,s,new j(void 0,e[s--])));for(;0<=h;--h)A(e[h],t[h],n,r,u,h,l,f)}else{var y=Object.keys(e),m=Object.keys(t);for(h=0;h<y.length;++h)p=y[h],0<=(c=m.indexOf(p))?(A(e[p],t[p],n,r,u,p,l,f),m[c]=null):A(e[p],void 0,n,r,u,p,l,f);for(h=0;h<m.length;++h)(p=m[h])&&A(void 0,t[p],n,r,u,p,l,f)}l.length=l.length-1}}else e!==t&&("number"===d&&isNaN(e)&&isNaN(t)||n.push(new D(u,e,t)))}function o(e,t,n,r,a){var i=[];if(A(e,t,i,r,null,null,null,a),n)for(var l=0;l<i.length;++l)n(i[l]);return i}function r(e,t,n,r){var a=r?function(e){e&&r.push(e)}:void 0,i=o(e,t,a,n);return r||(i.length?i:void 0)}function a(e,t,n){if(void 0===n&&t&&~l.indexOf(t.kind)&&(n=t),e&&n&&n.kind){for(var r=e,a=-1,i=n.path?n.path.length-1:0;++a<i;)void 0===r[n.path[a]]&&(r[n.path[a]]=void 0!==n.path[a+1]&&"number"==typeof n.path[a+1]?[]:{}),r=r[n.path[a]];switch(n.kind){case"A":n.path&&void 0===r[n.path[a]]&&(r[n.path[a]]=[]),function e(t,n,r){if(r.path&&r.path.length){var a,i=t[n],l=r.path.length-1;for(a=0;a<l;a++)i=i[r.path[a]];switch(r.kind){case"A":e(i[r.path[a]],r.index,r.item);break;case"D":delete i[r.path[a]];break;case"E":case"N":i[r.path[a]]=r.rhs}}else switch(r.kind){case"A":e(t[n],r.index,r.item);break;case"D":t=f(t,n);break;case"E":case"N":t[n]=r.rhs}return t}(n.path?r[n.path[a]]:r,n.index,n.item);break;case"D":delete r[n.path[a]];break;case"E":case"N":r[n.path[a]]=n.rhs}}}t(D,n),t(k,n),t(j,n),t(O,n),Object.defineProperties(r,{diff:{value:r,enumerable:!0},orderIndependentDiff:{value:function(e,t,n,r){var a=r?function(e){e&&r.push(e)}:void 0,i=o(e,t,a,n,!0);return r||(i.length?i:void 0)},enumerable:!0},observableDiff:{value:o,enumerable:!0},orderIndependentObservableDiff:{value:function(e,t,n,r,a,i,l){return A(e,t,n,r,a,i,l,!0)},enumerable:!0},orderIndepHash:{value:x,enumerable:!0},applyDiff:{value:function(t,n,r){t&&n&&o(t,n,function(e){r&&!r(t,n,e)||a(t,n,e)})},enumerable:!0},applyChange:{value:a,enumerable:!0},revertChange:{value:function(e,t,n){if(e&&t&&n&&n.kind){var r,a,i=e;for(a=n.path.length-1,r=0;r<a;r++)void 0===i[n.path[r]]&&(i[n.path[r]]={}),i=i[n.path[r]];switch(n.kind){case"A":!function e(t,n,r){if(r.path&&r.path.length){var a,i=t[n],l=r.path.length-1;for(a=0;a<l;a++)i=i[r.path[a]];switch(r.kind){case"A":e(i[r.path[a]],r.index,r.item);break;case"D":case"E":i[r.path[a]]=r.lhs;break;case"N":delete i[r.path[a]]}}else switch(r.kind){case"A":e(t[n],r.index,r.item);break;case"D":case"E":t[n]=r.lhs;break;case"N":t=f(t,n)}return t}(i[n.path[r]],n.index,n.item);break;case"D":case"E":i[n.path[r]]=n.lhs;break;case"N":delete i[n.path[r]]}}},enumerable:!0},isConflict:{value:function(){return"undefined"!=typeof $conflict},enumerable:!0}}),r.DeepDiff=r,e&&(e.DeepDiff=r);return r}(e);if(true)!(__WEBPACK_AMD_DEFINE_RESULT__ = (function(){return n}).call(exports, __webpack_require__, exports, module),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));else { var r; }}(this);
 
 /***/ }),
 
@@ -38963,6 +39253,110 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!function(e){!(_
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ChangePasswordComponent.vue?vue&type=template&id=c7810d92&scoped=true&":
+/*!**************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/ChangePasswordComponent.vue?vue&type=template&id=c7810d92&scoped=true& ***!
+  \**************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    {
+      staticClass: "modal fade",
+      attrs: {
+        id: "changePassword",
+        tabindex: "-1",
+        role: "dialog",
+        "aria-labelledby": "changePassword",
+        "aria-hidden": "true"
+      }
+    },
+    [
+      _c("div", { staticClass: "modal-dialog" }, [
+        _c("div", { staticClass: "modal-content" }, [
+          !_vm.loaded
+            ? _c(
+                "div",
+                {
+                  staticClass:
+                    "overlay d-flex justify-content-center align-items-center"
+                },
+                [_c("i", { staticClass: "fas fa-2x fa-sync fa-spin" })]
+              )
+            : _vm._e(),
+          _vm._v(" "),
+          _c("div", { staticClass: "modal-header" }, [
+            _c(
+              "h5",
+              {
+                staticClass: "modal-title",
+                attrs: { id: "exampleModalLabel" }
+              },
+              [_vm._t("title", [_vm._v("Change Password")])],
+              2
+            ),
+            _vm._v(" "),
+            _vm._m(0)
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "modal-body" }, [_vm._t("body")], 2),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "modal-footer" },
+            [
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-secondary",
+                  attrs: { type: "button", "data-dismiss": "modal" }
+                },
+                [_vm._v("Close")]
+              ),
+              _vm._v(" "),
+              _vm._t("button")
+            ],
+            2
+          )
+        ])
+      ])
+    ]
+  )
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "button",
+      {
+        staticClass: "close",
+        attrs: {
+          type: "button",
+          "data-dismiss": "modal",
+          "aria-label": "Close"
+        }
+      },
+      [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+    )
+  }
+]
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ExampleComponent.vue?vue&type=template&id=299e239e&":
 /*!*******************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/ExampleComponent.vue?vue&type=template&id=299e239e& ***!
@@ -40587,6 +40981,498 @@ render._withStripped = true
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/Teachers/TeacherManage.vue?vue&type=template&id=6be0a668&scoped=true&":
+/*!********************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/Teachers/TeacherManage.vue?vue&type=template&id=6be0a668&scoped=true& ***!
+  \********************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    [
+      _c("header-component", {
+        scopedSlots: _vm._u([
+          {
+            key: "title",
+            fn: function() {
+              return [_vm._v("Teachers")]
+            },
+            proxy: true
+          },
+          {
+            key: "breadcrumb",
+            fn: function() {
+              return [
+                _c(
+                  "li",
+                  { staticClass: "breadcrumb-item" },
+                  [
+                    _c("router-link", { attrs: { to: { name: "home" } } }, [
+                      _vm._v("Home")
+                    ])
+                  ],
+                  1
+                ),
+                _vm._v(" "),
+                _c(
+                  "li",
+                  { staticClass: "breadcrumb-item" },
+                  [
+                    _c("router-link", { attrs: { to: { name: "teachers" } } }, [
+                      _vm._v("Teachers")
+                    ])
+                  ],
+                  1
+                ),
+                _vm._v(" "),
+                _c("li", { staticClass: "breadcrumb-item" }, [
+                  _vm._v("Manage Teacher Account")
+                ])
+              ]
+            },
+            proxy: true
+          }
+        ])
+      }),
+      _vm._v(" "),
+      _c("div", { staticClass: "content" }, [
+        _c("div", { staticClass: "container-fluid" }, [
+          _c("div", { staticClass: "row" }, [
+            _c("div", { staticClass: "col-lg-12" }, [
+              !_vm.loaded
+                ? _c(
+                    "div",
+                    {
+                      staticClass:
+                        "loading text-center align-items-center justify-content-center d-flex vh-100"
+                    },
+                    [_c("loader-component")],
+                    1
+                  )
+                : _vm._e(),
+              _vm._v(" "),
+              _vm.error
+                ? _c("div", { staticClass: "error mt-4" }, [
+                    _c(
+                      "div",
+                      {
+                        staticClass: "alert alert-danger",
+                        attrs: { role: "alert" }
+                      },
+                      [
+                        _c(
+                          "div",
+                          {
+                            staticClass: "alert alert-danger",
+                            attrs: { role: "alert" }
+                          },
+                          [
+                            _c("strong", [_vm._v(_vm._s(_vm.error))]),
+                            _vm._v(" "),
+                            _vm._l(_vm.errorDetails, function(error, index) {
+                              return _c("ul", [
+                                _c("li", [
+                                  _c("strong", [_vm._v(_vm._s(index))]),
+                                  _vm._v(" "),
+                                  _c(
+                                    "ul",
+                                    _vm._l(error, function(suberror) {
+                                      return _c("li", [
+                                        _vm._v(
+                                          "\n                                            " +
+                                            _vm._s(suberror) +
+                                            "\n                                        "
+                                        )
+                                      ])
+                                    }),
+                                    0
+                                  )
+                                ])
+                              ])
+                            })
+                          ],
+                          2
+                        )
+                      ]
+                    )
+                  ])
+                : _vm._e(),
+              _vm._v(" "),
+              _c("div", { staticClass: "card card-default" }, [
+                _vm._m(0),
+                _vm._v(" "),
+                _c("div", { staticClass: "card-body" }, [
+                  _c("form", { attrs: { action: "" } }, [
+                    _c(
+                      "div",
+                      { staticClass: "row" },
+                      [
+                        _c("div", { staticClass: "col-md-6" }, [
+                          _c("div", { staticClass: "form-group" }, [
+                            _c("label", { attrs: { for: "email" } }, [
+                              _vm._v("Email:")
+                            ]),
+                            _vm._v(" "),
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.teachers.email,
+                                  expression: "teachers.email"
+                                }
+                              ],
+                              staticClass: "form-control",
+                              attrs: {
+                                type: "email",
+                                id: "email",
+                                placeholder: "example@email.com",
+                                required: "",
+                                autocomplete: "off"
+                              },
+                              domProps: { value: _vm.teachers.email },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.$set(
+                                    _vm.teachers,
+                                    "email",
+                                    $event.target.value
+                                  )
+                                }
+                              }
+                            })
+                          ])
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "col-md-6" }, [
+                          _c("div", { staticClass: "form-group" }, [
+                            _c("label", { attrs: { for: "name" } }, [
+                              _vm._v("Name:")
+                            ]),
+                            _vm._v(" "),
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.teachers.name,
+                                  expression: "teachers.name"
+                                }
+                              ],
+                              staticClass: "form-control",
+                              attrs: {
+                                type: "text",
+                                id: "name",
+                                placeholder: "Kyaw Kyaw",
+                                required: ""
+                              },
+                              domProps: { value: _vm.teachers.name },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.$set(
+                                    _vm.teachers,
+                                    "name",
+                                    $event.target.value
+                                  )
+                                }
+                              }
+                            })
+                          ])
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "col-md-6" }, [
+                          _c("div", { staticClass: "form-group" }, [
+                            _c("label", { attrs: { for: "department" } }, [
+                              _vm._v("Department:")
+                            ]),
+                            _vm._v(" "),
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.teachers.department,
+                                  expression: "teachers.department"
+                                }
+                              ],
+                              staticClass: "form-control",
+                              attrs: {
+                                type: "text",
+                                id: "department",
+                                placeholder: "Computer science, physics,...",
+                                required: ""
+                              },
+                              domProps: { value: _vm.teachers.department },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.$set(
+                                    _vm.teachers,
+                                    "department",
+                                    $event.target.value
+                                  )
+                                }
+                              }
+                            })
+                          ])
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "col-md-6" }, [
+                          _c("div", { staticClass: "form-group" }, [
+                            _c("label", { attrs: { for: "role" } }, [
+                              _vm._v("Role:")
+                            ]),
+                            _vm._v(" "),
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.teachers.role,
+                                  expression: "teachers.role"
+                                }
+                              ],
+                              staticClass: "form-control",
+                              attrs: {
+                                type: "text",
+                                id: "role",
+                                placeholder: "Professor, AP, Lecturer.. etc",
+                                required: ""
+                              },
+                              domProps: { value: _vm.teachers.role },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.$set(
+                                    _vm.teachers,
+                                    "role",
+                                    $event.target.value
+                                  )
+                                }
+                              }
+                            })
+                          ])
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "col-md-6" }, [
+                          _c(
+                            "button",
+                            {
+                              staticClass: "btn bg-gradient-primary",
+                              attrs: {
+                                disabled: !_vm.hasChanged,
+                                type: "button"
+                              },
+                              on: { click: _vm.handleSubmit }
+                            },
+                            [_vm._v("Save")]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "button",
+                            {
+                              staticClass: "btn bg-gradient-danger",
+                              attrs: {
+                                type: "button",
+                                "data-toggle": "modal",
+                                "data-target": "#changePassword"
+                              }
+                            },
+                            [_vm._v("Manage Password")]
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "col-md-6" }, [
+                          _c("div", { staticClass: "row" }, [
+                            _c("div", { staticClass: "col-2 ml-auto" }, [
+                              _c(
+                                "button",
+                                {
+                                  staticClass: "btn bg-gradient-danger",
+                                  attrs: { type: "button" },
+                                  on: { click: _vm.deleteConfirm }
+                                },
+                                [_vm._v("Delete")]
+                              )
+                            ])
+                          ])
+                        ]),
+                        _vm._v(" "),
+                        _c("change-password-component", {
+                          attrs: { loaded: _vm.changePasswordLoaded },
+                          scopedSlots: _vm._u([
+                            {
+                              key: "body",
+                              fn: function() {
+                                return [
+                                  _c("div", { staticClass: "row" }, [
+                                    _c("div", { staticClass: "col-md-12" }, [
+                                      _c("div", { staticClass: "form-group" }, [
+                                        _c(
+                                          "label",
+                                          { attrs: { for: "new-password" } },
+                                          [_vm._v("New Password")]
+                                        ),
+                                        _vm._v(" "),
+                                        _c("input", {
+                                          directives: [
+                                            {
+                                              name: "model",
+                                              rawName: "v-model",
+                                              value: _vm.credential.password,
+                                              expression: "credential.password"
+                                            }
+                                          ],
+                                          staticClass: "form-control",
+                                          attrs: {
+                                            type: "password",
+                                            id: "new-password",
+                                            autocomplete: "new-password"
+                                          },
+                                          domProps: {
+                                            value: _vm.credential.password
+                                          },
+                                          on: {
+                                            input: function($event) {
+                                              if ($event.target.composing) {
+                                                return
+                                              }
+                                              _vm.$set(
+                                                _vm.credential,
+                                                "password",
+                                                $event.target.value
+                                              )
+                                            }
+                                          }
+                                        })
+                                      ])
+                                    ]),
+                                    _vm._v(" "),
+                                    _c("div", { staticClass: "col-md-12" }, [
+                                      _c("div", { staticClass: "form-group" }, [
+                                        _c(
+                                          "label",
+                                          {
+                                            attrs: {
+                                              for: "password-confirmation"
+                                            }
+                                          },
+                                          [_vm._v("Confirm Password")]
+                                        ),
+                                        _vm._v(" "),
+                                        _c("input", {
+                                          directives: [
+                                            {
+                                              name: "model",
+                                              rawName: "v-model",
+                                              value:
+                                                _vm.credential
+                                                  .password_confirmation,
+                                              expression:
+                                                "credential.password_confirmation"
+                                            }
+                                          ],
+                                          staticClass: "form-control",
+                                          attrs: {
+                                            type: "password",
+                                            id: "password-confirmation",
+                                            autocomplete: "off"
+                                          },
+                                          domProps: {
+                                            value:
+                                              _vm.credential
+                                                .password_confirmation
+                                          },
+                                          on: {
+                                            input: function($event) {
+                                              if ($event.target.composing) {
+                                                return
+                                              }
+                                              _vm.$set(
+                                                _vm.credential,
+                                                "password_confirmation",
+                                                $event.target.value
+                                              )
+                                            }
+                                          }
+                                        })
+                                      ])
+                                    ])
+                                  ])
+                                ]
+                              },
+                              proxy: true
+                            },
+                            {
+                              key: "button",
+                              fn: function() {
+                                return [
+                                  _c(
+                                    "button",
+                                    {
+                                      staticClass: "btn bg-gradient-danger",
+                                      attrs: { type: "button" },
+                                      on: { click: _vm.changePassword }
+                                    },
+                                    [_vm._v("Change Password")]
+                                  )
+                                ]
+                              },
+                              proxy: true
+                            }
+                          ])
+                        })
+                      ],
+                      1
+                    )
+                  ])
+                ])
+              ])
+            ])
+          ])
+        ])
+      ])
+    ],
+    1
+  )
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "card-header" }, [
+      _c("h3", { staticClass: "card-title" }, [
+        _vm._v("Manage Teacher Account")
+      ])
+    ])
+  }
+]
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/Teachers/Teachers.vue?vue&type=template&id=5aa579e0&":
 /*!***************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/Teachers/Teachers.vue?vue&type=template&id=5aa579e0& ***!
@@ -40736,7 +41622,12 @@ var render = function() {
                                   "router-link",
                                   {
                                     staticClass: "btn btn-secondary",
-                                    attrs: { to: { name: "teachers.manage" } }
+                                    attrs: {
+                                      to: {
+                                        name: "teachers.manage",
+                                        params: { id: teacher.id }
+                                      }
+                                    }
                                   },
                                   [_vm._v("Manage")]
                                 )
@@ -57040,6 +57931,7 @@ module.exports = function(module) {
 /***/ (function(module, exports, __webpack_require__) {
 
 var map = {
+	"./components/ChangePasswordComponent.vue": "./resources/js/components/ChangePasswordComponent.vue",
 	"./components/ExampleComponent.vue": "./resources/js/components/ExampleComponent.vue",
 	"./components/HeaderComponent.vue": "./resources/js/components/HeaderComponent.vue",
 	"./components/LoaderComponent.vue": "./resources/js/components/LoaderComponent.vue",
@@ -57050,6 +57942,7 @@ var map = {
 	"./views/Home.vue": "./resources/js/views/Home.vue",
 	"./views/Students/Students.vue": "./resources/js/views/Students/Students.vue",
 	"./views/Students/StudentsPending.vue": "./resources/js/views/Students/StudentsPending.vue",
+	"./views/Teachers/TeacherManage.vue": "./resources/js/views/Teachers/TeacherManage.vue",
 	"./views/Teachers/Teachers.vue": "./resources/js/views/Teachers/Teachers.vue",
 	"./views/Teachers/TeachersCreate.vue": "./resources/js/views/Teachers/TeachersCreate.vue",
 	"./views/Terms/Terms.vue": "./resources/js/views/Terms/Terms.vue",
@@ -57110,6 +58003,10 @@ var Routes = [{
   path: '/app/teachers/create',
   name: 'teachers.create',
   component: _views_Teachers_TeachersCreate_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
+}, {
+  path: '/app/teachers/:id',
+  name: 'teachers.manage',
+  component: __webpack_require__(/*! ./views/Teachers/TeacherManage.vue */ "./resources/js/views/Teachers/TeacherManage.vue")["default"]
 }, {
   path: '/app/students',
   name: 'students',
@@ -57256,6 +58153,75 @@ window.axios.defaults.withCredentials = true;
 //     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
 //     forceTLS: true
 // });
+
+/***/ }),
+
+/***/ "./resources/js/components/ChangePasswordComponent.vue":
+/*!*************************************************************!*\
+  !*** ./resources/js/components/ChangePasswordComponent.vue ***!
+  \*************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _ChangePasswordComponent_vue_vue_type_template_id_c7810d92_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ChangePasswordComponent.vue?vue&type=template&id=c7810d92&scoped=true& */ "./resources/js/components/ChangePasswordComponent.vue?vue&type=template&id=c7810d92&scoped=true&");
+/* harmony import */ var _ChangePasswordComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ChangePasswordComponent.vue?vue&type=script&lang=js& */ "./resources/js/components/ChangePasswordComponent.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _ChangePasswordComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _ChangePasswordComponent_vue_vue_type_template_id_c7810d92_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _ChangePasswordComponent_vue_vue_type_template_id_c7810d92_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  "c7810d92",
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/ChangePasswordComponent.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/ChangePasswordComponent.vue?vue&type=script&lang=js&":
+/*!**************************************************************************************!*\
+  !*** ./resources/js/components/ChangePasswordComponent.vue?vue&type=script&lang=js& ***!
+  \**************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ChangePasswordComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./ChangePasswordComponent.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ChangePasswordComponent.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ChangePasswordComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/ChangePasswordComponent.vue?vue&type=template&id=c7810d92&scoped=true&":
+/*!********************************************************************************************************!*\
+  !*** ./resources/js/components/ChangePasswordComponent.vue?vue&type=template&id=c7810d92&scoped=true& ***!
+  \********************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ChangePasswordComponent_vue_vue_type_template_id_c7810d92_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./ChangePasswordComponent.vue?vue&type=template&id=c7810d92&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ChangePasswordComponent.vue?vue&type=template&id=c7810d92&scoped=true&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ChangePasswordComponent_vue_vue_type_template_id_c7810d92_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ChangePasswordComponent_vue_vue_type_template_id_c7810d92_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
 
 /***/ }),
 
@@ -57944,6 +58910,75 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_StudentsPending_vue_vue_type_template_id_c117c732___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_StudentsPending_vue_vue_type_template_id_c117c732___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/views/Teachers/TeacherManage.vue":
+/*!*******************************************************!*\
+  !*** ./resources/js/views/Teachers/TeacherManage.vue ***!
+  \*******************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _TeacherManage_vue_vue_type_template_id_6be0a668_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./TeacherManage.vue?vue&type=template&id=6be0a668&scoped=true& */ "./resources/js/views/Teachers/TeacherManage.vue?vue&type=template&id=6be0a668&scoped=true&");
+/* harmony import */ var _TeacherManage_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./TeacherManage.vue?vue&type=script&lang=js& */ "./resources/js/views/Teachers/TeacherManage.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _TeacherManage_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _TeacherManage_vue_vue_type_template_id_6be0a668_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _TeacherManage_vue_vue_type_template_id_6be0a668_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  "6be0a668",
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/views/Teachers/TeacherManage.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/views/Teachers/TeacherManage.vue?vue&type=script&lang=js&":
+/*!********************************************************************************!*\
+  !*** ./resources/js/views/Teachers/TeacherManage.vue?vue&type=script&lang=js& ***!
+  \********************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_TeacherManage_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./TeacherManage.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/Teachers/TeacherManage.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_TeacherManage_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/views/Teachers/TeacherManage.vue?vue&type=template&id=6be0a668&scoped=true&":
+/*!**************************************************************************************************!*\
+  !*** ./resources/js/views/Teachers/TeacherManage.vue?vue&type=template&id=6be0a668&scoped=true& ***!
+  \**************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_TeacherManage_vue_vue_type_template_id_6be0a668_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./TeacherManage.vue?vue&type=template&id=6be0a668&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/Teachers/TeacherManage.vue?vue&type=template&id=6be0a668&scoped=true&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_TeacherManage_vue_vue_type_template_id_6be0a668_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_TeacherManage_vue_vue_type_template_id_6be0a668_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

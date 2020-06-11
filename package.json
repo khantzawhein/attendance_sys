@@ -27,6 +27,7 @@
         "@fooloomanzoo/input-picker-pattern": "^3.0.10",
         "air-datepicker": "^2.2.3",
         "clipboard": "^2.0.6",
+        "deep-diff": "^1.0.2",
         "select2": "^4.0.13",
         "sweetalert": "^2.1.2",
         "toastr": "^2.1.4",

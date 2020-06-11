@@ -21,6 +21,11 @@ const Routes = [
            component: TeachersCreate,
        },
        {
+           path: '/app/teachers/:id',
+           name: 'teachers.manage',
+           component: require('./views/Teachers/TeacherManage.vue').default,
+       },
+       {
            path: '/app/students',
            name: 'students',
            component: Students,
