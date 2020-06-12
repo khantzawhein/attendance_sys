@@ -1,7 +1,14 @@
 require('./bootstrap');
 window.Vue = require('vue');
 import VueRouter from 'vue-router'
+import VueProgressBar from 'vue-progressbar'
 Vue.use(VueRouter)
+Vue.use(VueProgressBar, {
+  color: '#007bff',
+  failedColor: 'red',
+  thickness: '3px',
+
+})
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue

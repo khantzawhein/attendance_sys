@@ -45,7 +45,17 @@ class CourseController extends Controller
 
     public function update(Course $course, Request $request)
     {
-        $data = $request->validate($this->rules());
+        $data = $request->validate([
+            'module_no' => ['required',
+                    Rule::unique('courses', 'module_no')
+                    ->where(function ($query){
+                        return $query->where('term_id', request('term_id'));
+                    })->ignore($course->id)
+                ],
+                'module_name' => 'required',
+                'term_id' => 'required|exists:terms,id',
+                'teacher_id' => 'required|exists:teachers,id'
+        ]);
         $course->update($data);
         return response(['message' => 'success'], 201);
     }

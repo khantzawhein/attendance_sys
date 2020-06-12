@@ -12,6 +12,8 @@ try {
     require('select2/dist/js/select2.min.js');
     require('air-datepicker/dist/js/datepicker.min.js')
     require('air-datepicker/dist/js/i18n/datepicker.en.js')
+    require('timepicker/jquery.timepicker.min.js')
+    require('@fortawesome/fontawesome-free/js/all.min.js')
     window.toastr = require('toastr/build/toastr.min.js')
     require('bootstrap');
 } catch (e) {}

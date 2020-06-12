@@ -18,6 +18,9 @@ protected $guarded = [];
     public function term() {
         return $this->belongsTo(Term::class);
     }
+    public function timetable() {
+        return $this->hasMany(Timetable::class);
+    }
     public function resetAccessCode()
     {
         $code = Str::random(6);

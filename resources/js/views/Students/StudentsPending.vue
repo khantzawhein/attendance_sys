@@ -93,15 +93,16 @@
                 })
             },
             approve(id) {
-                this.loaded = false;
+                this.$Progress.start();
                 axios.post('/api/students/'+ id +'/approve')
                 .then(response => {
                     this.getStudentData();
                     this.loaded = true;
                     toastr.success('Successfully activated.', 'Success')
+                    this.$Progress.finish();
                 })
                 .catch(error => {
-                    this.loaded = true;
+                    this.$Progress.fail();
                     this.error = error.response.data.message || error.message;
                     toastr.error(this.error, 'Error')
                 })

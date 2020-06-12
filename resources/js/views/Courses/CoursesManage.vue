@@ -13,18 +13,22 @@
           <div class="container-fluid">
             <div class="row">
                 <div class="col-lg-12">
+<!--                    card header-->
+                    <timetable-component></timetable-component>
                     <div class="loading text-center align-items-center justify-content-center d-flex vh-100" v-if="!loaded">
                         <loader-component></loader-component>
                     </div>
-                    <error-component :error="error"></error-component>
-<!--                    card header-->
                     <div class="card card-default" v-if="loaded">
                         <div class="card-header">
                             <h3 class="card-title">Edit Course</h3>
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
+                                  <i class="fas fa-minus"></i></button>
+                            </div>
                         </div>
-
                         <div class="card-body">
-                            <form action="">
+                            <error-component :error="error"></error-component>
+                            <form action="" @submit.prevent="handleSubmit">
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
@@ -57,7 +61,7 @@
                                     <div class="col-md-12">
                                         <div class="row">
                                             <div class="col-md-6">
-                                                <button :disabled="!hasChanged" @click="handleSubmit" type="button" class="btn bg-gradient-primary">Save</button>
+                                                <button :disabled="!hasChanged"  type="submit" class="btn bg-gradient-primary">Save</button>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="row">
@@ -84,7 +88,7 @@
     import {diff} from 'deep-diff/dist/deep-diff.min.js';
 
     export default {
-        name: "TermsManage",
+        name: "CoursesManage",
         data() {
             return {
                 teachers: [],
@@ -109,9 +113,6 @@
             this.getTermData();
             this.getTeacherData();
         },
-        mounted() {
-
-        },
         computed: {
             hasChanged() {
                 if (!diff(this.course, this.originalData)) return false;
@@ -128,10 +129,10 @@
                 axios.get('/api/courses/' + this.id)
                 .then(response => {
                     this.originalData = response.data.data;
-
-                    this.course = {...this.originalData}
                     this.originalData.term_id = this.originalData.term_id.toString();
                     this.originalData.teacher_id = this.originalData.teacher_id.toString();
+                    this.course = {...this.originalData}
+
 
                     this.loadStatus.course = true
                 })
@@ -173,7 +174,7 @@
             },
             handleSubmit() {
                 this.loadStatus.course = false
-                axios.put('/api/courses/' + this.id, this.student)
+                axios.put('/api/courses/' + this.id, this.course)
                     .then(response => {
                         this.$router.back()
                         toastr.success('Edit Successful.', 'Success')

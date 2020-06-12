@@ -77,7 +77,7 @@
         },
         created() {
             this.getStudentData();
-        },
+            },
         methods: {
             getStudentData() {
                 axios.get('/api/students')
@@ -92,15 +92,17 @@
                 })
             },
             disapprove(id) {
-                this.loaded = false;
+                // this.loaded = false;
+                this.$Progress.start();
                 axios.post('/api/students/'+ id +'/disapprove')
                 .then(response => {
                     this.getStudentData();
-                    this.loaded = true;
+                    this.$Progress.finish()
+                    // this.loaded = true;
                     toastr.success('Successfully disabled.', 'Success')
                 })
                 .catch(error => {
-                    this.loaded = true;
+                    this.$Progress.fail();
                     this.error = error.response.data.message || error.message;
                     toastr.error(this.error, 'Error')
                 })

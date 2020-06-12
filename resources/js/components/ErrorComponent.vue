@@ -1,5 +1,5 @@
 <template>
-    <div class="error mt-4" v-if="error.title" >
+    <div class="error" v-if="error.title" >
         <div class="alert alert-danger" role="alert">
             <strong>{{error.title}}</strong>
             <ul v-for="(error, index) in error.details">

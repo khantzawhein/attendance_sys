@@ -12,7 +12,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <title>Attendance System</title>
 
   <!-- Font Awesome Icons -->
-    <script src="https://kit.fontawesome.com/b943f4a090.js" crossorigin="anonymous"></script>
   <!-- Theme style -->
     <link rel="stylesheet" href="{{asset('css/app.css')}}">
     <link rel="stylesheet" href="{{asset('css/toastr.min.css')}}">
@@ -107,6 +106,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
         <router-view></router-view>
+        <vue-progress-bar></vue-progress-bar>
     </div>
   <!-- Control Sidebar -->
   <aside class="control-sidebar control-sidebar-dark">
