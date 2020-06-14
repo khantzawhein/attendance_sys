@@ -104,6 +104,23 @@
                 </li>
             </ul>
           </li>
+        <li class="nav-item has-treeview">
+            <a href="#" :class="['nav-link', CurrentPathName.includes('sections') ? activeClass : '' ]">
+                <i class="fas fa-chalkboard-teacher nav-icon"></i>
+                <p>
+                    Sections
+                    <i class="right fas fa-angle-left"></i>
+                </p>
+            </a>
+            <ul class="nav nav-treeview">
+                <li class="nav-item">
+                    <router-link :to="{name:'sections'}" class="nav-link" exact>
+                        <i class="fas fa-list nav-icon"></i>
+                        <p>Section Lists</p>
+                    </router-link>
+                </li>
+            </ul>
+          </li>
 
           <li class="nav-item">
             <a href="#" class="nav-link">

@@ -25,11 +25,15 @@ protected $guarded = [];
     {
         $code = Str::random(6);
         $this->access_code = $code;
-        $this->save();
-        return true;
+        return $this->save();
     }
     public function getAccessCode()
     {
         return $this->access_code;
+    }
+
+    public function bindToTimetable($timetable)
+    {
+        return $this->timetable()->save($timetable);
     }
 }

@@ -14,7 +14,6 @@
             <div class="row">
                 <div class="col-lg-12">
 <!--                    card header-->
-                    <timetable-component></timetable-component>
                     <div class="loading text-center align-items-center justify-content-center d-flex vh-100" v-if="!loaded">
                         <loader-component></loader-component>
                     </div>

@@ -33,13 +33,13 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="start_date">Start Date</label>
-                                        <input type="text" id="start_date" class="form-control" data-language='en' data-date-format="yyyy/mm/dd" v-model="formData.start_date" required autocomplete="off" placeholder="yyyy/mm/dd">
+                                        <input type="text" id="start_date" class="form-control" data-language='en' data-date-format="yyyy-mm-dd" v-model="formData.start_date" required autocomplete="off" placeholder="yyyy-mm-dd">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="end_date">End Date</label>
-                                        <input type="text" id="end_date" class="form-control" data-language="en" data-date-format="yyyy/mm/dd" v-model="formData.end_date" required autocomplete="off" placeholder="yyyy/mm/dd">
+                                        <input type="text" id="end_date" class="form-control" data-language="en" data-date-format="yyyy-mm-dd" v-model="formData.end_date" required autocomplete="off" placeholder="yyyy-mm-dd">
                                     </div>
                                 </div>
                                 <div class="col-md-12">

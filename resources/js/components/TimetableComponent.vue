@@ -5,7 +5,7 @@
             <div class="card-header">
                 <div class="row">
                     <div class="col-md-12 mt-2">
-                        <h3 class="card-title">Course's Classes</h3>
+                        <h3 class="card-title">This section's classes</h3>
                     </div>
                     <div class="col-md-9 mt-3">
                         <button class="btn btn-sm bg-gradient-success" data-toggle="collapse" data-target="#timetable-input" aria-expanded="false" aria-controls="timetable-input"><i class="fas fa-plus mr-1"></i>Add class</button>
@@ -19,25 +19,44 @@
                         <timetable-input></timetable-input>
                     </div>
                     <div class="col-md-12">
-                        <p v-if="!timetables.length">There's nothing to show</p>
-                        <table class="table table-hover table-nowrap" v-if="timetables.length">
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Day</th>
-                                    <th>Start Time</th>
-                                    <th>End Time</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr v-for="(timetable, index) in timetables">
-                                    <td>{{index+1}}</td>
-                                    <td>{{timetable.day}}</td>
-                                    <td>{{timetable.start_time}}</td>
-                                    <td>{{timetable.end_time}}</td>
-                                </tr>
-                            </tbody>
-                        </table>
+                        <p v-if="timetables.length==0">There's nothing to show</p>
+                        <div class="accordion" id="days_slide" v-for="(data, index) in timetables">
+                            <div class="card">
+                                <div class="card-header" id="headingOne">
+                                    <h2 class="mb-0">
+                                        <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" :data-target="`#day${index}`" aria-expanded="true" :aria-controls="`#day${index}`">
+                                            {{data[0].day}}
+                                        </button>
+                                    </h2>
+                                </div>
+
+                                <div :id="`day${index}`" class="collapse" aria-labelledby="headingOne" data-parent="#days_slide">
+                                    <div class="card-body">
+                                        <table class="table table-hover table-nowrap" >
+                                            <thead>
+                                                <tr>
+                                                    <th>ID</th>
+                                                    <th>Day</th>
+                                                    <th>Start Time</th>
+                                                    <th>End Time</th>
+                                                    <th>Course</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr v-for="(timetable, index) in data">
+                                                    <td>{{index+1}}</td>
+                                                    <td>{{timetable.day}}</td>
+                                                    <td>{{timetable.start_time}}</td>
+                                                    <td>{{timetable.end_time}}</td>
+                                                    <td>{{timetable.course_name}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>
@@ -50,9 +69,15 @@
         name: "TimetableComponent",
         data() {
             return {
-                loaded: true,
-                classLoaded: false,
-                timetables: {}
+                timetables: {},
+                loadStatus: {
+                    timetableLoaded: true,
+                },
+            }
+        },
+        computed: {
+            classLoaded() {
+                return this.loadStatus.timetableLoaded
             }
         },
         created() {
@@ -60,25 +85,25 @@
         },
         mounted() {
             Bus.$on('class-input-started', () => {
-                this.classLoaded = false;
+                this.loadStatus.timetableLoaded = false;
             })
             Bus.$on('class-input-finished', () => {
                 this.getTimetableData()
-                this.classLoaded = true;
+                this.loadStatus.timetableLoaded = true;
             })
         },
         methods: {
             getTimetableData() {
-                this.classLoaded = false
-                axios.get('/api/courses/' + this.$route.params.id + '/classes')
+                this.loadStatus.timetableLoaded = false
+                axios.get('/api/sections/' + this.$route.params.id + '/classes')
                 .then(response => {
-                    this.timetables = response.data.data;
-                    this.classLoaded = true
+                    this.timetables = response.data;
+                    this.loadStatus.timetableLoaded = true
                 })
                 .catch(error => {
                     toastr.error(error.message, 'Opps! Something went wrong.')
                 })
-            }
+            },
         }
     }
 </script>

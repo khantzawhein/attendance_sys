@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\TermResource;
 use App\Term;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class TermController extends Controller
 {
@@ -13,8 +14,8 @@ class TermController extends Controller
     {
         return [
            'name' => 'required|unique:terms',
-           'start_date' => 'required|date_format:yy/m/d',
-           'end_date' => 'required|date_format:yy/m/d|after:start_date'
+           'start_date' => 'required|date_format:yy-m-d',
+           'end_date' => 'required|date_format:yy-m-d|after:start_date'
         ];
     }
     /**
@@ -59,7 +60,11 @@ class TermController extends Controller
      */
     public function update(Request $request, Term $term)
     {
-        $data = $request->validate($this->rules());
+        $data = $request->validate([
+            'name' => ['required', Rule::unique('terms')->ignore($term->id)],
+            'start_date' => 'required|date_format:yy-m-d',
+            'end_date' => 'required|date_format:yy-m-d|after:start_date'
+        ]);
         $term->update($data);
         return response('', 201);
     }

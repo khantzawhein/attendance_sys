@@ -27,7 +27,8 @@ Route::middleware("auth:sanctum")->group(function () {
                 'students' => 'StudentController',
                 'teachers' => 'TeacherController',
                 'terms' => 'TermController',
-                'courses/{course}/classes' => 'TimetableController'
+                'sections' => 'SectionController',
+                'sections/{section}/classes' => 'TimetableController',
             ]
         );
         Route::post('students/{student}/approve', 'StudentController@approve');

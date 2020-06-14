@@ -1,11 +1,11 @@
 <template>
     <div>
         <header-component>
-            <template v-slot:title>Edit Term</template>
+            <template v-slot:title>Edit Section</template>
             <template v-slot:breadcrumb>
                 <li class="breadcrumb-item"><router-link :to="{name: 'home'}">Home</router-link></li>
-                <li class="breadcrumb-item"><router-link :to="{name: 'terms'}">Terms</router-link></li>
-                <li class="breadcrumb-item">Edit Term</li>
+                <li class="breadcrumb-item"><router-link :to="{name: 'sections'}">Sections</router-link></li>
+                <li class="breadcrumb-item">Edit Section</li>
             </template>
         </header-component>
         <!-- Main content -->
@@ -16,32 +16,50 @@
                     <div class="loading text-center align-items-center justify-content-center d-flex vh-100" v-if="!loaded">
                         <loader-component></loader-component>
                     </div>
+                    <timetable-component></timetable-component>
                     <error-component :error="error"></error-component>
 <!--                    card header-->
                     <div class="card card-default" v-show="loaded">
                         <div class="card-header">
-                            <h3 class="card-title">Edit Term</h3>
+                            <h3 class="card-title">Edit Section</h3>
                         </div>
 
                         <div class="card-body">
                             <form action="">
                                 <div class="row">
-                                    <div class="col-md-12">
+                                    <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="name">Term Name</label>
-                                            <input type="text" id="name" class="form-control" v-model="term.name" required autocomplete="off">
+                                            <label for="name">Section Name</label>
+                                            <input type="text" id="name" class="form-control" v-model="section.name" required autocomplete="off">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="start_date">Start Date</label>
-                                            <input type="text" id="start_date" class="form-control" data-language='en' data-date-format="yyyy-mm-dd" v-model="term.start_date" required autocomplete="off" placeholder="yyyy-mm-dd">
+                                            <label for="year">Year or Description</label>
+                                            <input type="text" id="year" class="form-control" v-model="section.year" required autocomplete="off" placeholder="eg. First Year">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="end_date">End Date</label>
-                                            <input type="text" id="end_date" class="form-control" data-language="en" data-date-format="yyyy-mm-dd" v-model="term.end_date" required autocomplete="off" placeholder="yyyy-mm-dd">
+                                            <label for="startTime">Class Start Time:</label>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text"><i class="far fa-clock"></i></span>
+                                                </div>
+                                                <input v-model="section.start_time" type="text" class="form-control float-right" id="startTime" required>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="endTime">Class End Time:</label>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text"><i class="far fa-clock"></i></span>
+                                                </div>
+                                                <input v-model="section.end_time" type="text" class="form-control float-right" id="endTime" required>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="col-md-12">
@@ -72,11 +90,11 @@
 <script>
     import { diff } from 'deep-diff/dist/deep-diff.min.js';
     export default {
-        name: "TermsManage",
+        name: "SectionsManage",
         data() {
             return {
                 id: null,
-                term: {},
+                section: {},
                 originalData: {},
                 error: {
                     title: null,
@@ -85,34 +103,31 @@
                 loaded: false,
             }
         },
+        mounted() {
+            var vm = this;
+            $('#startTime').timepicker({ 'step': 15, scrollDefault: '8:45am' }).on('changeTime', function() {
+                vm.formData.start_time = $("#startTime").val()
+            });
+            $('#endTime').timepicker({ 'step': 15, scrollDefault: '8:45am'}).on('changeTime', function() {
+                vm.formData.end_time = $("#endTime").val()
+            });
+        },
         created() {
             this.id = this.$route.params.id
-            axios.get('/api/terms/' + this.id)
+            axios.get('/api/sections/' + this.id)
                 .then(response => {
                     this.loaded = true
-                    this.originalData = response.data;
-                    this.term = {...this.originalData}
+                    this.originalData = response.data.data;
+                    this.section = {...this.originalData}
                 })
                 .catch(error => {
                     this.loaded = true
                     this.error.title = this.error = error.response.data.message || error.message;
                 })
         },
-        mounted() {
-            $('#start_date').datepicker({
-                onSelect: function(formattedDate, date, inst) {
-                    this.term.start_date = formattedDate
-                }.bind(this)
-            })
-            $('#end_date').datepicker({
-                onSelect: function(formattedDate, date, inst) {
-                    this.term.end_date = formattedDate
-                }.bind(this)
-            })
-        },
         computed: {
             hasChanged() {
-                if (!diff(this.term, this.originalData)) return false;
+                if (!diff(this.section, this.originalData)) return false;
 
                 return true;
             },
@@ -120,7 +135,7 @@
         methods: {
             handleSubmit() {
                 this.loaded = false
-                axios.put('/api/terms/' + this.id, this.term)
+                axios.put('/api/sections/' + this.id, this.section)
                     .then(response => {
                         this.$router.back()
                         toastr.success('Edit Successful.', 'Success')
@@ -132,7 +147,7 @@
             },
             handleDelete() {
                 this.loaded = false;
-                axios.delete('/api/terms/' + this.id)
+                axios.delete('/api/sections/' + this.id)
                     .then(response => {
                         swal("Record has been deleted.", {
                             icon: "success",

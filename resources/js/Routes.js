@@ -71,5 +71,20 @@ const Routes = [
            name: 'terms.manage',
            component: require('./views/Terms/TermsManage.vue').default,
        },
+       {
+           path: '/app/sections',
+           name: 'sections',
+           component: require('./views/Sections/Sections.vue').default,
+       },
+       {
+           path: '/app/sections/create',
+           name: 'sections.create',
+           component: require('./views/Sections/SectionsCreate.vue').default,
+       },
+       {
+           path: '/app/sections/:id',
+           name: 'sections.manage',
+           component: require('./views/Sections/SectionsManage.vue').default,
+       },
     ];
 export default Routes;
