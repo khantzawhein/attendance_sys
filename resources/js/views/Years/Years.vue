@@ -1,10 +1,10 @@
 <template>
 <div>
     <header-component>
-        <template v-slot:title>Terms</template>
+        <template v-slot:title>Year</template>
         <template v-slot:breadcrumb>
             <li class="breadcrumb-item"><router-link :to="{name: 'home'}">Home</router-link></li>
-            <li class="breadcrumb-item">Terms</li>
+            <li class="breadcrumb-item">Year</li>
         </template>
     </header-component>
     <!-- Main content -->
@@ -22,32 +22,30 @@
                 </div>
                 <div class="card" v-show="loaded&&!error">
                     <div class="card-header">
-                        <h3 class="card-title">Term Lists</h3>
+                        <h3 class="card-title">Year Lists</h3>
                         <div class="card-tools">
-                            <button class="btn btn-success" @click="$router.push({name: 'terms.create'})"><i class="fas fa-plus mr-1"></i> Terms</button>
+                            <button class="btn btn-success" @click="$router.push({name: 'years.create'})"><i class="fas fa-plus mr-1"></i> Year</button>
                         </div>
                     </div>
                     <div class="card-body">
-                        <p v-if="!terms.length">There's nothing to show</p>
-                        <table class="table table-hover table-nowrap" v-show="terms.length">
+                        <p v-if="years.length==0">There's nothing to show</p>
+                        <table class="table table-hover table-nowrap" v-if="years.length">
                             <thead>
                                 <tr>
-                                    <th>ID</th>
-                                    <th>Name</th>
-                                    <th>Start Date</th>
-                                    <th>End Date</th>
+                                    <th>#</th>
+                                    <th>Academic Year</th>
+                                    <th>Year Name</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="(term, index) in terms" :key="term.id">
+                                <tr v-for="(year, index) in years">
                                     <td>{{index+1}}</td>
-                                    <td>{{term.name}}</td>
-                                    <td>{{term.start_date}}</td>
-                                    <td>{{term.end_date}}</td>
+                                    <td>{{year.academic_year}}</td>
+                                    <td>{{year.name}}</td>
                                     <td>
-                                        <router-link :to="{name: 'terms.manage', params: {id : term.id}}" class="btn btn-secondary">Manage</router-link >
-                                        <button @click="deleteConfirm(term.id)" class="btn btn-danger">Delete</button>
+                                        <router-link :to="{name: 'years.manage', params:{id: year.id}}" class="btn bg-gradient-gray">Manage</router-link>
+                                        <button @click="deleteConfirm(year.id)" type="button" class="btn bg-gradient-danger">Delete</button>
                                     </td>
                                 </tr>
                             </tbody>
@@ -66,23 +64,23 @@
 
 <script>
     export default {
-        name: "Terms.vue",
+        name: "Year",
         data() {
             return {
-                terms: {},
+                years: {},
                 error: null,
                 loaded: false,
             }
         },
         created() {
-              this.getTermsData();
+              this.getYearData();
         },
         methods: {
-            getTermsData() {
+            getYearData() {
                 this.loaded = false;
-                axios.get('/api/terms')
+                axios.get('/api/years')
                 .then(response => {
-                    this.terms = response.data.data;
+                    this.years = response.data;
                     this.loaded = true
                 })
                 .catch(error => {
@@ -92,9 +90,9 @@
             },
             handleDelete(id) {
                 this.loaded = false;
-                axios.delete('/api/terms/' + id)
+                axios.delete('/api/years/' + id)
                 .then(response => {
-                    this.getTermsData()
+                    this.getYearData()
                     swal("Record has been deleted.", {
                       icon: "success",
                     });

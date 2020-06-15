@@ -17,11 +17,11 @@ class CourseController extends Controller
                 'module_no' => ['required',
                     Rule::unique('courses', 'module_no')
                     ->where(function ($query){
-                        return $query->where('term_id', request('term_id'));
+                        return $query->where('semester_id', request('semester_id'));
                     })
                 ],
                 'module_name' => 'required',
-                'term_id' => 'required|exists:terms,id',
+                'semester_id' => 'required|exists:semesters,id',
                 'teacher_id' => 'required|exists:teachers,id'
            ];
     }
@@ -49,11 +49,11 @@ class CourseController extends Controller
             'module_no' => ['required',
                     Rule::unique('courses', 'module_no')
                     ->where(function ($query){
-                        return $query->where('term_id', request('term_id'));
+                        return $query->where('semester_id', request('semester_id'));
                     })->ignore($course->id)
                 ],
                 'module_name' => 'required',
-                'term_id' => 'required|exists:terms,id',
+                'semester_id' => 'required|exists:semesters,id',
                 'teacher_id' => 'required|exists:teachers,id'
         ]);
         $course->update($data);

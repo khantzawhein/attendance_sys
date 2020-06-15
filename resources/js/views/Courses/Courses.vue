@@ -36,7 +36,9 @@
                             <th>Module No</th>
                             <th>Module Name</th>
                             <th>Teacher Name</th>
-                            <th>Term</th>
+                            <th>Academic Year</th>
+                            <th>Year</th>
+                            <th>Semester</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -46,7 +48,9 @@
                                 <td>{{course.module_no}}</td>
                                 <td>{{course.module_name}}</td>
                                 <td>{{course.teacher_name}}</td>
-                                <td>{{course.term}}</td>
+                                <td>{{course.academic_year}}</td>
+                                <td>{{course.year}}</td>
+                                <td>{{course.semester}}</td>
                                 <td>
                                     <router-link :to="{name: 'courses.manage', params: {id: course.id}}" class="btn btn-secondary">Manage</router-link>
                                     <button @click="getAccessCode(course.id)" class="btn btn-primary" data-toggle="modal" :data-target="'#modal'+course.id">Access Code</button>

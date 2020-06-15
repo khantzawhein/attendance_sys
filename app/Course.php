@@ -15,8 +15,8 @@ protected $guarded = [];
     public function attendance() {
         return $this->hasMany(Attendance::class);
     }
-    public function term() {
-        return $this->belongsTo(Term::class);
+    public function semester() {
+        return $this->belongsTo(Semester::class);
     }
     public function timetable() {
         return $this->hasMany(Timetable::class);

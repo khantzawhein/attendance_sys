@@ -21,22 +21,24 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware("auth:sanctum")->group(function () {
     Route::namespace('Api')->group(function() {
-        Route::apiResources(
-            [
-                'courses' => 'CourseController',
-                'students' => 'StudentController',
-                'teachers' => 'TeacherController',
-                'terms' => 'TermController',
-                'sections' => 'SectionController',
-                'sections/{section}/classes' => 'TimetableController',
-            ]
-        );
         Route::post('students/{student}/approve', 'StudentController@approve');
         Route::post('students/{student}/disapprove', 'StudentController@disapprove');
         Route::post('courses/{course}/reset-code', 'CourseController@resetAccessCode');
         Route::get('courses/{course}/get-code', 'CourseController@getAccessCode');
         Route::put('teachers/{teacher}/change-password', 'TeacherController@changePassword');
         Route::put('students/{student}/change-password', 'StudentController@changePassword');
+        Route::get('semesters/options', 'SemesterController@getOptions');
+        Route::apiResources(
+            [
+                'courses' => 'CourseController',
+                'students' => 'StudentController',
+                'teachers' => 'TeacherController',
+                'semesters' => 'SemesterController',
+                'sections' => 'SectionController',
+                'sections/{section}/classes' => 'TimetableController',
+                'years' => 'YearController'
+            ]
+        );
 
     });
 

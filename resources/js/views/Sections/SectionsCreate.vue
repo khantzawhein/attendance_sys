@@ -1,11 +1,11 @@
 <template>
     <div>
     <header-component>
-        <template v-slot:title>Create a Section</template>
+        <template v-slot:title>Create a Class</template>
         <template v-slot:breadcrumb>
             <li class="breadcrumb-item"><router-link :to="{name: 'home'}">Home</router-link></li>
-            <li class="breadcrumb-item"><router-link :to="{name: 'sections'}">Sections</router-link></li>
-            <li class="breadcrumb-item active">Create Section</li>
+            <li class="breadcrumb-item"><router-link :to="{name: 'sections'}">Classes</router-link></li>
+            <li class="breadcrumb-item active">Create Class</li>
         </template>
     </header-component>
     <!-- Main content -->
@@ -19,22 +19,22 @@
                 <error-component :error="error"></error-component>
                 <div class="card card-default" v-show="loaded">
                     <div class="card-header">
-                        <h3 class="card-title">Create Section</h3>
+                        <h3 class="card-title">Create Class</h3>
                     </div>
                     <div class="card-body">
                         <form action="" @submit.prevent="handleSubmit">
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="name">Section Name</label>
+                                        <label for="name">Class Name</label>
                                         <input type="text" id="name" class="form-control" v-model="formData.name" required autocomplete="off">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="start_date">Year or Description</label>
-                                        <input type="text" id="start_date" class="form-control" v-model="formData.year" required autocomplete="off" placeholder="eg. First Year">
-                                    </div>
+                                    <label>Semester</label>
+                                    <select-component class="w-100" :options="semesterOptions" v-model="formData.semester_id">
+                                        <option value="" selected class="default">Select Semester:</option>
+                                    </select-component>
                                 </div>
                                 <div class="col-md-6">
                                         <div class="form-group">
@@ -82,7 +82,7 @@
             return {
                 formData: {
                     name: "",
-                    year: "",
+                    semester_id: "",
                     start_time: "",
                     end_time: ""
                 },
@@ -90,8 +90,12 @@
                     title: null,
                     details: {}
                 },
+                semesterOptions: {},
                 loaded: true
             }
+        },
+        created() {
+            this.getSemesterData()
         },
         mounted() {
             var vm = this;
@@ -115,6 +119,18 @@
                     this.loaded = true
                     this.error.title = error.response.data.message || error.message;
                     this.error.details = error.response.data.errors;
+                })
+            },
+            getSemesterData() {
+                this.loaded = false
+                axios.get('/api/semesters/options')
+                .then(response => {
+                    this.semesterOptions = response.data;
+                    this.loaded = true
+                })
+                .catch(error => {
+                    this.loaded = true
+                    toastr.error(error.message, 'Opps! Something went wrong.')
                 })
             }
         }

@@ -57,19 +57,19 @@ const Routes = [
            component: require('./views/Courses/CoursesManage.vue').default,
        },
        {
-           path: '/app/terms',
-           name: 'terms',
-           component: require('./views/Terms/Terms.vue').default,
+           path: '/app/semesters',
+           name: 'semesters',
+           component: require('./views/Semesters/Semesters.vue').default,
        },
        {
-           path: '/app/terms/create',
-           name: 'terms.create',
-           component: require('./views/Terms/TermsCreate.vue').default,
+           path: '/app/semesters/create',
+           name: 'semesters.create',
+           component: require('./views/Semesters/SemestersCreate.vue').default,
        },
        {
-           path: '/app/terms/:id',
-           name: 'terms.manage',
-           component: require('./views/Terms/TermsManage.vue').default,
+           path: '/app/semesters/:id',
+           name: 'semesters.manage',
+           component: require('./views/Semesters/SemestersManage.vue').default,
        },
        {
            path: '/app/sections',
@@ -85,6 +85,21 @@ const Routes = [
            path: '/app/sections/:id',
            name: 'sections.manage',
            component: require('./views/Sections/SectionsManage.vue').default,
+       },
+        {
+           path: '/app/years',
+           name: 'years',
+           component: require('./views/Years/Years.vue').default,
+       },
+       {
+           path: '/app/years/create',
+           name: 'years.create',
+           component: require('./views/Years/YearsCreate.vue').default,
+       },
+       {
+           path: '/app/years/:id',
+           name: 'years.manage',
+           component: require('./views/Years/YearsManage.vue').default,
        },
     ];
 export default Routes;

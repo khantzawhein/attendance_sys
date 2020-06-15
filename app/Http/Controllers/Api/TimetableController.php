@@ -38,17 +38,15 @@ class TimetableController extends Controller
             'day' => 'required|numeric|between:0,6',
             'start_time' => ['required','date_format:"g:ia"', new TimeAvailable($request->end_time, $request->day)],
             'end_time' => 'required|after:start_time|date_format:"g:ia"',
-            'course_id' => 'required'
+            'course_id' => 'required|exists:courses,id'
         ]);
         $timetable = new Timetable([
             'day' => $data['day'],
             'start_time' => Carbon::parse($data['start_time'])->format('H:i'),
-            'end_time' => Carbon::parse($data['end_time'])->subMinute(1)->format('H:i')
+            'end_time' => Carbon::parse($data['end_time'])->subMinute(1)->format('H:i'),
+            'course_id' => $data['course_id']
         ]);
-        $course = Course::findOrFail($data['course_id']);
         $section->timetable()->save($timetable);
-        $course->bindToTimetable($timetable);
-
         return response('', 201);
     }
 

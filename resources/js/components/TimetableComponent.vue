@@ -5,7 +5,7 @@
             <div class="card-header">
                 <div class="row">
                     <div class="col-md-12 mt-2">
-                        <h3 class="card-title">This section's classes</h3>
+                        <h3 class="card-title">This class' timetables</h3>
                     </div>
                     <div class="col-md-9 mt-3">
                         <button class="btn btn-sm bg-gradient-success" data-toggle="collapse" data-target="#timetable-input" aria-expanded="false" aria-controls="timetable-input"><i class="fas fa-plus mr-1"></i>Add class</button>
@@ -39,7 +39,8 @@
                                                     <th>Day</th>
                                                     <th>Start Time</th>
                                                     <th>End Time</th>
-                                                    <th>Course</th>
+                                                    <th>Module No.</th>
+                                                    <th>Module Name</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -48,7 +49,8 @@
                                                     <td>{{timetable.day}}</td>
                                                     <td>{{timetable.start_time}}</td>
                                                     <td>{{timetable.end_time}}</td>
-                                                    <td>{{timetable.course_name}}</td>
+                                                    <td>{{timetable.module_no}}</td>
+                                                    <td>{{timetable.module_name}}</td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -91,6 +93,7 @@
                 this.getTimetableData()
                 this.loadStatus.timetableLoaded = true;
             })
+
         },
         methods: {
             getTimetableData() {

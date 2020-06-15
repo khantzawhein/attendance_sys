@@ -72,13 +72,13 @@
                     day: "",
                     start_time: "",
                     end_time: "",
-                    course_id: ''
+                    course_id: '',
                 },
                 error: {
                     title: null,
                     details: {}
                 },
-                coursesOptions: []
+                coursesOptions: [],
             }
         },
         created() {
@@ -119,7 +119,7 @@
                     Bus.$emit('class-input-finished');
                     this.courses = response.data.data;
                     this.courses.forEach((course) => {
-                        this.coursesOptions.push({id: course.id, text: course.module_no})
+                        this.coursesOptions.push({id: course.id, text: `${course.module_no}/${course.module_name}`})
                     })
                 })
                 .catch(error => {
@@ -127,6 +127,7 @@
                     toastr.error(error.message, 'Opps! Something went wrong.')
                 })
             },
+
         }
     }
 </script>

@@ -40,15 +40,15 @@
                                     <div class="form-group">
                                         <label>Teacher</label>
                                         <select-component class="w-100" :options="teachers" v-model="formData.teacher_id">
-                                            <option value="0" selected class="default">Select Teacher:</option>
+                                            <option value="" selected class="default">Select Teacher:</option>
                                         </select-component>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label>Term</label>
-                                        <select-component class="w-100" :options="terms" v-model="formData.term_id">
-                                            <option value="0" selected class="default">Select Term:</option>
+                                        <label>Semester</label>
+                                        <select-component class="w-100" :options="semesters" v-model="formData.semester_id">
+                                            <option value="" selected class="default">Select Semester:</option>
                                         </select-component>
                                     </div>
                                 </div>
@@ -76,21 +76,21 @@
         data() {
             return {
                 teachers: {},
-                terms: {},
+                semesters: {},
                 selected: null,
 
                 formData: {
                     module_no: "",
                     module_name: "",
-                    teacher_id: "0",
-                    term_id: "0"
+                    teacher_id: "",
+                    semester_id: ""
                 },
                 error: {
                     title: null,
                     details: {}
                 },
                 loadStatus: {
-                    terms: false,
+                    semesters: false,
                     teachers: false,
                     course: true
                 }
@@ -98,12 +98,12 @@
         },
         computed: {
             loaded() {
-                return this.loadStatus.terms&&this.loadStatus.teachers&&this.loadStatus.course
+                return this.loadStatus.semesters&&this.loadStatus.teachers&&this.loadStatus.course
             }
         },
         created() {
             this.getTeacherData();
-            this.getTermData();
+            this.getSemesterData();
         },
         methods: {
             getTeacherData() {
@@ -122,19 +122,15 @@
                     this.error.title = error.response.data.message || error.message;
                 })
             },
-            getTermData() {
-                this.loadStatus.terms = false;
-                axios.get('/api/terms')
+            getSemesterData() {
+                this.loadStatus.semesters = false;
+                axios.get('/api/semesters/options')
                 .then(response => {
-                    let data = []
-                    response.data.data.map(term => {
-                        data.push({id: term.id, text: term.name})
-                    })
-                    this.terms = data;
-                    this.loadStatus.terms = true;
+                    this.semesters = response.data;
+                    this.loadStatus.semesters = true;
                 })
                 .catch(error => {
-                    this.loadStatus.terms = true;
+                    this.loadStatus.semesters = true;
                     this.error.title = error.response.data.message || error.message;
                 })
             },

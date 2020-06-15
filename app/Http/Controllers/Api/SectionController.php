@@ -30,7 +30,7 @@ class SectionController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-           'year' => ['required'],
+           'semester_id' => ['required', 'exists:semesters,id'],
             'name' => ['required', 'unique:sections'],
             'start_time' => 'required|date_format:"g:ia"',
             'end_time' => 'required|after:start_time|date_format:"g:ia"'
@@ -64,7 +64,7 @@ class SectionController extends Controller
     public function update(Request $request, Section $section)
     {
         $data = $request->validate([
-           'year' => ['required'],
+           'semester_id' => ['required', 'exists:semesters,id'],
             'name' => ['required', Rule::unique('sections')->ignore($section->id)],
             'start_time' => 'required|date_format:"g:ia"',
             'end_time' => 'required|after:start_time|date_format:"g:ia"'

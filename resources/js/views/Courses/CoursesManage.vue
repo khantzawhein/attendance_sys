@@ -51,9 +51,9 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label>Term</label>
-                                            <select-component class="w-100" :options="terms" v-model="course.term_id">
-                                                <option value="0" selected class="default">Select Term:</option>
+                                            <label>Semester</label>
+                                            <select-component class="w-100" :options="semesters" v-model="course.semester_id">
+                                                <option value="" selected class="default">Select Semester:</option>
                                             </select-component>
                                         </div>
                                     </div>
@@ -91,7 +91,7 @@
         data() {
             return {
                 teachers: [],
-                terms: [],
+                semesters: [],
                 id: null,
                 course: {},
                 originalData: {},
@@ -101,7 +101,7 @@
                 },
                 loadStatus: {
                     course: false,
-                    terms: false,
+                    semesters: false,
                     teachers: false
                 }
             }
@@ -109,7 +109,7 @@
         created() {
             this.id = this.$route.params.id
             this.getCourseData();
-            this.getTermData();
+            this.getSemesterData();
             this.getTeacherData();
         },
         computed: {
@@ -119,7 +119,7 @@
                 return true;
             },
             loaded() {
-                return this.loadStatus.terms&&this.loadStatus.teachers&&this.loadStatus.course
+                return this.loadStatus.semesters&&this.loadStatus.teachers&&this.loadStatus.course
             }
         },
         methods: {
@@ -128,7 +128,7 @@
                 axios.get('/api/courses/' + this.id)
                 .then(response => {
                     this.originalData = response.data.data;
-                    this.originalData.term_id = this.originalData.term_id.toString();
+                    this.originalData.semester_id = this.originalData.semester_id.toString();
                     this.originalData.teacher_id = this.originalData.teacher_id.toString();
                     this.course = {...this.originalData}
 
@@ -156,16 +156,12 @@
                     this.error.title = error.response.data.message || error.message;
                 })
             },
-            getTermData() {
-                this.loadStatus.terms = false
-                axios.get('/api/terms')
+            getSemesterData() {
+                this.loadStatus.semesters = false
+                axios.get('/api/semesters/options')
                 .then(response => {
-                    let data = []
-                    response.data.data.map(term => {
-                        data.push({id: term.id, text: term.name})
-                    })
-                    this.terms = data;
-                    this.loadStatus.terms = true
+                    this.semesters = response.data;
+                    this.loadStatus.semesters = true
                 })
                 .catch(error => {
                     this.error.title = error.response.data.message || error.message;

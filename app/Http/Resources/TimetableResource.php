@@ -22,7 +22,8 @@ class TimetableResource extends JsonResource
             'start_time' => Carbon::parse($this->start_time)->format('g:ia'),
             'end_time' => Carbon::parse($this->end_time)->format('g:ia'),
             'course_id' => $this->course->id,
-            'course_name' => $this->course->module_name
+            'module_no' => $this->course->module_no,
+            'module_name' => $this->course->module_name
         ];
     }
 }

@@ -57,7 +57,52 @@
                 </li>
             </ul>
           </li>
-
+        <li class="nav-item has-treeview">
+            <a href="#" :class="['nav-link', CurrentPathName.includes('years') ? activeClass : '' ]">
+                <i class="nav-icon fas fa-chalkboard-teacher"></i>
+                <p>
+                    Years
+                    <i class="right fas fa-angle-left"></i>
+                </p>
+            </a>
+            <ul class="nav nav-treeview">
+                <li class="nav-item">
+                    <router-link :to="{name:'years'}" class="nav-link" exact>
+                        <i class="fas fa-users nav-icon"></i>
+                        <p>Year Lists</p>
+                    </router-link>
+                </li>
+                <li class="nav-item">
+                    <router-link :to="{name: 'years.create'}" class="nav-link"  exact>
+                        <i class="fas fa-plus nav-icon"></i>
+                        <p>Create Year Account</p>
+                    </router-link>
+                </li>
+            </ul>
+          </li>
+        <li class="nav-item has-treeview">
+            <a href="#" :class="['nav-link', CurrentPathName.includes('terms') ? activeClass : '' ]">
+                <i class="nav-icon far fa-clock"></i>
+                <p>
+                    Semesters
+                    <i class="right fas fa-angle-left"></i>
+                </p>
+            </a>
+            <ul class="nav nav-treeview">
+                <li class="nav-item">
+                    <router-link :to="{name:'semesters'}" class="nav-link" exact>
+                        <i class="fas fa-list nav-icon"></i>
+                        <p>Semester Lists</p>
+                    </router-link>
+                </li>
+                <li class="nav-item">
+                    <router-link :to="{name: 'semesters.create'}" class="nav-link"  exact>
+                        <i class="fas fa-plus nav-icon"></i>
+                        <p>Create Semester</p>
+                    </router-link>
+                </li>
+            </ul>
+          </li>
         <li class="nav-item has-treeview">
             <a href="#" :class="['nav-link', CurrentPathName.includes('courses') ? activeClass : '' ]">
                 <i class="nav-icon fas fa-book"></i>
@@ -82,33 +127,10 @@
             </ul>
           </li>
         <li class="nav-item has-treeview">
-            <a href="#" :class="['nav-link', CurrentPathName.includes('terms') ? activeClass : '' ]">
-                <i class="nav-icon far fa-clock"></i>
-                <p>
-                    Terms
-                    <i class="right fas fa-angle-left"></i>
-                </p>
-            </a>
-            <ul class="nav nav-treeview">
-                <li class="nav-item">
-                    <router-link :to="{name:'terms'}" class="nav-link" exact>
-                        <i class="fas fa-list nav-icon"></i>
-                        <p>Term Lists</p>
-                    </router-link>
-                </li>
-                <li class="nav-item">
-                    <router-link :to="{name: 'terms.create'}" class="nav-link"  exact>
-                        <i class="fas fa-plus nav-icon"></i>
-                        <p>Create Term</p>
-                    </router-link>
-                </li>
-            </ul>
-          </li>
-        <li class="nav-item has-treeview">
             <a href="#" :class="['nav-link', CurrentPathName.includes('sections') ? activeClass : '' ]">
                 <i class="fas fa-chalkboard-teacher nav-icon"></i>
                 <p>
-                    Sections
+                    Classes
                     <i class="right fas fa-angle-left"></i>
                 </p>
             </a>
@@ -116,22 +138,20 @@
                 <li class="nav-item">
                     <router-link :to="{name:'sections'}" class="nav-link" exact>
                         <i class="fas fa-list nav-icon"></i>
-                        <p>Section Lists</p>
+                        <p>Class Lists</p>
+                    </router-link>
+                </li>
+                <li class="nav-item">
+                    <router-link :to="{name: 'sections.create'}" class="nav-link"  exact>
+                        <i class="fas fa-plus nav-icon"></i>
+                        <p>Create Class</p>
                     </router-link>
                 </li>
             </ul>
           </li>
 
-          <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-th"></i>
-              <p>
-                Simple Link
-                <span class="right badge badge-danger">New</span>
-              </p>
-            </a>
-          </li>
-        </ul>
+    </ul>
+
 </template>
 
 <script>

@@ -20,8 +20,10 @@ class CourseResource extends JsonResource
             'module_name' => $this->module_name,
             'teacher_id' => $this->teacher->id,
             'teacher_name' => $this->teacher->user->name,
-            'term_id' => $this->term->id,
-            'term' => $this->term->name,
+            'semester_id' => $this->semester->id,
+            'academic_year' => $this->semester->year->academic_year,
+            'year' => $this->semester->year->name,
+            'semester' => $this->semester->semester_name,
         ];
     }
 }

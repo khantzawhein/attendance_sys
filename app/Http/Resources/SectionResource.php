@@ -18,7 +18,10 @@ class SectionResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'year' => $this->year,
+            'semester' => $this->semester->semester_name,
+            'semester_id' => $this->semester->id,
+            'academic_year' => $this->semester->year->academic_year,
+            'year' => $this->semester->year->name,
             'start_time' => Carbon::parse($this->start_time)->format('g:ia'),
             'end_time' => Carbon::parse($this->end_time)->format('g:ia')
         ];
