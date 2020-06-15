@@ -41784,7 +41784,7 @@ var render = function() {
             attrs: { href: "#" }
           },
           [
-            _c("i", { staticClass: "nav-icon fas fa-chalkboard-teacher" }),
+            _c("i", { staticClass: "nav-icon far fa-calendar" }),
             _vm._v(" "),
             _vm._m(2)
           ]

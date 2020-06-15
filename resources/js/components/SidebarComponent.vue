@@ -59,7 +59,7 @@
           </li>
         <li class="nav-item has-treeview">
             <a href="#" :class="['nav-link', CurrentPathName.includes('years') ? activeClass : '' ]">
-                <i class="nav-icon fas fa-chalkboard-teacher"></i>
+                <i class="nav-icon far fa-calendar"></i>
                 <p>
                     Years
                     <i class="right fas fa-angle-left"></i>
