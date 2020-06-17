@@ -20,6 +20,8 @@ class CreateSemestersTable extends Migration
             $table->date('start_date');
             $table->date('end_date');
             $table->timestamps();
+
+            $table->unique(['year_id', 'semester_name']);
         });
     }
 

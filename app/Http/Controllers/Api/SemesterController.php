@@ -15,7 +15,11 @@ class SemesterController extends Controller
     {
         return [
             'year_id' => 'required|exists:years,id',
-           'semester_name' => 'required|unique:semesters',
+           'semester_name' => ['required', Rule::unique('semesters')->where(
+               function($query){
+                   return $query->where('year_id', request('year_id'));
+               }
+           )],
            'start_date' => 'required|date_format:Y-m-d',
            'end_date' => 'required|date_format:Y-m-d|after:start_date'
         ];
