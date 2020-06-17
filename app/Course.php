@@ -12,9 +12,9 @@ protected $guarded = [];
     public function teacher() {
         return $this->belongsTo(Teacher::class);
     }
-    public function attendance() {
-        return $this->hasMany(Attendance::class);
-    }
+//    public function attendance() {
+//        return $this->hasMany(Attendance::class);
+//    }
     public function semester() {
         return $this->belongsTo(Semester::class);
     }

@@ -36,7 +36,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                            <label>Semester</label>
-                                            <select-component class="w-100" :options="semesterOptions" v-model="section.semester_id">
+                                            <select-component style="width: 100%;" :options="semesterOptions" v-model="section.semester_id">
                                                 <option value="" selected class="default">Select Semester:</option>
                                             </select-component>
                                         </div>
@@ -96,14 +96,17 @@
         data() {
             return {
                 id: null,
-                section: {},
-                originalData: {},
+                section: [],
+                originalData: [],
                 error: {
                     title: null,
                     details: {}
                 },
-                loaded: false,
-                semesterOptions: {}
+                loadStatus: {
+                    sectionLoaded: false,
+                    semesterLoaded: false
+                },
+                semesterOptions: []
             }
         },
         mounted() {
@@ -119,12 +122,12 @@
             this.id = this.$route.params.id
             axios.get('/api/sections/' + this.id)
                 .then(response => {
-                    this.loaded = true
+                    this.loadStatus.sectionLoaded = true
                     this.originalData = response.data.data;
                     this.section = {...this.originalData}
                 })
                 .catch(error => {
-                    this.loaded = true
+                    this.loadStatus.sectionLoaded = true
                     this.error.title = this.error = error.response.data.message || error.message;
                 })
             this.getSemesterData()
@@ -135,6 +138,9 @@
 
                 return true;
             },
+            loaded() {
+                return this.loadStatus.sectionLoaded&&this.loadStatus.semesterLoaded
+            }
         },
         methods: {
             handleSubmit() {
@@ -178,14 +184,14 @@
                     });
             },
             getSemesterData() {
-                this.loaded = false
+                this.loadStatus.semesterLoaded = false
                 axios.get('/api/semesters/options')
                 .then(response => {
                     this.semesterOptions = response.data;
-                    this.loaded = true
+                    this.loadStatus.semesterLoaded = true
                 })
                 .catch(error => {
-                    this.loaded = true
+                    this.loadStatus.semesterLoaded = true
                     toastr.error(error.message, 'Opps! Something went wrong.')
                 })
             }

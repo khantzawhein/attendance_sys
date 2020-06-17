@@ -3584,14 +3584,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   data: function data() {
     return {
       id: null,
-      section: {},
-      originalData: {},
+      section: [],
+      originalData: [],
       error: {
         title: null,
         details: {}
       },
-      loaded: false,
-      semesterOptions: {}
+      loadStatus: {
+        sectionLoaded: false,
+        semesterLoaded: false
+      },
+      semesterOptions: []
     };
   },
   mounted: function mounted() {
@@ -3614,11 +3617,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
     this.id = this.$route.params.id;
     axios.get('/api/sections/' + this.id).then(function (response) {
-      _this.loaded = true;
+      _this.loadStatus.sectionLoaded = true;
       _this.originalData = response.data.data;
       _this.section = _objectSpread({}, _this.originalData);
     })["catch"](function (error) {
-      _this.loaded = true;
+      _this.loadStatus.sectionLoaded = true;
       _this.error.title = _this.error = error.response.data.message || error.message;
     });
     this.getSemesterData();
@@ -3627,6 +3630,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     hasChanged: function hasChanged() {
       if (!Object(deep_diff_dist_deep_diff_min_js__WEBPACK_IMPORTED_MODULE_0__["diff"])(this.section, this.originalData)) return false;
       return true;
+    },
+    loaded: function loaded() {
+      return this.loadStatus.sectionLoaded && this.loadStatus.semesterLoaded;
     }
   },
   methods: {
@@ -3677,12 +3683,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     getSemesterData: function getSemesterData() {
       var _this5 = this;
 
-      this.loaded = false;
+      this.loadStatus.semesterLoaded = false;
       axios.get('/api/semesters/options').then(function (response) {
         _this5.semesterOptions = response.data;
-        _this5.loaded = true;
+        _this5.loadStatus.semesterLoaded = true;
       })["catch"](function (error) {
-        _this5.loaded = true;
+        _this5.loadStatus.semesterLoaded = true;
         toastr.error(error.message, 'Opps! Something went wrong.');
       });
     }
@@ -41824,7 +41830,7 @@ var render = function() {
                 [
                   _c("i", { staticClass: "fas fa-plus nav-icon" }),
                   _vm._v(" "),
-                  _c("p", [_vm._v("Create Year Account")])
+                  _c("p", [_vm._v("Create Year")])
                 ]
               )
             ],
@@ -44343,7 +44349,7 @@ var render = function() {
                                 _c(
                                   "select-component",
                                   {
-                                    staticClass: "w-100",
+                                    staticStyle: { width: "100%" },
                                     attrs: { options: _vm.semesterOptions },
                                     model: {
                                       value: _vm.section.semester_id,

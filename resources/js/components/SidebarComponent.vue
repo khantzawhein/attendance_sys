@@ -75,7 +75,7 @@
                 <li class="nav-item">
                     <router-link :to="{name: 'years.create'}" class="nav-link"  exact>
                         <i class="fas fa-plus nav-icon"></i>
-                        <p>Create Year Account</p>
+                        <p>Create Year</p>
                     </router-link>
                 </li>
             </ul>
