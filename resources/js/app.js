@@ -35,7 +35,13 @@ const app = new Vue({
     el: '#app',
     router,
     data: {
-
+        role: []
+    },
+    created() {
+        axios.get('/api/user/role')
+            .then(({data}) => {
+                this.role = data;
+            })
     },
     methods: {
         logout() {

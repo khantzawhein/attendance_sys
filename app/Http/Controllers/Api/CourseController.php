@@ -25,15 +25,29 @@ class CourseController extends Controller
                 'teacher_id' => 'required|exists:teachers,id'
            ];
     }
+    public function __construct()
+    {
+        $this->authorizeResource(Course::class, 'course');
+    }
 
     public function index()
     {
+        $user = request()->user();
+        if(!$user->isSuperAdmin())
+        {
+            return CourseResource::collection(Course::where('teacher_id', $user->teacher->id)->get());
+        }
         return CourseResource::collection(Course::all());
     }
 
     public function store(Request $request)
     {
         $data = $request->validate($this->rules());
+        $user = request()->user();
+        if(!$user->isSuperAdmin() && $data['teacher_id'] != $user->teacher->id)
+        {
+            return abort(403, 'This action is not authorized.');
+        }
         $data['access_code'] = Str::random(6);
         Course::create($data);
         return response(['message' => 'success'], 201);
@@ -56,6 +70,11 @@ class CourseController extends Controller
                 'semester_id' => 'required|exists:semesters,id',
                 'teacher_id' => 'required|exists:teachers,id'
         ]);
+        $user = request()->user();
+        if(!$user->isSuperAdmin() && $data['teacher_id'] != $user->teacher->id)
+        {
+            return abort(403, 'This action is not authorized.');
+        }
         $course->update($data);
         return response(['message' => 'success'], 201);
     }

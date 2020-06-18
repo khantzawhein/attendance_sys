@@ -2419,6 +2419,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "TimetableComponent",
   data: function data() {
@@ -2459,6 +2463,36 @@ __webpack_require__.r(__webpack_exports__);
         _this2.loadStatus.timetableLoaded = true;
       })["catch"](function (error) {
         toastr.error(error.message, 'Opps! Something went wrong.');
+      });
+    },
+    handleDelete: function handleDelete(id) {
+      var _this3 = this;
+
+      this.loadStatus.timetableLoaded = false;
+      axios["delete"]('/api/sections/' + this.$route.params.id + '/classes/' + id).then(function (response) {
+        swal("Record has been deleted.", {
+          icon: "success"
+        });
+
+        _this3.getTimetableData();
+      })["catch"](function (error) {
+        _this3.loadStatus.timetableLoaded = true;
+        toastr.error(error.message, 'Opps! Something went wrong.');
+      });
+    },
+    deleteConfirm: function deleteConfirm(id) {
+      var _this4 = this;
+
+      swal({
+        title: "Are you sure?",
+        text: "Once deleted, you will not be able to recover this!",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true
+      }).then(function (willDelete) {
+        if (willDelete) {
+          _this4.handleDelete(id);
+        }
       });
     }
   }
@@ -42199,6 +42233,25 @@ var render = function() {
                                       _vm._v(" "),
                                       _c("td", [
                                         _vm._v(_vm._s(timetable.module_name))
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("td", [
+                                        _c(
+                                          "button",
+                                          {
+                                            staticClass:
+                                              "btn bg-gradient-danger",
+                                            attrs: { type: "button" },
+                                            on: {
+                                              click: function($event) {
+                                                return _vm.deleteConfirm(
+                                                  timetable.id
+                                                )
+                                              }
+                                            }
+                                          },
+                                          [_vm._v("Delete")]
+                                        )
                                       ])
                                     ])
                                   }),
@@ -42258,7 +42311,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("thead", [
       _c("tr", [
-        _c("th", [_vm._v("ID")]),
+        _c("th", [_vm._v("#")]),
         _vm._v(" "),
         _c("th", [_vm._v("Day")]),
         _vm._v(" "),
@@ -42268,7 +42321,9 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", [_vm._v("Module No.")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Module Name")])
+        _c("th", [_vm._v("Module Name")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Actions")])
       ])
     ])
   }
@@ -64236,13 +64291,23 @@ window.Bus = new Vue();
 var app = new Vue({
   el: '#app',
   router: router,
-  data: {},
+  data: {
+    role: []
+  },
+  created: function created() {
+    var _this = this;
+
+    axios.get('/api/user/role').then(function (_ref) {
+      var data = _ref.data;
+      _this.role = data;
+    });
+  },
   methods: {
     logout: function logout() {
-      var _this = this;
+      var _this2 = this;
 
       axios.post('/logout').then(function (response) {
-        _this.$router.push('/');
+        _this2.$router.push('/');
 
         location.reload();
       });

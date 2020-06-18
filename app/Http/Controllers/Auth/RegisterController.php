@@ -85,6 +85,7 @@ class RegisterController extends Controller
             'phone' => $data['phone']
         ]);
         $user->student()->save($student);
+        $user->assignRole('student');
         return $user;
     }
 }

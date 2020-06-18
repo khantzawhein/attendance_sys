@@ -28,6 +28,9 @@ Route::middleware("auth:sanctum")->group(function () {
         Route::put('teachers/{teacher}/change-password', 'TeacherController@changePassword');
         Route::put('students/{student}/change-password', 'StudentController@changePassword');
         Route::get('semesters/options', 'SemesterController@getOptions');
+        Route::get('user/role', function () {
+            return Auth::user()->role_label();
+        });
         Route::apiResources(
             [
                 'courses' => 'CourseController',

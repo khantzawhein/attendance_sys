@@ -35,12 +35,13 @@
                                         <table class="table table-hover table-nowrap" >
                                             <thead>
                                                 <tr>
-                                                    <th>ID</th>
+                                                    <th>#</th>
                                                     <th>Day</th>
                                                     <th>Start Time</th>
                                                     <th>End Time</th>
                                                     <th>Module No.</th>
                                                     <th>Module Name</th>
+                                                    <th>Actions</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -51,6 +52,9 @@
                                                     <td>{{timetable.end_time}}</td>
                                                     <td>{{timetable.module_no}}</td>
                                                     <td>{{timetable.module_name}}</td>
+                                                    <td>
+                                                        <button @click="deleteConfirm(timetable.id)" type="button" class="btn bg-gradient-danger">Delete</button>
+                                                    </td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -106,6 +110,34 @@
                 .catch(error => {
                     toastr.error(error.message, 'Opps! Something went wrong.')
                 })
+            },
+            handleDelete(id) {
+                this.loadStatus.timetableLoaded = false
+                axios.delete('/api/sections/' + this.$route.params.id + '/classes/' +id)
+                    .then(response => {
+                        swal("Record has been deleted.", {
+                            icon: "success",
+                        });
+                        this.getTimetableData()
+                    })
+                    .catch(error => {
+                        this.loadStatus.timetableLoaded = true
+                        toastr.error(error.message, 'Opps! Something went wrong.')
+                    })
+            },
+            deleteConfirm(id) {
+                swal({
+                    title: "Are you sure?",
+                    text: "Once deleted, you will not be able to recover this!",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                })
+                    .then((willDelete) => {
+                        if (willDelete) {
+                            this.handleDelete(id)
+                        }
+                    });
             },
         }
     }

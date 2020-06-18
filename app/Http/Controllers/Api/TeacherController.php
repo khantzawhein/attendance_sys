@@ -11,6 +11,11 @@ use Illuminate\Validation\Rule;
 
 class TeacherController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(Teacher::class, 'teacher');
+    }
+
     public function rules()
     {
         return [
@@ -23,6 +28,11 @@ class TeacherController extends Controller
     }
     public function index()
     {
+        $user = request()->user();
+        if(!$user->isSuperAdmin())
+        {
+            return Teacher::where('user_id', $user->id)->join('users', 'teachers.user_id', 'users.id')->select('teachers.id', 'users.name', 'users.email', 'teachers.role',  'teachers.department')->get();
+        }
         return Teacher::join('users', 'teachers.user_id', 'users.id')->select('teachers.id', 'users.name', 'users.email', 'teachers.role',  'teachers.department')->get();
     }
     public function store()
@@ -39,11 +49,12 @@ class TeacherController extends Controller
             'department' => $data['department']
         ]);
         $user->teacher()->save($teacher);
+        $user->assignRole('teacher');
         return response(["message" => "success"], 201);
     }
-    public function show($id)
+    public function show(Teacher $teacher)
     {
-        return Teacher::where('teachers.id',$id)->join('users', 'teachers.user_id', 'users.id')->select('teachers.id', 'users.name', 'users.email', 'teachers.role',  'teachers.department')->get();
+        return Teacher::where('teachers.id',$teacher->id)->join('users', 'teachers.user_id', 'users.id')->select('teachers.id', 'users.name', 'users.email', 'teachers.role',  'teachers.department')->get();
     }
     public function update(Teacher $teacher ,Request $request)
     {
@@ -69,12 +80,13 @@ class TeacherController extends Controller
 
     public function destroy(Teacher $teacher)
     {
-        $teacher->delete();
+        $teacher->user->delete();
         return response(["message" => "success"], 201);
     }
 
     public function changePassword(Teacher $teacher, Request $request)
     {
+        $this->authorize('changePassword', $teacher);
         $data = $request->validate([
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);

@@ -9,6 +9,10 @@ use Illuminate\Validation\Rule;
 
 class YearController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(Year::class, 'year');
+    }
 
     public function rules()
     {

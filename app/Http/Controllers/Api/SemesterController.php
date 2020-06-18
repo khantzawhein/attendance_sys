@@ -11,6 +11,11 @@ use Illuminate\Validation\Rule;
 
 class SemesterController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(Semester::class, 'semester');
+    }
+
     public function rules()
     {
         return [

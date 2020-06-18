@@ -14,7 +14,7 @@ class Role extends Model
     {
         if (is_string($ability))
         {
-            $ability = Role::whereName($ability)->firstOrFail();
+            $ability = Ability::whereName($ability)->firstOrFail();
         }
         return $this->abilities()->sync($ability, false);
     }

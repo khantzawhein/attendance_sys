@@ -38,22 +38,20 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    public function role_name()
+    {
+        return $this->roles->pluck('name');
+    }
+    public function role_label()
+    {
+        return $this->roles->pluck('label');
+    }
+
     public function roles()
     {
         return $this->belongsToMany(Role::class)->withTimestamps();
     }
-    public function assignRole($role)
-    {
-        if (is_string($role))
-        {
-            $role = Role::whereName($role)->firstOrFail();
-        }
-        $this->roles()->sync($role, false);
-    }
-    public function abilities()
-    {
-         return $this->roles->map->abilities->flatten()->pluck('name')->unique();
-    }
+
     public function teacher() {
         return $this->hasOne(Teacher::class);
     }
@@ -67,5 +65,15 @@ class User extends Authenticatable
     public function disapprove() {
         $this->approved = 0;
         $this->save();
+    }
+
+    public function isSuperAdmin() {
+        return $this->role_name()->contains('superadmin');
+    }
+    public function isTeacher() {
+        return $this->role_name()->contains('teacher');
+    }
+    public function isStudent() {
+        return $this->role_name()->contains('student');
     }
 }

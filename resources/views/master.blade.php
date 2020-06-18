@@ -91,12 +91,15 @@ scratch. This page gets rid of all links and provides the needed markup only.
 {{--        </div>--}}
         <div class="info">
           <a href="#" class="d-block">{{auth()->user()->name}}</a>
+            <a href="#" class="d-block">
+                {{auth()->user()->role_label()->implode('/')}}
+            </a>
         </div>
       </div>
 
       <!-- Sidebar Menu -->
       <nav class="mt-2">
-        <sidebar-component></sidebar-component>
+        <sidebar-component :role="role"></sidebar-component>
       </nav>
       <!-- /.sidebar-menu -->
     </div>
@@ -105,7 +108,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
   <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
-        <router-view></router-view>
+        <router-view :role="role"></router-view>
         <vue-progress-bar></vue-progress-bar>
     </div>
   <!-- Control Sidebar -->

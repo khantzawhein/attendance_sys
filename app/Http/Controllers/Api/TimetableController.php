@@ -11,9 +11,16 @@ use App\Timetable;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Ramsey\Uuid\Type\Time;
 
 class TimetableController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->authorizeResource(Timetable::class, 'timetable');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -57,7 +64,7 @@ class TimetableController extends Controller
      * @param Timetable $timetable
      * @return void
      */
-    public function show(Section $section, Timetable $timetable)
+    public function show(Section $section, Timetable $class)
     {
 
     }
@@ -69,7 +76,7 @@ class TimetableController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Timetable $class)
     {
         //
     }
@@ -77,11 +84,14 @@ class TimetableController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param Section $section
+     * @param Timetable $class
      * @return \Illuminate\Http\Response
+     * @throws \Exception
      */
-    public function destroy($id)
+    public function destroy(Section $section,Timetable $class)
     {
-        //
+        $class->delete();
+        return response('', 200);
     }
 }

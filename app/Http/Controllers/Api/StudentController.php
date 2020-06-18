@@ -11,6 +11,12 @@ use Illuminate\Validation\Rule;
 
 class StudentController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->authorizeResource(Student::class, 'student');
+    }
+
     /**
      * @return array
      */
@@ -30,13 +36,13 @@ class StudentController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function approve(Student $student) {
-//        $this->authorize('student_manage'); //todo
+        $this->authorize('can_approve', $student);
         $student->user->approve();
         return response(['message' => 'success'], 201);
     }
 
     public function disapprove(Student $student) {
-//        $this->authorize('student_manage'); //todo
+        $this->authorize('can_approve', $student);
         $student->user->disapprove();
         return response(['message' => 'success'], 201);
     }
@@ -81,6 +87,7 @@ class StudentController extends Controller
 
     public function changePassword(Student $student, Request $request)
     {
+        $this->authorize('changePassword', $student);
         $data = $request->validate([
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
