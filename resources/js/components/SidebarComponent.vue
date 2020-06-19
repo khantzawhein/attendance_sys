@@ -10,7 +10,7 @@
                 </p>
               </router-link>
           </li>
-          <li  v-if="auth>=2" class="nav-item has-treeview">
+          <li v-if="auth>=2" class="nav-item has-treeview">
             <a href="#" :class="['nav-link', CurrentPathName.includes('students') ? activeClass : '' ]" >
                 <i class="nav-icon fas fa-user-graduate"></i>
                 <p>
@@ -103,7 +103,7 @@
                 </li>
             </ul>
           </li>
-        <li class="nav-item has-treeview">
+        <li v-if="auth>=2" class="nav-item has-treeview">
             <a href="#" :class="['nav-link', CurrentPathName.includes('courses') ? activeClass : '' ]">
                 <i class="nav-icon fas fa-book"></i>
                 <p>
@@ -118,7 +118,7 @@
                         <p>Course Lists</p>
                     </router-link>
                 </li>
-                <li class="nav-item">
+                <li v-if="auth>=2" class="nav-item">
                     <router-link :to="{name: 'courses.create'}" class="nav-link"  exact>
                         <i class="fas fa-plus nav-icon"></i>
                         <p>Create Course</p>
@@ -126,7 +126,7 @@
                 </li>
             </ul>
           </li>
-        <li class="nav-item has-treeview">
+        <li v-if="auth>=1" class="nav-item has-treeview">
             <a href="#" :class="['nav-link', CurrentPathName.includes('sections') ? activeClass : '' ]">
                 <i class="fas fa-chalkboard-teacher nav-icon"></i>
                 <p>
@@ -141,7 +141,7 @@
                         <p>Class Lists</p>
                     </router-link>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item" v-if="auth==3">
                     <router-link :to="{name: 'sections.create'}" class="nav-link"  exact>
                         <i class="fas fa-plus nav-icon"></i>
                         <p>Create Class</p>
@@ -163,8 +163,15 @@
                 activeClass: "active",
             }
         },
+        created() {
+            console.log(this.$route.name)
+        },
         computed: {
             CurrentPathName() {
+                if(this.$route.name === null)
+                {
+                    return []
+                }
                 return this.$route.name
             },
         },

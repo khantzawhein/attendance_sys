@@ -49,7 +49,7 @@
                                     <td>{{student.urn}}</td>
                                     <td>{{student.phone}}</td>
                                     <td>
-                                        <router-link :to="{name: 'students.manage', params: {id: student.id}}" class="btn btn-secondary">Manage</router-link>
+                                        <router-link v-if="auth==3" :to="{name: 'students.manage', params: {id: student.id}}" class="btn btn-secondary">Manage</router-link>
                                         <button @click="disapprove(student.id)" class="btn btn-danger">Disable</button>
                                     </td>
                                 </tr>
@@ -68,6 +68,7 @@
 </template>
 <script>
     export default {
+        props: ['auth'],
         data() {
             return {
                 approvedStudents: {},

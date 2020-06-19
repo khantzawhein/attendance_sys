@@ -8,7 +8,7 @@
                         <h3 class="card-title">This class' timetables</h3>
                     </div>
                     <div class="col-md-9 mt-3">
-                        <button class="btn btn-sm bg-gradient-success" data-toggle="collapse" data-target="#timetable-input" aria-expanded="false" aria-controls="timetable-input"><i class="fas fa-plus mr-1"></i>Add class</button>
+                        <button  v-if="auth>=2" class="btn btn-sm bg-gradient-success" data-toggle="collapse" data-target="#timetable-input" aria-expanded="false" aria-controls="timetable-input"><i class="fas fa-plus mr-1"></i>Add class</button>
                     </div>
                 </div>
             </div>
@@ -16,7 +16,7 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-12">
-                        <timetable-input></timetable-input>
+                        <timetable-input  v-if="auth>=2"></timetable-input>
                     </div>
                     <div class="col-md-12">
                         <p v-if="timetables.length==0">There's nothing to show</p>
@@ -41,7 +41,7 @@
                                                     <th>End Time</th>
                                                     <th>Module No.</th>
                                                     <th>Module Name</th>
-                                                    <th>Actions</th>
+                                                    <th v-if="auth==3">Actions</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -53,7 +53,7 @@
                                                     <td>{{timetable.module_no}}</td>
                                                     <td>{{timetable.module_name}}</td>
                                                     <td>
-                                                        <button @click="deleteConfirm(timetable.id)" type="button" class="btn bg-gradient-danger">Delete</button>
+                                                        <button v-if="auth==3" @click="deleteConfirm(timetable.id)" type="button" class="btn bg-gradient-danger">Delete</button>
                                                     </td>
                                                 </tr>
                                             </tbody>
@@ -73,6 +73,7 @@
 <script>
     export default {
         name: "TimetableComponent",
+        props: ['auth'],
         data() {
             return {
                 timetables: {},

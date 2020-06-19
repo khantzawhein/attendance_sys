@@ -20,7 +20,7 @@
                     <div class="card-header">
                         <h3 class="card-title">Class Lists</h3>
                         <div class="card-tools">
-                            <button class="btn btn-success" @click="$router.push({name: 'sections.create'})"><i class="fas fa-plus mr-1"></i> Class</button>
+                            <button v-if="auth==3" class="btn btn-success" @click="$router.push({name: 'sections.create'})"><i class="fas fa-plus mr-1"></i> Class</button>
                         </div>
                     </div>
                     <div class="card-body">
@@ -68,7 +68,7 @@
 <script>
     export default {
         name: "Sections",
-
+        props: ['auth'],
         data() {
             return {
                 sections: {},
