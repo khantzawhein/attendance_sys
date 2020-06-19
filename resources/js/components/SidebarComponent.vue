@@ -10,7 +10,7 @@
                 </p>
               </router-link>
           </li>
-          <li class="nav-item has-treeview">
+          <li  v-if="auth>=2" class="nav-item has-treeview">
             <a href="#" :class="['nav-link', CurrentPathName.includes('students') ? activeClass : '' ]" >
                 <i class="nav-icon fas fa-user-graduate"></i>
                 <p>
@@ -34,7 +34,7 @@
             </ul>
           </li>
 
-        <li class="nav-item has-treeview">
+        <li v-if="auth==3" class="nav-item has-treeview">
             <a href="#" :class="['nav-link', CurrentPathName.includes('teachers') ? activeClass : '' ]">
                 <i class="nav-icon fas fa-chalkboard-teacher"></i>
                 <p>
@@ -57,7 +57,7 @@
                 </li>
             </ul>
           </li>
-        <li class="nav-item has-treeview">
+        <li v-if="auth==3" class="nav-item has-treeview">
             <a href="#" :class="['nav-link', CurrentPathName.includes('years') ? activeClass : '' ]">
                 <i class="nav-icon far fa-calendar"></i>
                 <p>
@@ -80,7 +80,7 @@
                 </li>
             </ul>
           </li>
-        <li class="nav-item has-treeview">
+        <li v-if="auth==3" class="nav-item has-treeview">
             <a href="#" :class="['nav-link', CurrentPathName.includes('terms') ? activeClass : '' ]">
                 <i class="nav-icon far fa-clock"></i>
                 <p>
@@ -157,6 +157,7 @@
 <script>
     export default {
         name: "SidebarComponent",
+        props: ['auth'],
         data() {
             return {
                 activeClass: "active",
@@ -165,7 +166,7 @@
         computed: {
             CurrentPathName() {
                 return this.$route.name
-            }
+            },
         },
     }
 </script>

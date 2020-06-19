@@ -16,6 +16,8 @@ Vue.use(VueProgressBar, {
  *
  * Eg. ./components/ExampleComponent.vue -> <example-component></example-component>
  */
+
+
 const files = require.context('./', true, /\.vue$/i)
 files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
@@ -25,32 +27,96 @@ const router = new VueRouter({
    linkActiveClass: 'active'
 
 });
-/**
- * Next, we will create a fresh Vue application instance and attach it to
- * the page. Then, you may begin adding components to this application
- * or customize the JavaScript scaffolding to fit your unique needs.
- */
-window.Bus = new Vue();
-const app = new Vue({
-    el: '#app',
-    router,
-    data: {
-        role: []
-    },
-    created() {
-        axios.get('/api/user/role')
-            .then(({data}) => {
-                this.role = data;
-            })
-    },
-    methods: {
-        logout() {
-            axios.post('/logout')
-            .then(response => {
-                this.$router.push('/')
-                location.reload()
-            })
+
+let teacherRoute = ['home','teachers', 'teachers.manage',
+ 'students', 'students.pending', 'student.manage',
+ 'courses', 'courses.create', 'courses.manage',
+ 'semesters', 'sections', 'years'];
+let studentRoute = ['home', 'teachers',
+ 'courses'];
+var role = []
+let app;
+axios.get('/api/user/role')
+    .then(({data}) => {
+        role = data;
+        guard(data)
+        window.Bus = new Vue();
+        app = initVue()
+
+    })
+    .catch(error => {
+        console.log("API error")
+    })
+
+function initVue() {
+    return new Vue({
+        el: '#app',
+        router,
+        data: {
+            role: role,
+            teacherRoute: teacherRoute,
+            studentRoute: studentRoute
+        },
+        methods: {
+            logout() {
+                axios.post('/logout')
+                .then(response => {
+                    this.$router.push('/')
+                    location.reload()
+                })
+            }
+        },
+        computed: {
+            auth() {
+                if (role.includes('superadmin'))
+                {
+                    return 3
+                }
+                else if(role.includes('teacher'))
+                {
+                    return 2
+                }
+                else if (role.includes('student'))
+                {
+                    return 1
+                }
+            }
         }
-    }
-});
+    });
+}
+
+function guard(role) {
+    router.beforeEach((to, from, next) => {
+        if (role.includes('superadmin')) {
+            next();
+        }
+        else if(role.includes('teacher'))
+        {
+            if(teacherRoute.includes(to.name)) {
+                next();
+            }
+            else {
+                next('/app');
+            }
+        }
+        else if(role.includes('student'))
+        {
+            if(studentRoute.includes(to.name)) {
+                next()
+            }
+            else {
+                next('/app');
+            }
+        }
+        else {
+            next('/app')
+        }
+        });
+}
+
+
+
+
+
+
 

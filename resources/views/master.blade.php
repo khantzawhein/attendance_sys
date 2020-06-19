@@ -99,7 +99,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
       <!-- Sidebar Menu -->
       <nav class="mt-2">
-        <sidebar-component :role="role"></sidebar-component>
+        <sidebar-component :auth="auth"></sidebar-component>
       </nav>
       <!-- /.sidebar-menu -->
     </div>
@@ -108,7 +108,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
   <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
-        <router-view :role="role"></router-view>
+        <router-view :auth="auth"></router-view>
         <vue-progress-bar></vue-progress-bar>
     </div>
   <!-- Control Sidebar -->
@@ -136,9 +136,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <!-- REQUIRED SCRIPTS -->
 
 <script src="{{ asset('js/app.js') }}"></script>
+<script src="{{asset('js/adminlte.min.js')}}"></script>
 <script src="{{asset('js/external.js')}}"></script>
 <!-- AdminLTE App -->
-<script src="{{asset('js/adminlte.min.js')}}"></script>
 
 <script>
 
