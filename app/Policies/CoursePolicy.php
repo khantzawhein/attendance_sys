@@ -74,27 +74,8 @@ class CoursePolicy
         }
     }
 
-    /**
-     * Determine whether the user can restore the model.
-     *
-     * @param  \App\User  $user
-     * @param  \App\Course  $course
-     * @return mixed
-     */
-    public function restore(User $user, Course $course)
-    {
-        //
-    }
 
-    /**
-     * Determine whether the user can permanently delete the model.
-     *
-     * @param  \App\User  $user
-     * @param  \App\Course  $course
-     * @return mixed
-     */
-    public function forceDelete(User $user, Course $course)
-    {
-        //
-    }
+
+
+
 }

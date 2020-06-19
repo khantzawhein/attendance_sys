@@ -15,4 +15,16 @@ class Student extends Model
         return $this->hasMany(Attendance::class);
     }
 
+    public function course()
+    {
+        return $this->belongsToMany(Course::class)->withTimestamps();
+    }
+    public function bindCourse($course)
+    {
+        $this->course()->sync($course, false);
+    }
+    public function unbindCourse($course)
+    {
+        $this->course()->detach($course);
+    }
 }

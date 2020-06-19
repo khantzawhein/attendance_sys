@@ -36,4 +36,10 @@ protected $guarded = [];
     {
         return $this->timetable()->save($timetable);
     }
+
+    public function student()
+    {
+        return $this->belongsToMany(Student::class)->withTimestamps();
+    }
+
 }

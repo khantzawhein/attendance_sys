@@ -10,6 +10,13 @@
                 </p>
               </router-link>
           </li>
+        <li v-if="auth==1" class="nav-item">
+            <router-link :to="{name: 'my_courses'}" :class="['nav-link', CurrentPathName.includes('students') ? activeClass : '' ]" >
+                <i class="nav-icon fas fa-book"></i>
+                <p>
+                    My Courses
+                </p>
+            </router-link>
           <li v-if="auth>=2" class="nav-item has-treeview">
             <a href="#" :class="['nav-link', CurrentPathName.includes('students') ? activeClass : '' ]" >
                 <i class="nav-icon fas fa-user-graduate"></i>
