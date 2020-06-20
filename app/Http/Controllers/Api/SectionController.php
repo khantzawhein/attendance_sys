@@ -7,6 +7,7 @@ use App\Http\Resources\SectionResource;
 use App\Section;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 
 class SectionController extends Controller
@@ -16,6 +17,11 @@ class SectionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function __construct()
+    {
+        $this->authorizeResource(Section::class, 'section');
+    }
+
     public function index()
     {
         return SectionResource::collection(Section::all());
@@ -38,7 +44,7 @@ class SectionController extends Controller
 
         $data['start_time'] = Carbon::parse($data['start_time'])->format('H:i');
         $data['end_time'] = Carbon::parse($data['end_time'])->format('H:i');
-
+        $data['access_code'] = strtolower(Str::random(6));
         Section::create($data);
         response('', 201);
     }
@@ -87,5 +93,15 @@ class SectionController extends Controller
     {
         $section->delete();
         return response('', 201);
+    }
+
+    public function resetAccessCode(Section $section)
+    {
+        $section->resetAccessCode();
+        return response('', 201);
+    }
+    public function getAccessCode(Section $section)
+    {
+        return response(['access_code' => $section->getAccessCode()], 200);
     }
 }

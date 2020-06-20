@@ -49,6 +49,32 @@
                                     <td>{{section.end_time}}</td>
                                     <td>
                                         <router-link :to="{name: 'sections.manage', params: {id: section.id}}" class="btn btn-secondary">Manage</router-link>
+                                        <button @click="getAccessCode(section.id)" class="btn btn-primary" data-toggle="modal" :data-target="'#modal'+section.id">Access Code</button>
+                                    <!-- model -->
+                                    <div class="modal fade" :id="'modal'+section.id" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="staticBackdropLabel">View Access Code</h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                            <div class="modal-body">
+                                                <div v-if="!accessCodeLoaded" class="text-center align-items-center justify-content-center d-flex">
+                                                    <loader-component></loader-component>
+                                                </div>
+                                                <h1 class="text-center" v-if="accessCodeLoaded">{{accessCode}}</h1>
+                                                <p class="text-center" v-if="accessCodeLoaded">Enter this code in the student portal</p>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button @click="resetAccessCode(section.id)" class="btn btn-danger">Reset Access Code</button>
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                    <!-- model end-->
                                     </td>
                                 </tr>
                             </tbody>
@@ -77,6 +103,7 @@
                     details: ""
                 },
                 loaded: false,
+                accessCodeLoaded: false,
             }
         },
         created() {
@@ -95,7 +122,30 @@
                         this.error.details = error.response.data.errors;
                         toastr.error(this.error, 'Error')
                     })
-            }
+            },
+            getAccessCode(id) {
+                this.accessCodeLoaded = false;
+                axios.get('/api/sections/'+ id + '/get-code')
+                .then(response => {
+                    this.accessCode = response.data.access_code;
+                    this.accessCodeLoaded = true;
+                })
+                .catch(error => {
+                    this.accessCodeLoaded = true;
+                    this.error = error.response.data.message || error.message;
+                })
+            },
+            resetAccessCode(id) {
+                this.accessCodeLoaded = false;
+                axios.post('/api/sections/' + id + '/reset-code')
+                .then(response => {
+                    this.getAccessCode(id);
+                })
+                .catch(error => {
+                    this.accessCodeLoaded = true;
+                    this.error = error.response.data.message || error.message;
+                })
+            },
         }
     }
 </script>

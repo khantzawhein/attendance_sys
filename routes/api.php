@@ -23,17 +23,18 @@ Route::middleware("auth:sanctum")->group(function () {
     Route::namespace('Api')->group(function() {
         Route::post('students/{student}/approve', 'StudentController@approve');
         Route::post('students/{student}/disapprove', 'StudentController@disapprove');
-        Route::post('courses/{course}/reset-code', 'CourseController@resetAccessCode');
-        Route::get('courses/{course}/get-code', 'CourseController@getAccessCode');
+        Route::post('sections/{section}/reset-code', 'SectionController@resetAccessCode');
+        Route::get('sections/{section}/get-code', 'SectionController@getAccessCode');
         Route::put('teachers/{teacher}/change-password', 'TeacherController@changePassword');
         Route::put('students/{student}/change-password', 'StudentController@changePassword');
         Route::get('semesters/options', 'SemesterController@getOptions');
         Route::get('user/role', function () {
             return Auth::user()->role_name();
         });
-        Route::get('my_courses', "StudentCourseController@index");
-        Route::post('my_courses', "StudentCourseController@bind");
-        Route::delete('my_courses/{course}', "StudentCourseController@unbind");
+        Route::get('my_classes', "SectionStudentController@index");
+        Route::post('my_classes', "SectionStudentController@bind");
+        Route::delete('my_classes/{class}', "SectionStudentController@unbind");
+        Route::get('teacher-timetable', 'TimetableController@teacherTimetable');
         Route::apiResources(
             [
                 'courses' => 'CourseController',

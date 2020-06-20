@@ -8,7 +8,7 @@ let teacherRoute = ['home','teachers', 'teachers.manage',
  'students', 'students.pending', 'student.manage',
  'courses', 'courses.create', 'courses.manage',
  'semesters', 'sections', 'sections.manage', 'years'];
-let studentRoute = ['home', 'sections', 'sections.manage' ,'my_courses'];
+let studentRoute = ['home' ,'my_classes', 'courses'];
 let role = null;
 async function guard(to, from, next)
 {
@@ -159,9 +159,9 @@ const Routes = [
            beforeEnter: guard,
        },
        {
-           path: '/app/my_courses',
-           name: 'my_courses',
-           component: require('./views/MyCourse/MyCourse.vue').default,
+           path: '/app/my_classes',
+           name: 'my_classes',
+           component: require('./views/MyClasses/MyClasses.vue').default,
            beforeEnter: guard,
        },
     ];

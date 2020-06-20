@@ -1,5 +1,6 @@
 <?php
 
+use App\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -22,5 +23,6 @@ class UserSeeder extends Seeder
             'password' => Hash::make('11111111'),
             'approved' => 1
         ]);
+        User::where('email', 'admin@gmail.com')->first()->assignRole('superadmin');
     }
 }

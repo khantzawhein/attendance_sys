@@ -20,6 +20,8 @@ class CreateAttendancesTable extends Migration
             $table->integer('status');
             $table->string('description');
             $table->timestamps();
+
+            $table->unique(['student_id', 'timetable_id']);
         });
     }
 

@@ -11,10 +11,10 @@
               </router-link>
           </li>
         <li v-if="auth==1" class="nav-item">
-            <router-link :to="{name: 'my_courses'}" :class="['nav-link', CurrentPathName.includes('students') ? activeClass : '' ]" >
-                <i class="nav-icon fas fa-book"></i>
+            <router-link :to="{name: 'my_classes'}" :class="['nav-link', CurrentPathName.includes('my_classes') ? activeClass : '' ]" >
+                <i class="nav-icon fas fa-chalkboard-teacher"></i>
                 <p>
-                    My Courses
+                    My Classes
                 </p>
             </router-link>
           <li v-if="auth>=2" class="nav-item has-treeview">
@@ -133,7 +133,17 @@
                 </li>
             </ul>
           </li>
+
         <li v-if="auth>=1" class="nav-item has-treeview">
+            <router-link :to="{name: 'courses'}" :class="['nav-link', CurrentPathName.includes('courses') ? activeClass : '' ]">
+                <i class="nav-icon fas fa-book"></i>
+                <p>
+                    My Courses
+                </p>
+            </router-link>
+        </li>
+
+        <li v-if="auth>=2" class="nav-item has-treeview">
             <a href="#" :class="['nav-link', CurrentPathName.includes('sections') ? activeClass : '' ]">
                 <i class="fas fa-chalkboard-teacher nav-icon"></i>
                 <p>
@@ -169,9 +179,6 @@
             return {
                 activeClass: "active",
             }
-        },
-        created() {
-            console.log(this.$route.name)
         },
         computed: {
             CurrentPathName() {

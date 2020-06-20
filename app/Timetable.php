@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Timetable extends Model
 {
     protected $guarded = [];
-    protected $hidden = ['created_at', 'updated_at'];
+    protected $hidden = ['section_id', 'course_id', 'created_at', 'updated_at'];
 
     public function attendance() {
         return $this->hasMany(Attendance::class);

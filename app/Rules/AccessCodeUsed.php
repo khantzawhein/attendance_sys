@@ -2,7 +2,7 @@
 
 namespace App\Rules;
 
-use App\Course;
+use App\Section;
 use App\Student;
 use App\User;
 use Illuminate\Contracts\Validation\Rule;
@@ -28,8 +28,7 @@ class AccessCodeUsed implements Rule
      */
     public function passes($attribute, $value)
     {
-        $result = Course::where('access_code', $value)->first()->student->contains($this->student);
-         return !$result;
+        return !$result = Section::where('access_code', $value)->first()->students->contains($this->student);
     }
 
     /**

@@ -20,7 +20,10 @@ class TimetablePolicy
     {
         return true;
     }
-
+    public function timetable(User $user)
+    {
+        return $user->isTeacher();
+    }
     /**
      * Determine whether the user can view the model.
      *

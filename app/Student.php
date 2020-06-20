@@ -15,16 +15,21 @@ class Student extends Model
         return $this->hasMany(Attendance::class);
     }
 
-    public function course()
+    public function sections()
     {
-        return $this->belongsToMany(Course::class)->withTimestamps();
+        return $this->belongsToMany(Section::class)->withTimestamps();
     }
-    public function bindCourse($course)
+    public function bindSection($section)
     {
-        $this->course()->sync($course, false);
+        $this->sections()->sync($section, false);
     }
-    public function unbindCourse($course)
+    public function unbindSection($section)
     {
-        $this->course()->detach($course);
+        $this->sections()->detach($section);
+    }
+
+    public function getCourses()
+    {
+        return $this->sections->map->semester->map->course->flatten();
     }
 }

@@ -32,6 +32,12 @@ class TimetableController extends Controller
         return TimetableResource::collection($section->timetable)->collection->groupBy('day');
     }
 
+    public function teacherTimetable()
+    {
+        $this->authorize('timetable', Timetable::class);
+        return request()->user()->teacher->getTeacherTimetable();
+    }
+
     /**
      * Store a newly created resource in storage.
      *

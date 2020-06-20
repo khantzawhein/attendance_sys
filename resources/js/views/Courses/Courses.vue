@@ -24,7 +24,7 @@
                     <div class="card-header">
                         <h3 class="card-title">Course List</h3>
                         <div class="card-tools">
-                            <button class="btn btn-success" @click="$router.push('/app/courses/create')"><i class="fas fa-plus mr-1"></i> Courses</button>
+                            <button v-if="auth>=2" class="btn btn-success" @click="$router.push('/app/courses/create')"><i class="fas fa-plus mr-1"></i> Courses</button>
                         </div>
                     </div>
                     <div class="card-body">
@@ -39,7 +39,7 @@
                             <th>Academic Year</th>
                             <th>Year</th>
                             <th>Semester</th>
-                            <th>Action</th>
+                            <th v-if="auth>=2">Action</th>
                         </tr>
                     </thead>
                         <tbody>
@@ -51,34 +51,8 @@
                                 <td>{{course.academic_year}}</td>
                                 <td>{{course.year}}</td>
                                 <td>{{course.semester}}</td>
-                                <td>
+                                <td v-if="auth>=2">
                                     <router-link :to="{name: 'courses.manage', params: {id: course.id}}" class="btn btn-secondary">Manage</router-link>
-                                    <button @click="getAccessCode(course.id)" class="btn btn-primary" data-toggle="modal" :data-target="'#modal'+course.id">Access Code</button>
-                                    <!-- model -->
-                                    <div class="modal fade" :id="'modal'+course.id" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="staticBackdropLabel">View Access Code</h5>
-                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                </div>
-                                            <div class="modal-body">
-                                                <div v-if="!accessCodeLoaded" class="text-center align-items-center justify-content-center d-flex">
-                                                    <loader-component></loader-component>
-                                                </div>
-                                                <h1 class="text-center" v-if="accessCodeLoaded">{{accessCode}}</h1>
-                                                <p class="text-center" v-if="accessCodeLoaded">Enter this code in the student portal</p>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button @click="resetAccessCode(course.id)" class="btn btn-danger">Reset Access Code</button>
-                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                    <!-- model end-->
                                 </td>
                             </tr>
                         </tbody>
@@ -99,12 +73,12 @@
 <script>
     export default {
         name: "Course",
+        props: ['auth'],
         data() {
             return {
                 courses: {},
                 error: null,
                 loaded: false,
-                accessCodeLoaded: false,
                 accessCode: null
             }
         },
@@ -124,29 +98,7 @@
                     this.error = error.response.data.message || error.message;
                 })
             },
-            getAccessCode(id) {
-                this.accessCodeLoaded = false;
-                axios.get('/api/courses/'+ id + '/get-code')
-                .then(response => {
-                    this.accessCode = response.data.access_code;
-                    this.accessCodeLoaded = true;
-                })
-                .catch(error => {
-                    this.accessCodeLoaded = true;
-                    this.error = error.response.data.message || error.message;
-                })
-            },
-            resetAccessCode(id) {
-                this.accessCodeLoaded = false;
-                axios.post('/api/courses/' + id + '/reset-code')
-                .then(response => {
-                    this.getAccessCode(id);
-                })
-                .catch(error => {
-                    this.accessCodeLoaded = true;
-                    this.error = error.response.data.message || error.message;
-                })
-            },
+
         }
     }
 </script>
