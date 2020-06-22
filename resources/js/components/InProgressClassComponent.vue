@@ -33,7 +33,7 @@
                         <td>{{timetable.start_time | twelveHrFormat}}</td>
                         <td>{{timetable.end_time | twelveHrFormat}}</td>
                         <td>
-                            <button class="btn btn-sm bg-gradient-primary">Get Code</button>
+                            <button @click="handleModal(timetable.id)" class="btn btn-sm bg-gradient-primary" data-toggle="modal" :data-target="'#code-modal'+timetable.id">Get Code</button>
                         </td>
                     </tr>
                   </tbody>
@@ -81,8 +81,13 @@
                     }
                 })
             })
-
         },
+        methods: {
+            handleModal(id)
+            {
+                Bus.$emit(`modal${id}open`);
+            }
+        }
     }
 </script>
 

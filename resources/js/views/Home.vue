@@ -83,7 +83,7 @@
                     </div>
                 </div>
 
-                <teacher-dash-component></teacher-dash-component>
+                <teacher-dash-component v-if="auth>=2"></teacher-dash-component>
 
             </div>
           </div>

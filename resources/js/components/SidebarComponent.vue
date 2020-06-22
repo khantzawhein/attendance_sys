@@ -2,11 +2,20 @@
     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
+
           <li class="nav-item">
               <router-link :to="{name: 'home'}" class="nav-link" exact>
                     <i class="nav-icon fas fa-home"></i>
                 <p>
                     Dashboard
+                </p>
+              </router-link>
+          </li>
+        <li v-if="auth==1" class="nav-item">
+              <router-link :to="{name: 'attendance'}" class="nav-link" exact>
+                  <i class="nav-icon far fa-calendar-check"></i>
+                <p>
+                    Attendance
                 </p>
               </router-link>
           </li>

@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Attendance;
+use App\Code;
 use App\Http\Controllers\Controller;
+use App\Rules\AttendanceCodeUsed;
 use App\Student;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
@@ -97,5 +101,40 @@ class StudentController extends Controller
         $user->save();
 
         return response('' , 201);
+    }
+
+    public function getAttendance(Request $request)
+    {
+        $this->authorize('getAttendance', Student::class);
+
+        $data = $request->validate([
+            'code' => ['required', new AttendanceCodeUsed($request->user()->student)],
+        ]);
+
+        $code = Code::where('code', $data['code'])->first();
+
+        if (!$code->timetable->section->students->contains($request->user()->student))
+        {
+            return response(['errors' => [
+                'code' => ['You haven\'t enrolled in that class.']
+            ]], 422);
+        }
+
+        $now = Carbon::now();
+        if ($now->greaterThan(Carbon::parse($code->expire_at))) {
+            return response(['message' => 'Code has expired.'], 422);
+        }
+        $attendance = new Attendance([
+            'student_id' => $request->user()->student->id,
+            'timetable_id' => $code->timetable->id,
+            'status' => 1,
+            'description' => 'Present'
+        ]);
+
+        $attendance->save();
+
+        return response('', 201);
+
+
     }
 }

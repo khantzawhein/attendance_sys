@@ -36,7 +36,8 @@
                     <td>{{my_timetable.start_time | twelveHrFormat}}</td>
                     <td>{{my_timetable.end_time | twelveHrFormat}}</td>
                     <td>
-                        <button class="btn btn-sm bg-gradient-primary">Get Code</button>
+                        <button @click="handleModal(my_timetable.id)" class="btn btn-sm bg-gradient-primary" data-toggle="modal" :data-target="'#code-modal'+my_timetable.id">Get Code</button>
+                        <TeacherCodeComponent :id="my_timetable.id"></TeacherCodeComponent>
                     </td>
                 </tr>
               </tbody>
@@ -73,6 +74,12 @@
                 return moment(time, 'HH:mm:ss').format("LT");
             }
         },
+        methods: {
+            handleModal(id)
+            {
+                Bus.$emit(`modal${id}open`);
+            }
+        }
     }
 </script>
 

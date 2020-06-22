@@ -35,6 +35,9 @@ Route::middleware("auth:sanctum")->group(function () {
         Route::post('my_classes', "SectionStudentController@bind");
         Route::delete('my_classes/{class}', "SectionStudentController@unbind");
         Route::get('teacher-timetable', 'TimetableController@teacherTimetable');
+        Route::get('teacher-timetable/{timetable}/code', 'TimetableController@getCode');
+        Route::delete('teacher-timetable/{timetable}/code', 'TimetableController@revokeCode');
+        Route::post('attendance', 'StudentController@getAttendance');
         Route::apiResources(
             [
                 'courses' => 'CourseController',

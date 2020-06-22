@@ -78,4 +78,8 @@ class StudentPolicy
         }
         return $user->isTeacher();
     }
+    public function getAttendance(User $user)
+    {
+        return $user->isStudent();
+    }
 }

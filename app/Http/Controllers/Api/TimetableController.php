@@ -100,4 +100,27 @@ class TimetableController extends Controller
         $class->delete();
         return response('', 200);
     }
+
+    public function getCode(Timetable $timetable)
+    {
+        $this->authorize('getCode', $timetable);
+        $now = Carbon::now();
+        if($timetable->code == null) {
+            return $timetable->generateCode();
+        }
+        else if($now->greaterThan($timetable->code->expire_at))
+        {
+            $timetable->revokeCode();
+            return $timetable->generateCode();
+        }
+        return $timetable->code;
+        //return code and expire_at
+    }
+
+    public function revokeCode(Timetable $timetable)
+    {
+        $this->authorize('revokeCode', $timetable);
+        //revoke all timetable code
+        return $timetable->revokeCode();
+    }
 }
