@@ -27,7 +27,7 @@
                             <button class="btn btn-success" @click="$router.push({name: 'semesters.create'})"><i class="fas fa-plus mr-1"></i> Semesters</button>
                         </div>
                     </div>
-                    <div class="card-body">
+                    <div class="card-body table-responsive p-0">
                         <p v-if="semesters.length==0">There's nothing to show</p>
                         <div class="accordion" id="semester-accordion">
                             <div class="card" v-for="(data, index) in semesters">

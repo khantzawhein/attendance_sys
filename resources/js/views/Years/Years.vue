@@ -27,7 +27,7 @@
                             <button class="btn btn-success" @click="$router.push({name: 'years.create'})"><i class="fas fa-plus mr-1"></i> Year</button>
                         </div>
                     </div>
-                    <div class="card-body">
+                    <div class="card-body table-responsive p-0">
                         <p v-if="years.length==0">There's nothing to show</p>
                         <table class="table table-hover table-nowrap" v-if="years.length">
                             <thead>

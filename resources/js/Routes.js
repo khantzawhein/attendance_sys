@@ -5,7 +5,7 @@ import Students from './views/Students/Students.vue'
 import Courses from "./views/Courses/Courses.vue";
 
 let teacherRoute = ['home','teachers', 'teachers.manage',
- 'students', 'students.pending', 'student.manage',
+ 'students', 'students.pending', 'students.manage',
  'courses', 'courses.create', 'courses.manage',
  'semesters', 'sections', 'sections.manage', 'years'];
 let studentRoute = ['home' ,'my_classes', 'courses', 'attendance'];

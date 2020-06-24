@@ -118,6 +118,7 @@
 
 <script>
     import { diff } from 'deep-diff/dist/deep-diff.min.js';
+    import swal from 'sweetalert';
     export default {
         name: "StudentsManage",
 

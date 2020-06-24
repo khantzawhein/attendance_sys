@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 class Student extends Model
@@ -32,4 +33,5 @@ class Student extends Model
     {
         return $this->sections->map->semester->map->course->flatten();
     }
+
 }

@@ -85,7 +85,7 @@ class StudentController extends Controller
     }
 
     public function destroy(Student $student) {
-        $student->delete();
+        $student->user->delete();
         return response(['message' => 'success', 201]);
     }
 

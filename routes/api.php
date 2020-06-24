@@ -37,7 +37,8 @@ Route::middleware("auth:sanctum")->group(function () {
         Route::get('teacher-timetable', 'TimetableController@teacherTimetable');
         Route::get('teacher-timetable/{timetable}/code', 'TimetableController@getCode');
         Route::delete('teacher-timetable/{timetable}/code', 'TimetableController@revokeCode');
-        Route::post('attendance', 'StudentController@getAttendance');
+        Route::post('attendance', 'StudentController@getAttendance')->middleware('throttle:10,1');
+        Route::get('dashboard-data', 'DashboardController@dashboard');
         Route::apiResources(
             [
                 'courses' => 'CourseController',

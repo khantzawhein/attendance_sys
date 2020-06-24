@@ -24,7 +24,7 @@
                     <div class="card-header">
                         <h3 class="card-title">Student Lists</h3>
                     </div>
-                    <div class="card-body">
+                    <div class="card-body table-responsive p-0">
                         <p v-if="!approvedStudents.length">There's nothing to show</p>
                         <table class="table table-hover table-nowrap" v-show="approvedStudents.length">
                             <thead>

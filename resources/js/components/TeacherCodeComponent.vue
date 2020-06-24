@@ -73,6 +73,7 @@
         },
         methods:{
             getTeacherCodeData(id){
+                this.expired = false;
                 this.loaded = false
                 axios.get(`/api/teacher-timetable/${id}/code`)
                 .then(({data}) => {

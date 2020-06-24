@@ -143,7 +143,7 @@
             </ul>
           </li>
 
-        <li v-if="auth>=1" class="nav-item has-treeview">
+        <li v-if="auth==1" class="nav-item has-treeview">
             <router-link :to="{name: 'courses'}" :class="['nav-link', CurrentPathName.includes('courses') ? activeClass : '' ]">
                 <i class="nav-icon fas fa-book"></i>
                 <p>

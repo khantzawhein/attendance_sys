@@ -27,7 +27,7 @@
                             <button v-if="auth>=2" class="btn btn-success" @click="$router.push('/app/courses/create')"><i class="fas fa-plus mr-1"></i> Courses</button>
                         </div>
                     </div>
-                    <div class="card-body">
+                    <div class="card-body table-responsive p-0">
                         <p v-if="!courses.length">There's nothing to show</p>
                         <table class="table table-hover table-nowrap" v-if="courses.length">
                     <thead>

@@ -29,6 +29,7 @@
         "air-datepicker": "^2.2.3",
         "clipboard": "^2.0.6",
         "deep-diff": "^1.0.2",
+        "html5-qrcode": "^1.1.5",
         "moment": "^2.27.0",
         "moment-timezone": "^0.5.31",
         "qrcode": "^1.4.4",

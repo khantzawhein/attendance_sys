@@ -31,7 +31,7 @@
                                 </div>
 
                                 <div :id="`day${index}`" class="collapse" aria-labelledby="headingOne" data-parent="#days_slide">
-                                    <div class="card-body">
+                                    <div class="card-body table-responsive p-0">
                                         <table class="table table-hover table-nowrap" >
                                             <thead>
                                                 <tr>
@@ -53,7 +53,9 @@
                                                     <td>{{timetable.module_no}}</td>
                                                     <td>{{timetable.module_name}}</td>
                                                     <td>
-                                                        <button v-if="auth==3" @click="deleteConfirm(timetable.id)" type="button" class="btn bg-gradient-danger">Delete</button>
+                                                        <button v-if="auth==3" @click="deleteConfirm(timetable.id)" type="button" class="btn btn-sm bg-gradient-danger">Delete</button>
+                                                        <button @click="handleModal(timetable.id)" class="btn btn-sm bg-gradient-primary" data-toggle="modal" :data-target="'#code-modal'+timetable.id">Get Code</button>
+                                                        <TeacherCodeComponent :id="timetable.id"></TeacherCodeComponent>
                                                     </td>
                                                 </tr>
                                             </tbody>
@@ -140,6 +142,10 @@
                         }
                     });
             },
+            handleModal(id)
+            {
+                Bus.$emit(`modal${id}open`);
+            }
         }
     }
 </script>
