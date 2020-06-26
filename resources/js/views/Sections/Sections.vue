@@ -23,9 +23,9 @@
                             <button v-if="auth==3" class="btn btn-success" @click="$router.push({name: 'sections.create'})"><i class="fas fa-plus mr-1"></i> Class</button>
                         </div>
                     </div>
-                    <div class="card-body table-responsive p-0">
+                    <div class="card-body">
                         <p v-if="!sections.length">There's nothing to show</p>
-                        <table class="table table-hover table-nowrap" v-show="sections.length">
+                        <table id="section_table" class="table table-hover" v-show="sections.length">
                             <thead>
                                 <tr>
                                     <th>#</th>
@@ -35,7 +35,7 @@
                                     <th>Semester</th>
                                     <th>Class Start At</th>
                                     <th>Class End At</th>
-                                    <th>Actions</th>
+                                    <th data-priority="1">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -107,11 +107,12 @@
             }
         },
         created() {
-            this.getSectionsData();
+            this.getSectionsData()
+            .then(() => this.tableLoad());
         },
         methods: {
             getSectionsData() {
-                axios.get('/api/sections')
+                return axios.get('/api/sections')
                     .then(response => {
                         this.sections = response.data.data;
                         this.loaded = true;
@@ -146,6 +147,57 @@
                     this.error = error.response.data.message || error.message;
                 })
             },
+            tableLoad()
+            {
+                $(document).ready(
+                    function() {
+                        $('#section_table').DataTable({
+                         dom: 'lBfrtip',
+                        "responsive": true,
+                        "autoWidth": false,
+                        "pageLength": 10,
+                        buttons: [
+                            {
+                                extend: 'copyHtml5',
+                                text: '<i class="far fa-clipboard mr-2"></i>Copy',
+                                exportOptions: {
+                                    columns: [ 0, 1, 2, 3, 4, 5]
+                                },
+
+
+                            },
+                            {
+                                extend: 'csvHtml5',
+                                text: '<i class="fas fa-file-csv mr-2"></i>CSV',
+                                title: 'ClassesExport',
+                                exportOptions: {
+                                    columns: [ 0, 1, 2, 3, 4, 5]
+                                },
+
+                            },
+                            {
+                                extend: 'excelHtml5',
+                                text: '<i class="far fa-file-excel mr-2"></i> Excel',
+                                title: 'ClassesExport',
+                                exportOptions: {
+                                    columns: [ 0, 1, 2, 3, 4, 5]
+                                },
+
+                            },
+                            {
+                                extend: 'print',
+                                text: '<i class="fas fa-print mr-2"></i> Print',
+                                title: 'Class Lists',
+                                exportOptions: {
+                                    columns: [ 0, 1, 2, 3, 4, 5]
+                                },
+
+                            }
+                        ],
+                        });
+                    }
+                )
+            }
         }
     }
 </script>

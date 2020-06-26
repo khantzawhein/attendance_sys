@@ -17,6 +17,7 @@ try {
     window.toastr = require('toastr/build/toastr.min.js')
     require('bootstrap');
     window._ = require('underscore/underscore-min.js')
+    require( 'jszip' );
 } catch (e) {}
 
 toastr.options = {

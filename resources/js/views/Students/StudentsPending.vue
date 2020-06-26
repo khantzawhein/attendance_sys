@@ -1,7 +1,7 @@
 <template>
     <div>
         <header-component>
-        <template v-slot:title>Student Lists</template>
+        <template v-slot:title>Pending Student Lists</template>
         <template v-slot:breadcrumb>
             <li class="breadcrumb-item"><router-link :to="{name: 'home'}">Home</router-link></li>
             <li class="breadcrumb-item"><router-link :to="{name: 'students'}">Students</router-link></li>
@@ -23,11 +23,11 @@
                 </div>
                 <div class="card" v-show="loaded&&!error">
                     <div class="card-header">
-                        <h3 class="card-title">Student Lists</h3>
+                        <h3 class="card-title">Pending Student Lists</h3>
                     </div>
-                    <div class="card-body table-responsive p-0">
+                    <div class="card-body">
                         <p v-if="!unapprovedStudents.length">There's nothing to show</p>
-                        <table class="table table-hover table-nowrap" v-show="unapprovedStudents.length">
+                        <table id="pending_student_table" class="table table-striped table-hover" v-show="unapprovedStudents.length">
                             <thead>
                                 <tr>
                                     <th>Student ID</th>
@@ -37,7 +37,7 @@
                                     <th>Father Name</th>
                                     <th>URN</th>
                                     <th>Phone</th>
-                                    <th>Action</th>
+                                    <th data-priority="1">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -77,11 +77,13 @@
             }
         },
         created() {
-            this.getStudentData();
+            this.getStudentData().then(() => {
+                this.tableLoad()
+            });
         },
         methods: {
             getStudentData() {
-                axios.get('/api/students')
+               return axios.get('/api/students')
                 .then(response => {
                     this.unapprovedStudents = response.data.not_approved;
                     this.loaded = true;
@@ -107,6 +109,52 @@
                     toastr.error(this.error, 'Error')
                 })
             },
+            tableLoad()
+            {
+                $(document).ready(
+                    function() {
+                        $('#pending_student_table').DataTable({
+                        dom: 'lBfrtip',
+                        "responsive": true,
+                        "autoWidth": false,
+                        "pageLength": 10,
+                        buttons: [
+                            {
+                                extend: 'copyHtml5',
+                                text: '<i class="far fa-clipboard mr-2"></i>Copy',
+                                exportOptions: {
+                                    columns: [ 0, 1, 2, 3, 4, 5, 6]
+                                },
+                            },
+                            {
+                                extend: 'csvHtml5',
+                                text: '<i class="fas fa-file-csv mr-2"></i>CSV',
+                                title: 'StudentsPendingExport',
+                                exportOptions: {
+                                    columns: [ 0, 1, 2, 3, 4, 5, 6]
+                                },
+                            },
+                            {
+                                extend: 'excelHtml5',
+                                text: '<i class="far fa-file-excel mr-2"></i> Excel',
+                                title: 'StudentsPendingExport',
+                                exportOptions: {
+                                    columns: [ 0, 1, 2, 3, 4, 5, 6]
+                                },
+                            },
+                            {
+                                extend: 'print',
+                                text: '<i class="fas fa-print mr-2"></i> Print',
+                                title: 'Pending Student Lists',
+                                exportOptions: {
+                                    columns: [ 0, 1, 2, 3, 4, 5, 6]
+                                },
+                            }
+                        ],
+                        });
+                    }
+                )
+            }
         }
     }
 

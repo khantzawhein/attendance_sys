@@ -6,6 +6,7 @@ use App\Attendance;
 use App\Code;
 use App\Student;
 use App\Timetable;
+use Carbon\Carbon;
 use Illuminate\Contracts\Validation\Rule;
 
 class AttendanceCodeUsed implements Rule
@@ -33,8 +34,11 @@ class AttendanceCodeUsed implements Rule
         if ($code == null) {
             return false;
         }
+        $semester_start = $code->timetable->section->semester->start_date;
+        $start_date = Carbon::parse($semester_start);
+        $week = Carbon::now()->isoWeek() - $start_date->isoWeek();
         $timetable_id = $code->timetable->id;
-        return $student = $this->student->attendances()->where('timetable_id', $timetable_id)->get()->isEmpty();
+        return $student = $this->student->attendances()->where('timetable_id', $timetable_id)->where('week', $week)->get()->isEmpty();
 
     }
 

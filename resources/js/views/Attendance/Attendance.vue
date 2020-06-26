@@ -9,18 +9,18 @@
                   <div class="col-12 mb-2">
                       <h2 class="attendance_font">Enter your attendance code</h2>
                       <form @submit.prevent="handleSubmit" action="#">
-                           <input v-model="formData.code" class="attendance_input" placeholder="Enter PIN" type="text" required>
+                           <input v-model="formData.code" class="attendance_input" placeholder="Enter PIN" type="text" required autocomplete="off" style="text-security:disc; -webkit-text-security:disc;">
                           <button type="submit" class="attendance_button mt-3">Enter</button>
                       </form>
                       <h3 class="text_or">OR</h3>
-                      <button @click="openQRScanner" class="attendance_button mt-3" data-toggle="modal" data-target="#QRReader">Read QR</button>
+                      <button @click="openQRScanner" class="attendance_button mt-3" data-toggle="modal" data-target="#QRReader">Scan QR</button>
 
                       <!-- Modal -->
                     <div class="modal fade" id="QRReader" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="QRReaderLabel" aria-hidden="true">
                       <div class="modal-dialog">
                         <div class="modal-content">
                           <div class="modal-header">
-                            <h5 class="modal-title" id="QRReaderLabel">Reading QR...</h5>
+                            <h5 class="modal-title" id="QRReaderLabel">Looking for QR Code...</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                               <span aria-hidden="true">&times;</span>
                             </button>
@@ -112,7 +112,7 @@
                         qrbox: 250  // Optional if you want bounded box UI
                       },
                       qrCodeMessage => {
-                        this.formData.code = qrCodeMessage
+                        this.formData.code = atob(qrCodeMessage)
                           this.handleSubmit()
                         this.stopCamera()
                       },

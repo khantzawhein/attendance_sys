@@ -14,23 +14,25 @@
                 </div>
 
              <ul class="nav nav-tabs" :id="`code${id}-tab`" role="tablist">
-                <li class="nav-item">
-                    <a class="nav-link active" :id="`code${id}-tab`" data-toggle="pill" :href="`#code${id}`" role="tab" :aria-controls="`code${id}`" aria-selected="true">Code</a>
+                 <li class="nav-item">
+                    <a class="nav-link active" :id="`qr${id}-tab`" data-toggle="pill" :href="`#qr${id}`" role="tab" :aria-controls="`qr${id}`" aria-selected="false">QR</a>
                 </li>
                 <li class="nav-item">
-                    <a @click="renderQR(id)" class="nav-link" :id="`qr${id}-tab`" data-toggle="pill" :href="`#qr${id}`" role="tab" :aria-controls="`qr${id}`" aria-selected="false">QR</a>
+                    <a class="nav-link" :id="`code${id}-tab`" data-toggle="pill" :href="`#code${id}`" role="tab" :aria-controls="`code${id}`" aria-selected="true">Code</a>
                 </li>
+
              </ul>
             <div class="tab-content" :id="`code${id}-tabContent`">
-                <div class="tab-pane fade active show" :id="`code${id}`" role="tabpanel" :aria-labelledby="`code${id}-tab`">
+                <div class="tab-pane fade text-center  active show" :id="`qr${id}`" role="tabpanel" :aria-labelledby="`qr${id}-tab`">
+                    <h1 v-if="expired">Expired</h1>
+                    <canvas v-if="!expired" :id="'QRCanvas'+id"></canvas>
+                    <p class="text-center" >Scan this QR in the student portal</p>
+                    <h4 v-if="countdown" class="text-center text-danger">Expires in {{countdown}}</h4>
+                </div>
+                <div class="tab-pane fade" :id="`code${id}`" role="tabpanel" :aria-labelledby="`code${id}-tab`">
                     <h1 v-if="expired" class="text-center">Expired</h1>
                     <h1 v-if="!expired" class="text-center" >{{code}}</h1>
                     <p class="text-center" >Enter this code in the student portal</p>
-                    <h4 v-if="countdown" class="text-center text-danger">Expires in {{countdown}}</h4>
-                </div>
-                <div class="tab-pane fade text-center" :id="`qr${id}`" role="tabpanel" :aria-labelledby="`qr${id}-tab`">
-                    <h1 v-if="expired">Expired</h1>
-                    <canvas v-if="!expired" :id="'QRCanvas'+id"></canvas>
                     <h4 v-if="countdown" class="text-center text-danger">Expires in {{countdown}}</h4>
                 </div>
             </div>
@@ -78,9 +80,10 @@
                 axios.get(`/api/teacher-timetable/${id}/code`)
                 .then(({data}) => {
                     this.code = data.code;
-                    this.expire_at = data.expire_at
+                    this.expire_at = data.expire_at || null
                     this.loaded = true
                     this.timeToNow(this.expire_at)
+                    this.renderQR(id)
                 })
                 .catch((error) => {
                     toastr.error(error.message, 'Error')
@@ -115,7 +118,7 @@
                 let options = {
                     width: 300
                 }
-                QRCode.toCanvas(canvas, this.code , options)
+                QRCode.toCanvas(canvas, btoa(this.code) , options)
             }
         }
 

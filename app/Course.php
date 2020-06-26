@@ -27,6 +27,13 @@ protected $hidden = ['created_at', 'updated_at'];
         return $this->timetable()->save($timetable);
     }
 
+    public function getCourseAttendances()
+    {
+        return Attendance::whereHas('timetable.course', function($q) {
+            $q->where('id', $this->id);
+        })->get();
+    }
+
 
 
 }

@@ -25,7 +25,7 @@
                         <div class="icon">
                           <i class="ion ion-ios-bookmarks-outline"></i>
                         </div>
-                        <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                        <router-link :to="{name: 'courses'}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></router-link>
                     </div>
                 </div>
 
@@ -77,7 +77,7 @@
                         <div class="icon">
                             <i class="ion ion-person"></i>
                         </div>
-                        <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                        <router-link :to="{name: 'students.pending'}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></router-link>
                     </div>
                 </div>
 

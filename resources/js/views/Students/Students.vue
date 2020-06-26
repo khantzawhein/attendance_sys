@@ -24,9 +24,9 @@
                     <div class="card-header">
                         <h3 class="card-title">Student Lists</h3>
                     </div>
-                    <div class="card-body table-responsive p-0">
+                    <div class="card-body">
                         <p v-if="!approvedStudents.length">There's nothing to show</p>
-                        <table class="table table-hover table-nowrap" v-show="approvedStudents.length">
+                        <table id="student_table" class="table table-hover table-striped table-nowrap" v-show="approvedStudents.length">
                             <thead>
                                 <tr>
                                     <th>Student ID</th>
@@ -36,7 +36,7 @@
                                     <th>Father Name</th>
                                     <th>URN</th>
                                     <th>Phone</th>
-                                    <th>Action</th>
+                                    <th data-priority="1">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -77,11 +77,13 @@
             }
         },
         created() {
-            this.getStudentData();
-            },
+            this.getStudentData().then(() => {
+                this.tableLoad()
+            });
+        },
         methods: {
             getStudentData() {
-                axios.get('/api/students')
+                return axios.get('/api/students')
                 .then(response => {
                     this.approvedStudents = response.data.approved;
                     this.loaded = true;
@@ -107,6 +109,52 @@
                     this.error = error.response.data.message || error.message;
                     toastr.error(this.error, 'Error')
                 })
+            },
+            tableLoad()
+            {
+                $(document).ready(
+                    function() {
+                        $('#student_table').DataTable({
+                        dom: 'lBfrtip',
+                        "responsive": true,
+                        "autoWidth": false,
+                        "pageLength": 10,
+                        buttons: [
+                            {
+                                extend: 'copyHtml5',
+                                text: '<i class="far fa-clipboard mr-2"></i>Copy',
+                                exportOptions: {
+                                    columns: [ 0, 1, 2, 3, 4, 5, 6]
+                                },
+                            },
+                            {
+                                extend: 'csvHtml5',
+                                text: '<i class="fas fa-file-csv mr-2"></i>CSV',
+                                title: 'StudentsExport',
+                                exportOptions: {
+                                    columns: [ 0, 1, 2, 3, 4, 5, 6]
+                                },
+                            },
+                            {
+                                extend: 'excelHtml5',
+                                text: '<i class="far fa-file-excel mr-2"></i> Excel',
+                                title: 'StudentsExport',
+                                exportOptions: {
+                                    columns: [ 0, 1, 2, 3, 4, 5, 6]
+                                },
+                            },
+                            {
+                                extend: 'print',
+                                text: '<i class="fas fa-print mr-2"></i> Print',
+                                title: 'Student Lists',
+                                exportOptions: {
+                                    columns: [ 0, 1, 2, 3, 4, 5, 6]
+                                },
+                            }
+                        ],
+                        });
+                    }
+                )
             }
         }
     }

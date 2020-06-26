@@ -13,7 +13,7 @@ class Student extends Model
         return $this->belongsTo(User::class);
     }
     public function attendances() {
-        return $this->hasMany(Attendance::class);
+        return $this->hasMany(Attendance::class)->latest('week');
     }
 
     public function sections()
@@ -29,9 +29,6 @@ class Student extends Model
         $this->sections()->detach($section);
     }
 
-    public function getCourses()
-    {
-        return $this->sections->map->semester->map->course->flatten();
-    }
+
 
 }

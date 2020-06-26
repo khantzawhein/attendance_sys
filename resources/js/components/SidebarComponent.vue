@@ -73,7 +73,7 @@
                 </li>
             </ul>
           </li>
-        <li v-if="auth==3" class="nav-item has-treeview">
+        <li v-if="auth>=2" class="nav-item has-treeview">
             <a href="#" :class="['nav-link', CurrentPathName.includes('years') ? activeClass : '' ]">
                 <i class="nav-icon far fa-calendar"></i>
                 <p>
@@ -88,7 +88,7 @@
                         <p>Year Lists</p>
                     </router-link>
                 </li>
-                <li class="nav-item">
+                <li v-if="auth==3" class="nav-item">
                     <router-link :to="{name: 'years.create'}" class="nav-link"  exact>
                         <i class="fas fa-plus nav-icon"></i>
                         <p>Create Year</p>

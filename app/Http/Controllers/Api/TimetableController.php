@@ -105,6 +105,15 @@ class TimetableController extends Controller
     {
         $this->authorize('getCode', $timetable);
         $now = Carbon::now();
+
+        $semester_end = $timetable->section->semester->end_date;
+        $end_date = Carbon::parse($semester_end);
+
+        if (Carbon::now()->startOfDay()->greaterThan($end_date))
+        {
+            return response(['code' => 'This course\'s semester has finished.', 'expire' ], 200);
+        }
+
         if($timetable->code == null) {
             return $timetable->generateCode();
         }

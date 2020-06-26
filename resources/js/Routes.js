@@ -6,8 +6,8 @@ import Courses from "./views/Courses/Courses.vue";
 
 let teacherRoute = ['home','teachers', 'teachers.manage',
  'students', 'students.pending', 'students.manage',
- 'courses', 'courses.create', 'courses.manage',
- 'semesters', 'sections', 'sections.manage', 'years'];
+ 'courses', 'courses.create', 'courses.manage', 'courses.attendances',
+ 'semesters', 'sections', 'sections.manage', 'years',];
 let studentRoute = ['home' ,'my_classes', 'courses', 'attendance'];
 let role = null;
 async function guard(to, from, next)
@@ -105,6 +105,12 @@ const Routes = [
            beforeEnter: guard,
        },
        {
+           path: '/app/courses/:id/attendances',
+           name: 'courses.attendances',
+           component: require('./views/Courses/CourseAttendances.vue').default,
+           beforeEnter: guard,
+       },
+       {
            path: '/app/semesters',
            name: 'semesters',
            component: require('./views/Semesters/Semesters.vue').default,
@@ -170,5 +176,6 @@ const Routes = [
            component: require('./views/Attendance/Attendance.vue').default,
            beforeEnter: guard,
        },
+
     ];
 export default Routes;

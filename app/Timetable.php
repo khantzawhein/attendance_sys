@@ -13,7 +13,7 @@ class Timetable extends Model
     protected $hidden = ['section_id', 'course_id', 'created_at', 'updated_at'];
 
     public function attendances() {
-        return $this->hasMany(Attendance::class);
+        return $this->hasMany(Attendance::class)->latest('week');
     }
     public function course() {
         return $this->belongsTo(Course::class);
@@ -54,6 +54,9 @@ class Timetable extends Model
 
     public function setAbsentee()
     {
+        $semester_start = $this->section->semester->start_date;
+        $start_date = Carbon::parse($semester_start);
+        $week = Carbon::now()->isoWeek() - $start_date->isoWeek();
         $absentees = $this->getAbsentee();
         $attendances = collect([]);
         foreach ($absentees as $absentee)
@@ -62,10 +65,12 @@ class Timetable extends Model
                'student_id' => $absentee->id,
                'timetable_id' => $this->id,
                'status' => '0',
-               'description' => 'Absent'
+               'week' => $week,
+               'description' => 'Absent',
+
             ]);
             $attendances->push($attendance);
         }
-        return $this->attendance()->saveMany($attendances);
+        return $this->attendances()->saveMany($attendances);
     }
 }
