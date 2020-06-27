@@ -26,16 +26,16 @@
                     </div>
                     <div class="card-body">
                         <p v-if="!approvedStudents.length">There's nothing to show</p>
-                        <table id="student_table" class="table table-hover table-striped table-nowrap" v-show="approvedStudents.length">
+                        <table id="student_table" class="table table-hover table-striped" v-show="approvedStudents.length">
                             <thead>
                                 <tr>
                                     <th>Student ID</th>
                                     <th>Name</th>
-                                    <th>Email</th>
-                                    <th>NRC</th>
+                                    <th class="min-desktop">Email</th>
+                                    <th class="none">NRC</th>
                                     <th>Father Name</th>
-                                    <th>URN</th>
-                                    <th>Phone</th>
+                                    <th class="none">URN</th>
+                                    <th class="min-desktop">Phone</th>
                                     <th data-priority="1">Action</th>
                                 </tr>
                             </thead>
@@ -49,8 +49,8 @@
                                     <td>{{student.urn}}</td>
                                     <td>{{student.phone}}</td>
                                     <td>
-                                        <router-link v-if="auth==3" :to="{name: 'students.manage', params: {id: student.id}}" class="btn btn-secondary">Manage</router-link>
-                                        <button @click="disapprove(student.id)" class="btn btn-danger">Disable</button>
+                                        <router-link v-if="auth>=2" :to="{name: 'students.manage', params: {id: student.id}}" class="btn btn-sm btn-secondary">Manage</router-link>
+                                        <button @click="disapprove(student.id)" class="btn btn-sm btn-danger">Disable</button>
                                     </td>
                                 </tr>
                             </tbody>

@@ -43,7 +43,7 @@
                         <div class="icon">
                             <i class="ion ion-stats-bars"></i>
                         </div>
-                        <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                        <router-link :to="{name: 'my_attendances'}"  class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></router-link>
                     </div>
                 </div>
                 <div class="col-lg-3 col-6">
@@ -60,7 +60,7 @@
                         <div class="icon">
                             <i class="ion ion-ios-rewind"></i>
                         </div>
-                        <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                        <router-link :to="{name: 'my_attendances'}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></router-link>
                     </div>
                 </div>
                 <div v-if="auth>=2" class="col-lg-3 col-6">

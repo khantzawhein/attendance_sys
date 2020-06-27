@@ -8,8 +8,8 @@
                   </div>
                   <div class="col-12 mb-2">
                       <h2 class="attendance_font">Enter your attendance code</h2>
-                      <form @submit.prevent="handleSubmit" action="#">
-                           <input v-model="formData.code" class="attendance_input" placeholder="Enter PIN" type="text" required autocomplete="off" style="text-security:disc; -webkit-text-security:disc;">
+                      <form @submit.prevent="handleSubmit()" action="#">
+                           <input v-model="formData.code" class="attendance_input" placeholder="Enter PIN" type="text" required autocomplete="off">
                           <button type="submit" class="attendance_button mt-3">Enter</button>
                       </form>
                       <h3 class="text_or">OR</h3>
@@ -59,16 +59,15 @@
             html5QrCode = new Html5Qrcode( "reader");
         },
         methods: {
-            handleSubmit() {
+            handleSubmit(data) {
                 this.loaded = false
-                axios.post('/api/attendance', this.formData)
+                axios.post('/api/attendance', (data ? data : this.formData))
                 .then(() => {
                     this.loaded = true
                     this.formData.code = ""
                     toastr.success('Attendance has been recorded.', 'Success')
                 })
                 .catch(error => {
-                    console.log(error.response)
                     this.formData.code = ""
                     this.loaded = true
                     if (error.response.status == 429) {
@@ -112,8 +111,10 @@
                         qrbox: 250  // Optional if you want bounded box UI
                       },
                       qrCodeMessage => {
-                        this.formData.code = atob(qrCodeMessage)
-                          this.handleSubmit()
+                        let data = {
+                            code: atob(qrCodeMessage)
+                        }
+                        this.handleSubmit(data)
                         this.stopCamera()
                       },
                       errorMessage => {

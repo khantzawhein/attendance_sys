@@ -41,6 +41,7 @@ Route::middleware("auth:sanctum")->group(function () {
         Route::get('dashboard-data', 'DashboardController@dashboard');
         Route::get('/courses/{course}/attendances', 'AttendanceController@index');
         Route::post('courses/{course}/attendances/{attendance}/update-status', 'AttendanceController@updateStatus');
+        Route::get('/my-attendances', 'AttendanceController@studentAttendance');
         Route::apiResources(
             [
                 'courses' => 'CourseController',

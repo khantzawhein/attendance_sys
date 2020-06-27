@@ -36,6 +36,23 @@
                     <h4 v-if="countdown" class="text-center text-danger">Expires in {{countdown}}</h4>
                 </div>
             </div>
+                <p class="text-center text-bold text-green" v-if="!realtimeStudents.length">Waiting for students {{waitingDot}}</p>
+                <div class="p-3">
+                    <table v-if="realtimeStudents.length" :id="`realtime_table${id}`" class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Name</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <tr v-for="(realtimeStudent, index) in realtimeStudents">
+                            <td>{{realtimeStudents.length-index}}</td>
+                            <td>{{realtimeStudent.name}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
             <div class="modal-footer">
                 <button @click="revokeCode(id)" class="btn btn-danger">Revoke Code</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -59,7 +76,9 @@
                 code: null,
                 expire_at: null,
                 countdown: "",
-                expired: false
+                expired: false,
+                realtimeStudents: [],
+                waitingDot: '',
             }
         },
         created() {
@@ -72,6 +91,20 @@
                 clearInterval(loop)
                 this.countdown = ""
             })
+
+            Echo.private('Attendance.Teacher')
+            .listen('.AttendanceForTimetable'+this.id, (e) => {
+                this.realtimeStudents.push(e)
+            })
+
+            setInterval(() => {
+                if (this.waitingDot.length > 2) {
+                    this.waitingDot = ''
+                }
+                else {
+                    this.waitingDot += '.'
+                }
+            }, 600)
         },
         methods:{
             getTeacherCodeData(id){
@@ -119,7 +152,7 @@
                     width: 300
                 }
                 QRCode.toCanvas(canvas, btoa(this.code) , options)
-            }
+            },
         }
 
 

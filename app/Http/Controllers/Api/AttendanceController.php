@@ -16,10 +16,9 @@ class AttendanceController extends Controller
     {
         $attendances = $course->getCourseAttendances();
         $data = collect([]);
-        foreach ($attendances as $attendance)
-        {
+        foreach ($attendances as $attendance) {
             $data->push([
-               'id' => $attendance->id,
+                'id' => $attendance->id,
                 'module_no' => $course->module_no,
                 'module_name' => $course->module_name,
                 'day' => $attendance->timetable->day,
@@ -34,8 +33,33 @@ class AttendanceController extends Controller
         return $data;
     }
 
+    public function studentAttendance()
+    {
+        $user = request()->user();
+        $attendances =  $user->student->attendances()->take(200)->get()->load('timetable.course');
+
+        $data = collect([]);
+
+        foreach ($attendances as $attendance)
+        {
+            $data->push([
+                'student_name' => $user->name,
+                'module_no' => $attendance->timetable->course->module_no,
+                'module_name' => $attendance->timetable->course->module_name,
+                'status' => $attendance->status,
+                'description' => $attendance->description,
+                'created_at' => $attendance->created_at,
+                'day' => $attendance->timetable->day,
+                'week' => $attendance->week
+            ]);
+        }
+        return $data;
+
+    }
+
     public function updateStatus($course_id, Attendance $attendance)
     {
+        $this->authorize('updateStatus', Attendance::class);
         $data = request()->validate([
              'status' => 'required|integer|between:0,3'
         ]);

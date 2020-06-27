@@ -35,10 +35,10 @@
                                     <th>ID</th>
                                     <th>Module No</th>
                                     <th>Module Name</th>
-                                    <th>Teacher Name</th>
-                                    <th>Academic Year</th>
-                                    <th>Year</th>
-                                    <th>Semester</th>
+                                    <th class="min-desktop">Teacher Name</th>
+                                    <th class="min-desktop">Academic Year</th>
+                                    <th class="min-tablet">Year</th>
+                                    <th class="min-desktop">Semester</th>
                                     <th data-priority="1" v-if="auth>=2">Action</th>
                                 </tr>
                             </thead>

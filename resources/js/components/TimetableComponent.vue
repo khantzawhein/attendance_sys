@@ -41,7 +41,7 @@
                                                     <th>End Time</th>
                                                     <th>Module No.</th>
                                                     <th>Module Name</th>
-                                                    <th v-if="auth==3">Actions</th>
+                                                    <th v-if="auth>=2">Actions</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -54,7 +54,7 @@
                                                     <td>{{timetable.module_name}}</td>
                                                     <td>
                                                         <button v-if="auth==3" @click="deleteConfirm(timetable.id)" type="button" class="btn btn-sm bg-gradient-danger">Delete</button>
-                                                        <button @click="handleModal(timetable.id)" class="btn btn-sm bg-gradient-primary" data-toggle="modal" :data-target="'#code-modal'+timetable.id">Get Code</button>
+                                                        <button v-if="auth>=2" @click="handleModal(timetable.id)" class="btn btn-sm bg-gradient-primary" data-toggle="modal" :data-target="'#code-modal'+timetable.id">Get Code</button>
                                                         <TeacherCodeComponent :id="timetable.id"></TeacherCodeComponent>
                                                     </td>
                                                 </tr>

@@ -8,6 +8,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
 
     <title>Attendance System</title>
 
@@ -33,7 +35,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="/app" class="nav-link">Home</a>
+        <router-link to="/app" class="nav-link">Home</router-link>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
         <a href="#" class="nav-link" @click.prevent="logout()">Logout</a>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Attendance;
 use App\Code;
+use App\Events\StudentEnterCode;
 use App\Http\Controllers\Controller;
 use App\Rules\AttendanceCodeUsed;
 use App\Student;
@@ -150,6 +151,7 @@ class StudentController extends Controller
         ]);
 
         $attendance->save();
+        event(new StudentEnterCode($code->timetable->id ,$attendance->student->user->name));
 
         return response('', 201);
 

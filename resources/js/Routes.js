@@ -8,7 +8,7 @@ let teacherRoute = ['home','teachers', 'teachers.manage',
  'students', 'students.pending', 'students.manage',
  'courses', 'courses.create', 'courses.manage', 'courses.attendances',
  'semesters', 'sections', 'sections.manage', 'years',];
-let studentRoute = ['home' ,'my_classes', 'courses', 'attendance'];
+let studentRoute = ['home' ,'my_classes', 'courses', 'attendance', 'sections.timetable','my_attendances'];
 let role = null;
 async function guard(to, from, next)
 {
@@ -147,6 +147,12 @@ const Routes = [
            beforeEnter: guard,
        },
         {
+           path: '/app/sections/:id/timetable',
+           name: 'sections.timetable',
+           component: require('./views/Sections/SectionsTimetable').default,
+           beforeEnter: guard,
+       },
+        {
            path: '/app/years',
            name: 'years',
            component: require('./views/Years/Years.vue').default,
@@ -174,6 +180,12 @@ const Routes = [
            path: '/app/attendance',
            name: 'attendance',
            component: require('./views/Attendance/Attendance.vue').default,
+           beforeEnter: guard,
+       },
+        {
+           path: '/app/my_attendances',
+           name: 'my_attendances',
+           component: require('./views/MyAttendances/MyAttendances.vue').default,
            beforeEnter: guard,
        },
 

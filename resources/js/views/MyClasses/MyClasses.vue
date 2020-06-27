@@ -21,12 +21,12 @@
                                 <button  v-if="auth==1" class="btn btn-sm bg-gradient-success" data-toggle="collapse" data-target="#collapse_component" aria-expanded="false" aria-controls="collapse_component"><i class="fas fa-plus mr-1"></i>Add class</button>
                             </div>
                         </div>
-                        <collapse-component>
+                        <collapse-component @collapse_submitted="handleSubmit">
                             <template v-slot:body>
                                 <div class="col-md-12 mt-2">
                                     <form action="#">
                                         <div class="row justify-content-center">
-                                            <div class="col-4">
+                                            <div class="col-6">
                                                 <div class="form-group">
                                                     <label for="access_code">Class Enrollment Code:</label>
                                                     <input v-model="formData.access_code" type="text" class="form-control" id="access_code">
@@ -59,6 +59,7 @@
                                                         <th>Academic Year</th>
                                                         <th>Semester</th>
                                                         <th>Teacher Name</th>
+                                                        <th>Action</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -68,6 +69,9 @@
                                                         <td>{{my_classes.academic_year}}</td>
                                                         <td>{{my_classes.year}}</td>
                                                         <td>{{my_classes.semester_name}}</td>
+                                                        <td>
+                                                            <router-link :to="{name: 'sections.timetable', params: {id: my_classes.id}}" class="btn bg-gradient-primary">Timetable</router-link>
+                                                        </td>
                                                     </tr>
                                                 </tbody>
                                             </table>
@@ -106,21 +110,6 @@
         created() {
             this.getMyCourseData()
         },
-        mounted() {
-            Bus.$on('collapse_submit', () => {
-                this.loaded = false;
-                axios.post('/api/my_classes', this.formData)
-                .then(() => {
-                    this.getMyCourseData()
-                    this.formData.access_code = ""
-                    toastr.success('Class has been binded to your account.', 'Success')
-                })
-                .catch(() => {
-                    toastr.error('Incorrect access code', 'Sorry');
-                    this.loaded = true;
-                })
-            })
-        },
         methods: {
             getMyCourseData() {
                  axios.get('/api/my_classes')
@@ -132,6 +121,19 @@
                         this.loaded = true
                         toastr.error(error.message, 'Error')
                     })
+            },
+            handleSubmit() {
+                this.loaded = false;
+                axios.post('/api/my_classes', this.formData)
+                .then(() => {
+                    this.getMyCourseData()
+                    this.formData.access_code = ""
+                    toastr.success('Class has been binded to your account.', 'Success')
+                })
+                .catch(() => {
+                    toastr.error('Incorrect access code', 'Sorry');
+                    this.loaded = true;
+                })
             }
         }
     }
