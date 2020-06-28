@@ -19,9 +19,11 @@ class CreateSectionsTable extends Migration
             $table->string('name');
             $table->time('start_time');
             $table->time('end_time');
+            $table->string('access_code')->nullable();
             $table->timestamps();
 
             $table->unique(['semester_id', 'name']);
+            $table->unique('access_code');
         });
     }
 

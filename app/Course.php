@@ -8,6 +8,7 @@ use Illuminate\Support\Str;
 class Course extends Model
 {
 protected $guarded = [];
+protected $hidden = ['created_at', 'updated_at'];
 
     public function teacher() {
         return $this->belongsTo(Teacher::class);
@@ -21,19 +22,18 @@ protected $guarded = [];
     public function timetable() {
         return $this->hasMany(Timetable::class);
     }
-    public function resetAccessCode()
-    {
-        $code = Str::random(6);
-        $this->access_code = $code;
-        return $this->save();
-    }
-    public function getAccessCode()
-    {
-        return $this->access_code;
-    }
-
     public function bindToTimetable($timetable)
     {
         return $this->timetable()->save($timetable);
     }
+
+    public function getCourseAttendances()
+    {
+        return Attendance::whereHas('timetable.course', function($q) {
+            $q->where('id', $this->id);
+        })->get();
+    }
+
+
+
 }

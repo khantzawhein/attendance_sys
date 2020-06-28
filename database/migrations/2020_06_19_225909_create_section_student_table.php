@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAttendanceStudentTable extends Migration
+class CreateSectionStudentTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,9 @@ class CreateAttendanceStudentTable extends Migration
      */
     public function up()
     {
-        Schema::create('attendance_student', function (Blueprint $table) {
+        Schema::create('section_student', function (Blueprint $table) {
+            $table->foreignId('section_id')->constrained()->cascadeOnDelete();
             $table->foreignId('student_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('course_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
     }
@@ -27,6 +27,6 @@ class CreateAttendanceStudentTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('attendance_student');
+        Schema::dropIfExists('course_student');
     }
 }

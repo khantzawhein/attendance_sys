@@ -2,9 +2,14 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Attendance;
+use App\Code;
+use App\Events\StudentEnterCode;
 use App\Http\Controllers\Controller;
+use App\Rules\AttendanceCodeUsed;
 use App\Student;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
@@ -81,7 +86,7 @@ class StudentController extends Controller
     }
 
     public function destroy(Student $student) {
-        $student->delete();
+        $student->user->delete();
         return response(['message' => 'success', 201]);
     }
 
@@ -97,5 +102,59 @@ class StudentController extends Controller
         $user->save();
 
         return response('' , 201);
+    }
+
+    public function getAttendance(Request $request)
+    {
+        $this->authorize('getAttendance', Student::class);
+
+        $data = $request->validate([
+            'code' => ['required', new AttendanceCodeUsed($request->user()->student)],
+        ]);
+
+        $code = Code::where('code', $data['code'])->first();
+
+        if (!$code->timetable->section->students->contains($request->user()->student))
+        {
+            return response(['errors' => [
+                'code' => ['You haven\'t enrolled in that class.']
+            ]], 422);
+        }
+
+        $now = Carbon::now();
+        if ($now->greaterThan(Carbon::parse($code->expire_at))) {
+            return response(['errors' => [
+                'code' => ['Code has expired.']
+            ]], 422);
+        }
+
+        $semester_start = $code->timetable->section->semester->start_date;
+        $semester_end = $code->timetable->section->semester->end_date;
+        $start_date = Carbon::parse($semester_start);
+        $end_date = Carbon::parse($semester_end);
+
+        if (Carbon::now()->startOfDay()->greaterThan($end_date))
+        {
+            return response(['errors' => [
+                'code' => ['This course\'s semester has finished.']
+            ]], 422);
+        }
+
+        $week = Carbon::now()->isoWeek() - $start_date->isoWeek();
+
+        $attendance = new Attendance([
+            'student_id' => $request->user()->student->id,
+            'timetable_id' => $code->timetable->id,
+            'week' => $week,
+            'status' => 1,
+            'description' => 'Present'
+        ]);
+
+        $attendance->save();
+        event(new StudentEnterCode($code->timetable->id ,$attendance->student->user->name));
+
+        return response('', 201);
+
+
     }
 }

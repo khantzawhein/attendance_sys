@@ -16,10 +16,10 @@
                     <div class="loading text-center align-items-center justify-content-center d-flex vh-100" v-if="!loaded">
                         <loader-component></loader-component>
                     </div>
-                    <timetable-component></timetable-component>
+                    <timetable-component :auth="auth"></timetable-component>
                     <error-component :error="error"></error-component>
 <!--                    card header-->
-                    <div class="card card-default" v-show="loaded">
+                    <div class="card card-default" v-show="loaded" v-if="auth==3">
                         <div class="card-header">
                             <h3 class="card-title">Edit Class</h3>
                         </div>
@@ -93,6 +93,7 @@
     import { diff } from 'deep-diff/dist/deep-diff.min.js';
     export default {
         name: "SectionsManage",
+        props: ['auth'],
         data() {
             return {
                 id: null,

@@ -17,9 +17,12 @@ class CreateAttendancesTable extends Migration
             $table->id();
             $table->foreignId('student_id')->constrained()->cascadeOnDelete();
             $table->foreignId('timetable_id')->constrained()->cascadeOnDelete();
+            $table->integer('week');
             $table->integer('status');
             $table->string('description');
             $table->timestamps();
+
+            $table->unique(['student_id', 'timetable_id', 'week']);
         });
     }
 

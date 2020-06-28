@@ -38,6 +38,10 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class);
+    }
     public function role_name()
     {
         return $this->roles->pluck('name');
@@ -47,9 +51,13 @@ class User extends Authenticatable
         return $this->roles->pluck('label');
     }
 
-    public function roles()
+    public function assignRole($role)
     {
-        return $this->belongsToMany(Role::class)->withTimestamps();
+        if (is_string($role))
+        {
+            $role = Role::whereName($role)->firstOrFail();
+        }
+        $this->roles()->sync($role, false);
     }
 
     public function teacher() {

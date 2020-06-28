@@ -8,6 +8,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
 
     <title>Attendance System</title>
 
@@ -15,8 +17,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <!-- Theme style -->
     <link rel="stylesheet" href="{{asset('css/app.css')}}">
     <link rel="stylesheet" href="{{asset('css/toastr.min.css')}}">
+    <!-- Ionicons -->
+  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
   <!-- Google Font: Source Sans Pro -->
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/jszip-2.5.0/dt-1.10.21/b-1.6.2/b-html5-1.6.2/b-print-1.6.2/r-2.2.5/datatables.min.css"/>
+
 </head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper" id="app">
@@ -29,7 +35,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="/app" class="nav-link">Home</a>
+        <router-link to="/app" class="nav-link">Home</router-link>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
         <a href="#" class="nav-link" @click.prevent="logout()">Logout</a>
@@ -99,7 +105,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
       <!-- Sidebar Menu -->
       <nav class="mt-2">
-        <sidebar-component :role="role"></sidebar-component>
+        <sidebar-component :auth="auth"></sidebar-component>
       </nav>
       <!-- /.sidebar-menu -->
     </div>
@@ -108,7 +114,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
   <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
-        <router-view :role="role"></router-view>
+        <router-view :auth="auth"></router-view>
         <vue-progress-bar></vue-progress-bar>
     </div>
   <!-- Control Sidebar -->
@@ -136,9 +142,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <!-- REQUIRED SCRIPTS -->
 
 <script src="{{ asset('js/app.js') }}"></script>
+
+<script type="text/javascript" src="https://cdn.datatables.net/v/bs4/jszip-2.5.0/dt-1.10.21/b-1.6.2/b-html5-1.6.2/b-print-1.6.2/r-2.2.5/datatables.min.js"></script>
+<script src="{{asset('js/html5-qrcode.min.js')}}"></script>
+<script src="{{asset('js/adminlte.min.js')}}"></script>
 <script src="{{asset('js/external.js')}}"></script>
 <!-- AdminLTE App -->
-<script src="{{asset('js/adminlte.min.js')}}"></script>
 
 <script>
 

@@ -18,7 +18,7 @@ class SectionPolicy
      */
     public function viewAny(User $user)
     {
-        return true;
+        return $user->isTeacher();
     }
 
     /**
@@ -30,7 +30,7 @@ class SectionPolicy
      */
     public function view(User $user, Section $section)
     {
-        return true;
+        return $user->isTeacher();
     }
 
     /**

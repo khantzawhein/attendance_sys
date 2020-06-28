@@ -62,7 +62,7 @@ class StudentPolicy
      */
     public function delete(User $user, Student $student)
     {
-        return $user->isSuperAdmin();
+        return $user->isTeacher();
     }
 
     public function can_approve(User $user, Student $student)
@@ -77,5 +77,9 @@ class StudentPolicy
             return true;
         }
         return $user->isTeacher();
+    }
+    public function getAttendance(User $user)
+    {
+        return $user->isStudent();
     }
 }

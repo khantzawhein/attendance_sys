@@ -33,9 +33,13 @@ class CourseController extends Controller
     public function index()
     {
         $user = request()->user();
-        if(!$user->isSuperAdmin())
+        if($user->isTeacher())
         {
             return CourseResource::collection(Course::where('teacher_id', $user->teacher->id)->get());
+        }
+        if($user->isStudent())
+        {
+            return CourseResource::collection(request()->user()->student->getCourses());
         }
         return CourseResource::collection(Course::all());
     }
@@ -48,7 +52,6 @@ class CourseController extends Controller
         {
             return abort(403, 'This action is not authorized.');
         }
-        $data['access_code'] = Str::random(6);
         Course::create($data);
         return response(['message' => 'success'], 201);
     }
@@ -86,13 +89,5 @@ class CourseController extends Controller
         return response(['message' => 'success'], 201);
     }
 
-    public function resetAccessCode(Course $course)
-    {
-        $course->resetAccessCode();
-        return response('', 201);
-    }
-    public function getAccessCode(Course $course)
-    {
-        return response(['access_code' => $course->getAccessCode()], 200);
-    }
+
 }

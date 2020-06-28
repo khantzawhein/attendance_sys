@@ -16,6 +16,8 @@ Vue.use(VueProgressBar, {
  *
  * Eg. ./components/ExampleComponent.vue -> <example-component></example-component>
  */
+
+
 const files = require.context('./', true, /\.vue$/i)
 files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
@@ -25,32 +27,60 @@ const router = new VueRouter({
    linkActiveClass: 'active'
 
 });
-/**
- * Next, we will create a fresh Vue application instance and attach it to
- * the page. Then, you may begin adding components to this application
- * or customize the JavaScript scaffolding to fit your unique needs.
- */
-window.Bus = new Vue();
+
+let teacherRoute = ['home','teachers', 'teachers.manage',
+ 'students', 'students.pending', 'student.manage',
+ 'courses', 'courses.create', 'courses.manage',
+ 'semesters', 'sections', 'years'];
+let studentRoute = ['home', 'teachers',
+ 'courses'];
+window.Bus = new Vue()
 const app = new Vue({
-    el: '#app',
-    router,
-    data: {
-        role: []
-    },
-    created() {
-        axios.get('/api/user/role')
-            .then(({data}) => {
-                this.role = data;
-            })
-    },
-    methods: {
-        logout() {
-            axios.post('/logout')
-            .then(response => {
-                this.$router.push('/')
-                location.reload()
-            })
+        el: '#app',
+        router,
+        data: {
+            role: [],
+            teacherRoute: teacherRoute,
+            studentRoute: studentRoute
+        },
+        created() {
+            axios.get('/api/user/role')
+                .then(({data}) => {
+                    this.role = data;
+                })
+        },
+        methods: {
+            logout() {
+                axios.post('/logout')
+                .then(response => {
+                    this.$router.push('/')
+                    location.reload()
+                })
+            }
+        },
+        computed: {
+            auth() {
+                if (this.role.includes('superadmin'))
+                {
+                    return 3
+                }
+                else if(this.role.includes('teacher'))
+                {
+                    return 2
+                }
+                else if (this.role.includes('student'))
+                {
+                    return 1
+                }
+            }
         }
-    }
-});
+    });
+
+
+
+
+
+
+
+
 

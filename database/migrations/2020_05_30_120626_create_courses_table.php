@@ -19,7 +19,6 @@ class CreateCoursesTable extends Migration
             $table->string("module_name");
             $table->foreignId('teacher_id')->constrained()->cascadeOnDelete();
             $table->foreignId('semester_id')->constrained()->cascadeOnDelete();
-            $table->string('access_code');
             $table->timestamps();
             $table->unique(['module_no', 'semester_id']);
         });

@@ -20,7 +20,10 @@ class TimetablePolicy
     {
         return true;
     }
-
+    public function timetable(User $user)
+    {
+        return $user->isTeacher();
+    }
     /**
      * Determine whether the user can view the model.
      *
@@ -68,12 +71,14 @@ class TimetablePolicy
         return $user->isTeacher();
     }
 
-    /**
-     * Determine whether the user can restore the model.
-     *
-     * @param  \App\User  $user
-     * @param  \App\Timetable  $Timetable
-     * @return mixed
-     */
+    public function getCode(User $user, Timetable $timetable)
+    {
+        return $timetable->course->teacher->user->is($user);
+    }
+
+    public function revokeCode(User $user, Timetable $timetable)
+    {
+        return $timetable->course->teacher->user->is($user);
+    }
 
 }

@@ -24,10 +24,10 @@
                     <div class="card-header">
                         <h3 class="card-title">Year Lists</h3>
                         <div class="card-tools">
-                            <button class="btn btn-success" @click="$router.push({name: 'years.create'})"><i class="fas fa-plus mr-1"></i> Year</button>
+                            <button  v-if="auth==3" class="btn btn-success" @click="$router.push({name: 'years.create'})"><i class="fas fa-plus mr-1"></i> Year</button>
                         </div>
                     </div>
-                    <div class="card-body">
+                    <div class="card-body table-responsive p-0">
                         <p v-if="years.length==0">There's nothing to show</p>
                         <table class="table table-hover table-nowrap" v-if="years.length">
                             <thead>
@@ -35,7 +35,7 @@
                                     <th>#</th>
                                     <th>Academic Year</th>
                                     <th>Year Name</th>
-                                    <th>Actions</th>
+                                    <th v-if="auth==3">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -43,7 +43,7 @@
                                     <td>{{index+1}}</td>
                                     <td>{{year.academic_year}}</td>
                                     <td>{{year.name}}</td>
-                                    <td>
+                                    <td v-if="auth==3">
                                         <router-link :to="{name: 'years.manage', params:{id: year.id}}" class="btn bg-gradient-gray">Manage</router-link>
                                         <button @click="deleteConfirm(year.id)" type="button" class="btn bg-gradient-danger">Delete</button>
                                     </td>
@@ -65,6 +65,7 @@
 <script>
     export default {
         name: "Year",
+        props: ['auth'],
         data() {
             return {
                 years: {},

@@ -24,65 +24,40 @@
                     <div class="card-header">
                         <h3 class="card-title">Course List</h3>
                         <div class="card-tools">
-                            <button class="btn btn-success" @click="$router.push('/app/courses/create')"><i class="fas fa-plus mr-1"></i> Courses</button>
+                            <button v-if="auth>=2" class="btn btn-success" @click="$router.push('/app/courses/create')"><i class="fas fa-plus mr-1"></i> Courses</button>
                         </div>
                     </div>
-                    <div class="card-body">
+                    <div class="card-body ">
                         <p v-if="!courses.length">There's nothing to show</p>
-                        <table class="table table-hover table-nowrap" v-if="courses.length">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Module No</th>
-                            <th>Module Name</th>
-                            <th>Teacher Name</th>
-                            <th>Academic Year</th>
-                            <th>Year</th>
-                            <th>Semester</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                        <tbody>
-                            <tr v-for="(course, index) in courses" :key="course.id">
-                                <td>{{index+1}}</td>
-                                <td>{{course.module_no}}</td>
-                                <td>{{course.module_name}}</td>
-                                <td>{{course.teacher_name}}</td>
-                                <td>{{course.academic_year}}</td>
-                                <td>{{course.year}}</td>
-                                <td>{{course.semester}}</td>
-                                <td>
-                                    <router-link :to="{name: 'courses.manage', params: {id: course.id}}" class="btn btn-secondary">Manage</router-link>
-                                    <button @click="getAccessCode(course.id)" class="btn btn-primary" data-toggle="modal" :data-target="'#modal'+course.id">Access Code</button>
-                                    <!-- model -->
-                                    <div class="modal fade" :id="'modal'+course.id" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="staticBackdropLabel">View Access Code</h5>
-                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                </div>
-                                            <div class="modal-body">
-                                                <div v-if="!accessCodeLoaded" class="text-center align-items-center justify-content-center d-flex">
-                                                    <loader-component></loader-component>
-                                                </div>
-                                                <h1 class="text-center" v-if="accessCodeLoaded">{{accessCode}}</h1>
-                                                <p class="text-center" v-if="accessCodeLoaded">Enter this code in the student portal</p>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button @click="resetAccessCode(course.id)" class="btn btn-danger">Reset Access Code</button>
-                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                    <!-- model end-->
-                                </td>
-                            </tr>
-                        </tbody>
-                </table>
+                        <table id="course_table" class="table table-hover table-bordered table-striped" v-show="courses.length">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Module No</th>
+                                    <th>Module Name</th>
+                                    <th class="min-desktop">Teacher Name</th>
+                                    <th class="min-desktop">Academic Year</th>
+                                    <th class="min-tablet">Year</th>
+                                    <th class="min-desktop">Semester</th>
+                                    <th data-priority="1" v-if="auth>=2">Action</th>
+                                </tr>
+                            </thead>
+                                <tbody>
+                                    <tr v-for="(course, index) in courses" :key="course.id">
+                                        <td>{{index+1}}</td>
+                                        <td>{{course.module_no}}</td>
+                                        <td>{{course.module_name}}</td>
+                                        <td>{{course.teacher_name}}</td>
+                                        <td>{{course.academic_year}}</td>
+                                        <td>{{course.year}}</td>
+                                        <td>{{course.semester}}</td>
+                                        <td v-if="auth>=2">
+                                            <router-link :to="{name: 'courses.attendances', params: {id: course.id}}" class="btn btn-sm btn-success">Attendances</router-link>
+                                            <router-link :to="{name: 'courses.manage', params: {id: course.id}}" class="btn btn-sm btn-secondary">Manage</router-link>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                        </table>
                     </div>
                 </div>
                 <!-- Modal -->
@@ -99,17 +74,20 @@
 <script>
     export default {
         name: "Course",
+        props: ['auth'],
         data() {
             return {
                 courses: {},
                 error: null,
                 loaded: false,
-                accessCodeLoaded: false,
                 accessCode: null
             }
         },
         created() {
             this.getCoursesData();
+        },
+        mounted() {
+
         },
         methods: {
             getCoursesData() {
@@ -118,35 +96,64 @@
                 .then(response => {
                     this.courses = response.data.data;
                     this.loaded = true;
+                    this.tableLoad()
                 })
                 .catch(error => {
                     this.loaded = true;
                     this.error = error.response.data.message || error.message;
                 })
             },
-            getAccessCode(id) {
-                this.accessCodeLoaded = false;
-                axios.get('/api/courses/'+ id + '/get-code')
-                .then(response => {
-                    this.accessCode = response.data.access_code;
-                    this.accessCodeLoaded = true;
-                })
-                .catch(error => {
-                    this.accessCodeLoaded = true;
-                    this.error = error.response.data.message || error.message;
-                })
-            },
-            resetAccessCode(id) {
-                this.accessCodeLoaded = false;
-                axios.post('/api/courses/' + id + '/reset-code')
-                .then(response => {
-                    this.getAccessCode(id);
-                })
-                .catch(error => {
-                    this.accessCodeLoaded = true;
-                    this.error = error.response.data.message || error.message;
-                })
-            },
+            tableLoad()
+            {
+                $(document).ready(
+                    function() {
+                        $('#course_table').DataTable({
+                        dom: 'lBfrtip',
+                        "responsive": true,
+                        "autoWidth": false,
+                        "pageLength": 10,
+                        buttons: [
+                            {
+                                extend: 'copyHtml5',
+                                text: '<i class="far fa-clipboard mr-2"></i>Copy',
+                                exportOptions: {
+                                    columns: [ 0, 1, 2, 3, 4, 5, 6 ]
+                                },
+
+
+                            },
+                            {
+                                extend: 'csvHtml5',
+                                text: '<i class="fas fa-file-csv mr-2"></i>CSV',
+                                title: 'CoursesExport',
+                                exportOptions: {
+                                    columns: [ 0, 1, 2, 3, 4, 5, 6 ]
+                                },
+
+                            },
+                            {
+                                extend: 'excelHtml5',
+                                text: '<i class="far fa-file-excel mr-2"></i> Excel',
+                                title: 'CoursesExport',
+                                exportOptions: {
+                                    columns: [ 0, 1, 2, 3, 4, 5, 6 ]
+                                },
+
+                            },
+                            {
+                                extend: 'print',
+                                text: '<i class="fas fa-print mr-2"></i> Print',
+                                title: 'Course Lists',
+                                exportOptions: {
+                                    columns: [ 0, 1, 2, 3, 4, 5, 6 ]
+                                },
+
+                            }
+                        ],
+                        });
+                    }
+                )
+            }
         }
     }
 </script>

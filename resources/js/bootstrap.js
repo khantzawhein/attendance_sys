@@ -5,8 +5,8 @@ window._ = require('lodash');
  * for JavaScript based Bootstrap features such as modals and tabs. This
  * code may be modified to fit the specific needs of your application.
  */
-import swal from 'sweetalert';
 try {
+    window.moment = require('moment/moment.js');
     window.Popper = require('popper.js').default;
     window.$ = window.jQuery = require('jquery');
     require('select2/dist/js/select2.min.js');
@@ -17,8 +17,15 @@ try {
     window.toastr = require('toastr/build/toastr.min.js')
     require('bootstrap');
     window._ = require('underscore/underscore-min.js')
+    require( 'jszip' );
 } catch (e) {}
 
+toastr.options = {
+    "progressBar": true,
+    "closeButton": true,
+    "positionClass": "toast-bottom-right",
+
+}
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests
  * to our Laravel back-end. This library automatically handles sending the
@@ -36,14 +43,14 @@ window.axios.defaults.withCredentials = true;
  * allows your team to easily build robust real-time web applications.
  */
 
-// import Echo from 'laravel-echo';
+import Echo from 'laravel-echo';
 
-// window.Pusher = require('pusher-js');
+window.Pusher = require('pusher-js');
 
-// window.Echo = new Echo({
-//     broadcaster: 'pusher',
-//     key: process.env.MIX_PUSHER_APP_KEY,
-//     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
-//     forceTLS: true
-// });
+window.Echo = new Echo({
+    broadcaster: 'pusher',
+    key: "e82681024e058d3bc19b",
+    cluster: 'ap1',
+    forceTLS: true
+});
 

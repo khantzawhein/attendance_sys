@@ -29,6 +29,7 @@ class LoginController extends Controller
      *
      * @var string
      */
+
     protected $redirectTo = RouteServiceProvider::HOME;
 
     /**
@@ -59,7 +60,7 @@ class LoginController extends Controller
                 return redirect()->back()->withInput($request->only($this->username(), 'remember'))
                 ->withErrors(['email' => 'Sorry, your account is not yet approved by the administrator.']);
             }
-            Auth::attempt($credentials);
+            Auth::attempt($credentials, $request->only('remember'));
         }
         $this->incrementLoginAttempts($request);
             return redirect()->back()->withInput($request->only($this->username(), 'remember'))

@@ -10,7 +10,7 @@ class Semester extends Model
     protected $hidden = ['created_at', 'updated_at'];
     public function course()
     {
-        $this->hasMany(Course::class);
+        return $this->hasMany(Course::class);
     }
 
     public function sections()

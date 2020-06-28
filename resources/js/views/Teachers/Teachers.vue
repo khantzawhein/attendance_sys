@@ -29,7 +29,7 @@
                     </div>
                     <div class="card-body">
                         <p v-if="!teachers.length">There's nothing to show</p>
-                        <table class="table table-hover table-nowrap" v-show="teachers.length">
+                        <table id="teacher_table" class="table table-hover table-striped" v-show="teachers.length">
                             <thead>
                                 <tr>
                                     <th>ID</th>
@@ -74,20 +74,73 @@
             }
         },
         created() {
-            this.getTeacherData();
+            this.getTeacherData()
+            .then(() => {
+                this.tableLoad()
+            });
         },
         methods: {
             getTeacherData() {
-                axios.get('/api/teachers')
+                return axios.get('/api/teachers')
                 .then(response => {
                     this.teachers = response.data;
-
                     this.loaded = true;
                 })
                 .catch(error => {
                     this.loaded = true;
                     this.error = error.response.data.message || error.message;
                 })
+            },
+            tableLoad()
+            {
+                $(document).ready(
+                    function() {
+                        $('#teacher_table').DataTable({
+                        dom: 'lBfrtip',
+                        "responsive": true,
+                        "autoWidth": false,
+                        "pageLength": 10,
+                        buttons: [
+                            {
+                                extend: 'copyHtml5',
+                                text: '<i class="far fa-clipboard mr-2"></i>Copy',
+                                exportOptions: {
+                                    columns: [ 0, 1, 2, 3, 4]
+                                },
+
+
+                            },
+                            {
+                                extend: 'csvHtml5',
+                                text: '<i class="fas fa-file-csv mr-2"></i>CSV',
+                                title: 'TeachersExport',
+                                exportOptions: {
+                                    columns: [ 0, 1, 2, 3, 4]
+                                },
+
+                            },
+                            {
+                                extend: 'excelHtml5',
+                                text: '<i class="far fa-file-excel mr-2"></i> Excel',
+                                title: 'TeachersExport',
+                                exportOptions: {
+                                    columns: [ 0, 1, 2, 3, 4]
+                                },
+
+                            },
+                            {
+                                extend: 'print',
+                                text: '<i class="fas fa-print mr-2"></i> Print',
+                                title: 'Teacher Lists',
+                                exportOptions: {
+                                    columns: [ 0, 1, 2, 3, 4]
+                                },
+
+                            }
+                        ],
+                        });
+                    }
+                )
             }
         }
     }
