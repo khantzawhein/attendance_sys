@@ -27,15 +27,16 @@
                     <h1 v-if="expired">Expired</h1>
                     <canvas v-if="!expired" :id="'QRCanvas'+id"></canvas>
                     <p class="text-center" >Scan this QR in the student portal</p>
-                    <h4 v-if="countdown" class="text-center text-danger">Expires in {{countdown}}</h4>
                 </div>
                 <div class="tab-pane fade" :id="`code${id}`" role="tabpanel" :aria-labelledby="`code${id}-tab`">
                     <h1 v-if="expired" class="text-center">Expired</h1>
                     <h1 v-if="!expired" class="text-center" >{{code}}</h1>
                     <p class="text-center" >Enter this code in the student portal</p>
-                    <h4 v-if="countdown" class="text-center text-danger">Expires in {{countdown}}</h4>
                 </div>
             </div>
+                <h4 v-if="countdown" class="text-center text-danger">
+                    Expires in {{countdown}} <span><button @click="extendCode(id, 5)" type="button" class="btn btn-sm btn-success"><i class="fas fa-plus mr-1"></i>5 mins</button></span>
+                </h4>
                 <p class="text-center text-bold text-green" v-if="!realtimeStudents.length">Waiting for students {{waitingDot}}</p>
                 <div class="p-3">
                     <table v-if="realtimeStudents.length" :id="`realtime_table${id}`" class="table table-striped">
@@ -140,7 +141,7 @@
                     $(`#code-modal${id}`).modal('hide')
                     clearInterval(loop)
                     this.countdown = ''
-                    toastr.success('Revoked code successfully', 'Success');
+                    toastr.success('Code revoked successfully', 'Success');
                 })
                 .catch((error) => {
                     toastr.error(error.message, 'Error')
@@ -153,6 +154,21 @@
                 }
                 QRCode.toCanvas(canvas, btoa(this.code) , options)
             },
+            extendCode(id, duration) {
+                this.loaded = false
+                axios.post('/api/teacher-timetable/'+id+'/code', {
+                    duration: duration
+                })
+                .then(() => {
+                    clearInterval(loop)
+                    this.getTeacherCodeData(id);
+                    toastr.success('Code extended successfully.', 'Success')
+                })
+                .catch(error => {
+                    this.loaded = true
+                    toastr.error(error.message, 'Error')
+                })
+            }
         }
 
 

@@ -49,7 +49,7 @@ class TimetableController extends Controller
     {
         $data = $request->validate([
             'day' => 'required|numeric|between:0,6',
-            'start_time' => ['required','date_format:"g:ia"', new TimeAvailable($request->end_time, $request->day)],
+            'start_time' => ['required', 'date_format:"g:ia"', new TimeAvailable($request->end_time, $request->day)],
             'end_time' => 'required|after:start_time|date_format:"g:ia"',
             'course_id' => 'required|exists:courses,id'
         ]);
@@ -78,8 +78,8 @@ class TimetableController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Timetable $class)
@@ -95,7 +95,7 @@ class TimetableController extends Controller
      * @return \Illuminate\Http\Response
      * @throws \Exception
      */
-    public function destroy(Section $section,Timetable $class)
+    public function destroy(Section $section, Timetable $class)
     {
         $class->delete();
         return response('', 200);
@@ -109,16 +109,13 @@ class TimetableController extends Controller
         $semester_end = $timetable->section->semester->end_date;
         $end_date = Carbon::parse($semester_end);
 
-        if (Carbon::now()->startOfDay()->greaterThan($end_date))
-        {
-            return response(['code' => 'This course\'s semester has finished.', 'expire' ], 200);
+        if (Carbon::now()->startOfDay()->greaterThan($end_date)) {
+            return response(['code' => 'This course\'s semester has finished.', 'expire'], 200);
         }
 
-        if($timetable->code == null) {
+        if ($timetable->code == null) {
             return $timetable->generateCode();
-        }
-        else if($now->greaterThan($timetable->code->expire_at))
-        {
+        } else if ($now->greaterThan($timetable->code->expire_at)) {
             $timetable->revokeCode();
             return $timetable->generateCode();
         }
@@ -131,5 +128,15 @@ class TimetableController extends Controller
         $this->authorize('revokeCode', $timetable);
         //revoke all timetable code
         return $timetable->revokeCode();
+    }
+
+    public function extendCode(Timetable $timetable)
+    {
+        $data = request()->validate([
+            'duration' => 'required|integer'
+        ]);
+        $this->authorize('getCode', $timetable);
+        return $timetable->extendCode($data['duration']);
+
     }
 }

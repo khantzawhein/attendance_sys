@@ -34,14 +34,24 @@ Route::middleware("auth:sanctum")->group(function () {
         Route::get('my_classes', "SectionStudentController@index");
         Route::post('my_classes', "SectionStudentController@bind");
         Route::delete('my_classes/{class}', "SectionStudentController@unbind");
+
         Route::get('teacher-timetable', 'TimetableController@teacherTimetable');
+
+        //Attendance Code
         Route::get('teacher-timetable/{timetable}/code', 'TimetableController@getCode');
         Route::delete('teacher-timetable/{timetable}/code', 'TimetableController@revokeCode');
+        Route::post('teacher-timetable/{timetable}/code', 'TimetableController@extendCode');
         Route::post('attendance', 'StudentController@getAttendance')->middleware('throttle:30,1');
+
         Route::get('dashboard-data', 'DashboardController@dashboard');
+
         Route::get('/courses/{course}/attendances', 'AttendanceController@index');
         Route::post('courses/{course}/attendances/{attendance}/update-status', 'AttendanceController@updateStatus');
         Route::get('/my-attendances', 'AttendanceController@studentAttendance');
+
+        Route::post('user/change-password', 'UserController@changePassword');
+        Route::get('teacher/get-info', 'UserController@teacherInfoGet');
+        Route::post('teacher/edit-info', 'UserController@teacherInfoEdit');
         Route::apiResources(
             [
                 'courses' => 'CourseController',

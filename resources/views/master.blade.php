@@ -28,7 +28,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <div class="wrapper" id="app">
 
   <!-- Navbar -->
-  <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+  <nav class="main-header navbar navbar-expand navbar-dark navbar-primary">
     <!-- Left navbar links -->
     <ul class="navbar-nav">
       <li class="nav-item">
@@ -37,64 +37,48 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <li class="nav-item d-none d-sm-inline-block">
         <router-link to="/app" class="nav-link">Home</router-link>
       </li>
-      <li class="nav-item d-none d-sm-inline-block">
-        <a href="#" class="nav-link" @click.prevent="logout()">Logout</a>
-      </li>
     </ul>
 
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
-      <!-- Notifications Dropdown Menu -->
       <li class="nav-item dropdown">
-        <a class="nav-link" data-toggle="dropdown" href="#">
-          <i class="far fa-bell"></i>
-          <span class="badge badge-warning navbar-badge">15</span>
+        <a class="nav-link" data-toggle="dropdown" href="#" aria-expanded="false" role="button">{{auth()->user()->name}}
+            <i class="ml-1 fas fa-angle-down"></i>
         </a>
-        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-          <span class="dropdown-header">15 Notifications</span>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item">
-            <i class="fas fa-envelope mr-2"></i> 4 new messages
-            <span class="float-right text-muted text-sm">3 mins</span>
-          </a>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item">
-            <i class="fas fa-users mr-2"></i> 8 friend requests
-            <span class="float-right text-muted text-sm">12 hours</span>
-          </a>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item">
-            <i class="fas fa-file mr-2"></i> 3 new reports
-            <span class="float-right text-muted text-sm">2 days</span>
-          </a>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
-        </div>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button"><i
-            class="fas fa-th-large"></i></a>
+          <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right" style="left: inherit; right: 0px;">
+              <span class="dropdown-item dropdown-header">{{auth()->user()->role_label()->implode('/')}} Account</span>
+              <div class="dropdown-divider"></div>
+              <router-link v-if="auth==2" :to="{name: 'edit_teacher_info'}" class="dropdown-item">
+                <i class="fas fa-user-cog"></i> Edit Personal Details
+              </router-link>
+              <div class="dropdown-divider"></div>
+              <router-link :to="{name: 'change_password'}" class="dropdown-item">
+                <i class="fas fa-key"></i> Change Password
+
+              </router-link>
+              <div class="dropdown-divider"></div>
+              <a href="#" @click.prevent="logout()" class="dropdown-item">
+                <i class="fas fa-sign-out-alt"></i> Log out
+              </a>
+            </div>
       </li>
     </ul>
   </nav>
   <!-- /.navbar -->
 
   <!-- Main Sidebar Container -->
-  <aside class="main-sidebar sidebar-dark-primary elevation-4">
+  <aside class="main-sidebar sidebar-light-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="app" class="brand-link">
+    <a href="app" class="brand-link navbar-primary">
       <img src="{{asset('img/AdminLTELogo.png')}}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
            style="opacity: .8">
-      <span class="brand-text font-weight-light">Attendance Sys</span>
+      <span class="brand-text text-white font-weight-light">Attendance Sys</span>
     </a>
 
     <!-- Sidebar -->
     <div class="sidebar">
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-{{--        <div class="image">--}}
-{{--          <img src="dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">--}}
-{{--        </div>--}}
         <div class="info">
           <a href="#" class="d-block">{{auth()->user()->name}}</a>
             <a href="#" class="d-block">
@@ -117,23 +101,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <router-view :auth="auth"></router-view>
         <vue-progress-bar></vue-progress-bar>
     </div>
-  <!-- Control Sidebar -->
-  <aside class="control-sidebar control-sidebar-dark">
-    <!-- Control sidebar content goes here -->
-    <div class="p-3">
-      <h5>Title</h5>
-      <p>Sidebar content</p>
-    </div>
-  </aside>
-  <!-- /.control-sidebar -->
 
   <!-- Main Footer -->
   <footer class="main-footer">
     <!-- To the right -->
-{{--    <div class="float-right d-none d-sm-inline">--}}
-{{--      Anything you want--}}
-{{--    </div>--}}
-    <!-- Default to the left -->
     <strong>Copyright &copy; 2020 <a href="https://attendance.io">Attendance System</a>.</strong> All rights reserved.
   </footer>
 </div>

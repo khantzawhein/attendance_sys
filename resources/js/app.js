@@ -48,6 +48,9 @@ const app = new Vue({
                 .then(({data}) => {
                     this.role = data;
                 })
+                .catch(error => {
+
+                })
         },
         methods: {
             logout() {

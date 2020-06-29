@@ -30,7 +30,7 @@ class Timetable extends Model
     {
         return $this->hasOne(Code::class);
     }
-    public function generateCode($duration = 15)
+    public function generateCode($duration = 10)
     {
         $code = str_pad(rand(10, 999999),6, 0);
         $db = new Code([
@@ -45,6 +45,13 @@ class Timetable extends Model
     {
         return $this->code()->delete();
     }
+    public function extendCode($duration = 5)
+    {
+        $expire = Carbon::parse($this->code->expire_at);
+        $this->code->expire_at = $expire->addMinute(5);
+        return $this->code->save();
+    }
+
     public function getAbsentee()
     {
         return Student::whereDoesntHave('attendances', function (Builder $query) {
