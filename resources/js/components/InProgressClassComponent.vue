@@ -12,7 +12,7 @@
             <!-- /.card-tools -->
           </div>
           <!-- /.card-header -->
-          <div class="card-body table-responsive p-0">
+          <div class="card-body table-responsive p-0" style="height: 300px;">
               <div v-if="!timetables.length">
                   <p class="text-center p-2">There is no course in progress.</p>
               </div>

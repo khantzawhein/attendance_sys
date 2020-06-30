@@ -8,10 +8,11 @@ let teacherRoute = ['home','teachers', 'teachers.manage',
  'students', 'students.pending', 'students.manage',
  'courses', 'courses.create', 'courses.manage', 'courses.attendances',
  'semesters', 'sections', 'sections.manage', 'years', 'change_password',
- 'edit_teacher_info'];
+ 'edit_teacher_info', 'student_info_review', 'student_info_review.manage'];
 let studentRoute = ['home' ,'my_classes', 'courses', 'attendance', 'sections.timetable','my_attendances',
-    'change_password', ];
+    'change_password', 'edit_student_info'];
 let role = null;
+
 async function guard(to, from, next)
 {
     if(!role) {
@@ -202,7 +203,23 @@ const Routes = [
            component: require('./views/MyAccount/EditTeacherInfo.vue').default,
            beforeEnter: guard,
        },
-
-
+       {
+           path: '/app/edit_student',
+           name: 'edit_student_info',
+           component: require('./views/MyAccount/EditStudentInfo.vue').default,
+           beforeEnter: guard,
+       },
+       {
+           path: '/app/student_info_review',
+           name: 'student_info_review',
+           component: require('./views/StudentInfoReview/StudentInfoReview.vue').default,
+           beforeEnter: guard,
+       },
+       {
+           path: '/app/student_info_review/:id',
+           name: 'student_info_review.manage',
+           component: require('./views/StudentInfoReview/StudentInfoManage.vue').default,
+           beforeEnter: guard,
+       },
     ];
 export default Routes;

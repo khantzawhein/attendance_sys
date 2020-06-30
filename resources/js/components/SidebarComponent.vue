@@ -183,7 +183,16 @@
                 </li>
             </ul>
           </li>
-        <li class="nav-item has-treeview">
+        <li class="nav-item" v-if="auth>=2">
+            <router-link :to="{name: 'student_info_review'}" class="nav-link" exact>
+                <i class="nav-icon fas fa-user-check"></i>
+                <p>
+                    Student Info Review
+                    <span class="right badge badge-danger" v-if="infoChangeReqCount">{{infoChangeReqCount}}</span>
+                </p>
+            </router-link>
+        </li>
+        <li class="nav-item">
             <a @click="logout" href="#" :class="['nav-link']">
                 <i class="nav-icon fas fa-sign-out-alt"></i>
                 <p>
@@ -203,6 +212,12 @@
         data() {
             return {
                 activeClass: "active",
+                infoChangeReqCount: 0
+            }
+        },
+        created() {
+            if(this.auth >= 2) {
+                this.getInfoChangeReqCount()
             }
         },
         computed: {
@@ -227,8 +242,18 @@
                 if (width <= 992) {
                     $('[data-widget="pushmenu"]').PushMenu('collapse')
                 }
+            },
+            getInfoChangeReqCount() {
+                axios.get('/api/student_info_review/count')
+                .then(({data}) => {
+                    this.infoChangeReqCount = data;
+                })
+                .catch(error => {
+                    toastr.error(error.message, 'Error')
+                })
             }
         },
+
     }
 </script>
 

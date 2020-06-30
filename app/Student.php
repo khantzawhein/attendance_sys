@@ -32,6 +32,10 @@ class Student extends Model
     {
         return $this->sections->map->semester->map->course->flatten();
     }
+    public function StudentInfoChange()
+    {
+        return $this->hasMany(StudentInfoChange::class);
+    }
 
 
 

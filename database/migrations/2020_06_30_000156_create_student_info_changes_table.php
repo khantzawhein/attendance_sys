@@ -15,7 +15,7 @@ class CreateStudentInfoChangesTable extends Migration
     {
         Schema::create('student_info_changes', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('student_id')->unique()->constrained()->cascadeOnDelete();
+            $table->foreignId('student_id')->constrained()->cascadeOnDelete();
             $table->string('name');
             $table->string('email');
             $table->integer('batch');

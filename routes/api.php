@@ -21,6 +21,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware("auth:sanctum")->group(function () {
     Route::namespace('Api')->group(function() {
+        Route::get('user/name', function () {
+            return auth()->user()->name;
+        });
+
         Route::post('students/{student}/approve', 'StudentController@approve');
         Route::post('students/{student}/disapprove', 'StudentController@disapprove');
         Route::post('sections/{section}/reset-code', 'SectionController@resetAccessCode');
@@ -52,6 +56,11 @@ Route::middleware("auth:sanctum")->group(function () {
         Route::post('user/change-password', 'UserController@changePassword');
         Route::get('teacher/get-info', 'UserController@teacherInfoGet');
         Route::post('teacher/edit-info', 'UserController@teacherInfoEdit');
+
+        Route::get('student/get-info', 'UserController@studentInfoGet');
+        Route::post('student/edit-info', 'UserController@studentInfoEdit');
+        Route::post('student_info_review/{student_info_review}/approve', 'StudentInfoReviewController@approveRequest');
+        Route::get('student_info_review/count', 'StudentInfoReviewController@count');
         Route::apiResources(
             [
                 'courses' => 'CourseController',
@@ -60,7 +69,8 @@ Route::middleware("auth:sanctum")->group(function () {
                 'semesters' => 'SemesterController',
                 'sections' => 'SectionController',
                 'sections/{section}/classes' => 'TimetableController',
-                'years' => 'YearController'
+                'years' => 'YearController',
+                'student_info_review' => 'StudentInfoReviewController'
             ]
         );
 

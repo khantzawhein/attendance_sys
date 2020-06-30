@@ -25,7 +25,6 @@
                         <h3 class="card-title">Student Lists</h3>
                     </div>
                     <div class="card-body">
-                        <p v-if="!approvedStudents.length">There's nothing to show</p>
                         <table id="student_table" class="table table-hover table-striped" v-show="approvedStudents.length">
                             <thead>
                                 <tr>
