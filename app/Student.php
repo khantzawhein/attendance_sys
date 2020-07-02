@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Student extends Model
 {
-    protected $fillable = ['urn', 'nrc', 'phone', 'father_name', 'batch'];
+    protected $fillable = ['urn', 'nrc', 'phone', 'father_name', 'batch',];
     public function user()
     {
         return $this->belongsTo(User::class);

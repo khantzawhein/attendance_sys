@@ -27,8 +27,15 @@ Route::middleware("auth:sanctum")->group(function () {
 
         Route::post('students/{student}/approve', 'StudentController@approve');
         Route::post('students/{student}/disapprove', 'StudentController@disapprove');
+
         Route::post('sections/{section}/reset-code', 'SectionController@resetAccessCode');
         Route::get('sections/{section}/get-code', 'SectionController@getAccessCode');
+        Route::get('sections/{section}/get-students', 'SectionController@getStudents');
+        Route::get('sections/{section}/get-nStudents', 'SectionController@getNotEnrolledStudents');
+        Route::post('sections/{section}/unregister', 'SectionStudentController@unbind');
+        Route::post('sections/{section}/enroll', 'SectionStudentController@enroll');
+
+
         Route::put('teachers/{teacher}/change-password', 'TeacherController@changePassword');
         Route::put('students/{student}/change-password', 'StudentController@changePassword');
         Route::get('semesters/options', 'SemesterController@getOptions');
@@ -37,7 +44,6 @@ Route::middleware("auth:sanctum")->group(function () {
         });
         Route::get('my_classes', "SectionStudentController@index");
         Route::post('my_classes', "SectionStudentController@bind");
-        Route::delete('my_classes/{class}', "SectionStudentController@unbind");
 
         Route::get('teacher-timetable', 'TimetableController@teacherTimetable');
 

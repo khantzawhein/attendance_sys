@@ -39,6 +39,11 @@ class SectionStudentPolicy
     }
     public function unbind(User $user)
     {
-        return $user->isStudent();
+        return $user->isTeacher();
+    }
+
+    public function enroll(User $user)
+    {
+        return $user->isTeacher();
     }
 }

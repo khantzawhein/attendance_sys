@@ -68,4 +68,14 @@ class SectionPolicy
         return $user->isSuperAdmin();
     }
 
+    public function get_students(User $user, Section $section)
+    {
+        return $user->isTeacher();
+    }
+
+    public function manageAccessCode(User $user, Section $section)
+    {
+        return $user->isTeacher();
+    }
+
 }

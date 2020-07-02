@@ -25,7 +25,7 @@
                         <h3 class="card-title">Student Lists</h3>
                     </div>
                     <div class="card-body">
-                        <table id="student_table" class="table table-hover table-striped" v-show="approvedStudents.length">
+                        <table id="student_table" class="table table-hover table-striped table-bordered" v-show="approvedStudents.length">
                             <thead>
                                 <tr>
                                     <th>Student ID</th>

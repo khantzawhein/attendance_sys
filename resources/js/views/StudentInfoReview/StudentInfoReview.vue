@@ -19,7 +19,7 @@
                     </div>
                     <div class="card-body">
                         <p class="text-center" v-if="!requests.length">There is no request yet.</p>
-                        <table id="student_table" class="table table-hover table-striped" v-show="requests.length">
+                        <table id="student_table" class="table table-hover table-striped table-bordered" v-show="requests.length">
                             <thead>
                                 <tr>
                                     <th>#</th>

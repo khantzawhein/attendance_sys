@@ -221,5 +221,10 @@ const Routes = [
            component: require('./views/StudentInfoReview/StudentInfoManage.vue').default,
            beforeEnter: guard,
        },
+        {
+            path: '/app/*',
+            name: 'not_found',
+            component: require('./views/not_found.vue').default,
+        }
     ];
 export default Routes;

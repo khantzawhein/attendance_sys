@@ -13,18 +13,19 @@
           <div class="container-fluid">
             <div class="row">
                 <div class="col-lg-12">
-                    <div class="loading text-center align-items-center justify-content-center d-flex vh-100" v-if="!loaded">
-                        <loader-component></loader-component>
-                    </div>
                     <timetable-component :auth="auth"></timetable-component>
-                    <error-component :error="error"></error-component>
 <!--                    card header-->
-                    <div class="card card-default" v-show="loaded" v-if="auth==3">
+                    <div class="card card-default" v-if="auth==3">
+                        <div v-if="!loaded" class="overlay"><i class="fas fa-2x fa-sync-alt fa-spin"></i></div>
                         <div class="card-header">
                             <h3 class="card-title">Edit Class</h3>
+                            <div class="card-tools">
+                              <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
+                            </div>
                         </div>
 
                         <div class="card-body">
+                            <error-component :error="error"></error-component>
                             <form action="">
                                 <div class="row">
                                     <div class="col-md-6">
@@ -82,6 +83,9 @@
                             </form>
                         </div>
                     </div>
+                </div>
+                <div class="col-12">
+                    <section-students-component></section-students-component>
                 </div>
             </div>
           </div>
