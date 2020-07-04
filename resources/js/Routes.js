@@ -221,6 +221,12 @@ const Routes = [
            component: require('./views/StudentInfoReview/StudentInfoManage.vue').default,
            beforeEnter: guard,
        },
+       {
+           path: '/app/roles/',
+           name: 'role_mgmt',
+           component: require('./views/Roles/RoleMgmt.vue').default,
+           beforeEnter: guard,
+       },
         {
             path: '/app/*',
             name: 'not_found',

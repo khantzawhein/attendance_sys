@@ -26,7 +26,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password', 'remember_token', 'created_at', 'updated_at', 'email_verified_at'
     ];
 
     /**
@@ -75,6 +75,14 @@ class User extends Authenticatable
         $this->save();
     }
 
+    public function setAsSuperAdmin()
+    {
+        return $this->roles()->sync(Role::find(1), false);
+    }
+    public function removeAsSuperAdmin()
+    {
+        return $this->roles()->detach(Role::find(1));
+    }
     public function isSuperAdmin() {
         return $this->role_name()->contains('superadmin');
     }

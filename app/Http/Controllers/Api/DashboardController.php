@@ -21,15 +21,17 @@ class DashboardController extends Controller
             if($user->student->sections->isEmpty())
             {
                 return [
-                'courseCount' => 0,
-                'presentRate' => 0,
-                'lastMonthPresentRate' => 0
+                    'courseCount' => 0,
+                    'presentRate' => 0,
+                    'lastMonthPresentRate' => 0,
+                    'attendanceLateCount' => 0
                 ];
             }
             return [
-            'courseCount' => $this->courseCount(),
-            'presentRate' => $this->attendanceRate($this_month),
-            'lastMonthPresentRate' => $this->attendanceRate($last_month)
+                'courseCount' => $this->courseCount(),
+                'presentRate' => $this->attendanceRate($this_month),
+                'lastMonthPresentRate' => $this->attendanceRate($last_month),
+                'attendanceLateCount' => $this->attendanceLateCount()
             ];
         }
         return [
@@ -38,6 +40,11 @@ class DashboardController extends Controller
             'presentRate' => $this->attendanceRate($this_month),
             'lastMonthPresentRate' => $this->attendanceRate($last_month)
         ];
+    }
+    public function attendanceLateCount()
+    {
+        $user = request()->user();
+        return $user->student->attendances()->where('status', 2)->count();
     }
 
     public function courseCount()

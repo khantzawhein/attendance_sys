@@ -12,4 +12,8 @@ class Role extends Model
     {
         return $this->belongsToMany(User::class);
     }
+    public function setAsSuperAdmin(User $user)
+    {
+        Role::find(2)->users()->save($user);
+    }
 }
