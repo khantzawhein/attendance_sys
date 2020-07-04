@@ -13,10 +13,19 @@ class DashboardController extends Controller
     public function dashboard()
     {
         $user = request()->user();
+
         $this_month = Carbon::now()->month;
         $last_month = Carbon::now()->subMonth()->month;
         if ($user->isStudent())
         {
+            if($user->student->sections->isEmpty())
+            {
+                return [
+                'courseCount' => 0,
+                'presentRate' => 0,
+                'lastMonthPresentRate' => 0
+                ];
+            }
             return [
             'courseCount' => $this->courseCount(),
             'presentRate' => $this->attendanceRate($this_month),

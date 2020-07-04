@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\SectionResource;
 use App\Section;
+use App\Student;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -30,13 +31,13 @@ class SectionController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
         $data = $request->validate([
-           'semester_id' => ['required', 'exists:semesters,id'],
+            'semester_id' => ['required', 'exists:semesters,id'],
             'name' => ['required', 'unique:sections'],
             'start_time' => 'required|date_format:"g:ia"',
             'end_time' => 'required|after:start_time|date_format:"g:ia"'
@@ -70,7 +71,7 @@ class SectionController extends Controller
     public function update(Request $request, Section $section)
     {
         $data = $request->validate([
-           'semester_id' => ['required', 'exists:semesters,id'],
+            'semester_id' => ['required', 'exists:semesters,id'],
             'name' => ['required', Rule::unique('sections')->ignore($section->id)],
             'start_time' => 'required|date_format:"g:ia"',
             'end_time' => 'required|after:start_time|date_format:"g:ia"'
@@ -95,13 +96,29 @@ class SectionController extends Controller
         return response('', 201);
     }
 
+    public function getStudents(Section $section)
+    {
+        $this->authorize('get_students', $section);
+        return $section->students->load('user:id,name,email');
+    }
+
+    public function getNotEnrolledStudents(Section $section)
+    {
+        $this->authorize('get_students', $section);
+        $students = $section->students->load('user:id,name,email');
+        $student_all = Student::join('users', 'users.id', 'students.user_id')->where('approved', 1)->select('students.id', 'students.urn', 'users.name', 'users.email')->get();
+        return $student_all->diff($students);
+    }
+
     public function resetAccessCode(Section $section)
     {
+        $this->authorize('manageAccessCode', $section);
         $section->resetAccessCode();
         return response('', 201);
     }
     public function getAccessCode(Section $section)
     {
+        $this->authorize('manageAccessCode', $section);
         return response(['access_code' => $section->getAccessCode()], 200);
     }
 }

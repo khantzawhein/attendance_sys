@@ -4,6 +4,7 @@
         <template v-slot:title>Course's Attendances</template>
         <template v-slot:breadcrumb>
             <li class="breadcrumb-item"><router-link :to="{name: 'home'}">Home</router-link></li>
+            <li class="breadcrumb-item"><router-link :to="{name: 'courses'}">Courses</router-link></li>
             <li class="breadcrumb-item">Course's Attendances</li>
         </template>
     </header-component>
@@ -15,7 +16,7 @@
                 <div class="card card-default">
                     <div v-if="!loaded" class="overlay"><i class="fas fa-2x fa-sync-alt fa-spin"></i></div>
                     <div class="card-header">
-                        <h3 v-if="loaded" class="card-title">{{attendances[0].module_name}}'s Attendances</h3>
+                        <h3 v-if="loaded" class="card-title">{{course.module_name}}'s Attendances</h3>
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
@@ -73,13 +74,19 @@
         data() {
             return {
                 id: null,
-                loaded: false,
+                loadStatus: {
+                    attendance: false,
+                    course: false
+                },
                 attendances: [],
-                module_no: null
+                course: {},
+                module_no: this.$route.params.module_no,
+                module_name: this.$route.params.module_name
             }
         },
         created() {
             this.id = this.$route.params.id
+            this.getCourseData()
             this.getCourseAttendanceData()
             .then(() => {
                 this.tableLoad()
@@ -94,15 +101,27 @@
                 return day[value]
             }
         },
+        computed: {
+            loaded() {
+                return this.loadStatus.attendance&&this.loadStatus.course;
+            }
+        },
         methods: {
             getCourseAttendanceData() {
-                this.loaded = false;
+                this.loadStatus.attendance = false;
                 return axios.get('/api/courses/'+ this.id + '/attendances')
                 .then(({data}) => {
-                    this.loaded = true
+                    this.loadStatus.attendance = true
                     this.attendances = data
-                    this.module_no = this.attendances[0].module_no
                  })
+            },
+            getCourseData() {
+                this.loadStatus.course = false
+                axios.get('/api/courses/' + this.id)
+                    .then(response => {
+                        this.course = response.data.data;
+                        this.loadStatus.course = true
+                    })
             },
             statusColor(status)
             {
@@ -159,7 +178,7 @@
                             {
                                 extend: 'csvHtml5',
                                 text: '<i class="fas fa-file-csv mr-2"></i>CSV',
-                                title: `${this.module_no} Attendances`,
+                                title: `${this.course.module_no} Attendances`,
                                 exportOptions: {
                                     columns: [ 0, 1, 2, 3, 4, 5]
                                 },
@@ -168,7 +187,7 @@
                             {
                                 extend: 'excelHtml5',
                                 text: '<i class="far fa-file-excel mr-2"></i> Excel',
-                                title: `${this.module_no} Attendances`,
+                                title: `${this.course.module_no} Attendances`,
                                 exportOptions: {
                                     columns: [ 0, 1, 2, 3, 4, 5]
                                 },
@@ -177,7 +196,7 @@
                             {
                                 extend: 'print',
                                 text: '<i class="fas fa-print mr-2"></i> Print',
-                                title: `${this.module_no}'s Attendances`,
+                                title: `${this.course.module_no}'s Attendances`,
                                 exportOptions: {
                                     columns: [ 0, 1, 2, 3, 4, 5]
                                 },

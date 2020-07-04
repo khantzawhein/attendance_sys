@@ -7,9 +7,12 @@ import Courses from "./views/Courses/Courses.vue";
 let teacherRoute = ['home','teachers', 'teachers.manage',
  'students', 'students.pending', 'students.manage',
  'courses', 'courses.create', 'courses.manage', 'courses.attendances',
- 'semesters', 'sections', 'sections.manage', 'years',];
-let studentRoute = ['home' ,'my_classes', 'courses', 'attendance', 'sections.timetable','my_attendances'];
+ 'semesters', 'sections', 'sections.manage', 'years', 'change_password',
+ 'edit_teacher_info', 'student_info_review', 'student_info_review.manage'];
+let studentRoute = ['home' ,'my_classes', 'courses', 'attendance', 'sections.timetable','my_attendances',
+    'change_password', 'edit_student_info'];
 let role = null;
+
 async function guard(to, from, next)
 {
     if(!role) {
@@ -188,6 +191,40 @@ const Routes = [
            component: require('./views/MyAttendances/MyAttendances.vue').default,
            beforeEnter: guard,
        },
-
+       {
+           path: '/app/change_password',
+           name: 'change_password',
+           component: require('./views/MyAccount/ChangePassword.vue').default,
+           beforeEnter: guard,
+       },
+       {
+           path: '/app/edit_teacher',
+           name: 'edit_teacher_info',
+           component: require('./views/MyAccount/EditTeacherInfo.vue').default,
+           beforeEnter: guard,
+       },
+       {
+           path: '/app/edit_student',
+           name: 'edit_student_info',
+           component: require('./views/MyAccount/EditStudentInfo.vue').default,
+           beforeEnter: guard,
+       },
+       {
+           path: '/app/student_info_review',
+           name: 'student_info_review',
+           component: require('./views/StudentInfoReview/StudentInfoReview.vue').default,
+           beforeEnter: guard,
+       },
+       {
+           path: '/app/student_info_review/:id',
+           name: 'student_info_review.manage',
+           component: require('./views/StudentInfoReview/StudentInfoManage.vue').default,
+           beforeEnter: guard,
+       },
+        {
+            path: '/app/*',
+            name: 'not_found',
+            component: require('./views/not_found.vue').default,
+        }
     ];
 export default Routes;

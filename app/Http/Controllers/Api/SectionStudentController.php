@@ -53,23 +53,27 @@ class SectionStudentController extends Controller
 
         return response('', 201);
     }
-    public function unbind(Request $request)
+    public function unbind(Section $section, Request $request)
     {
         $this->authorize('unbind', SectionStudent::class);
         $data = $request->validate([
             'student_id' => 'exists:students,id',
-            'section_id' => 'required|exists:sections,id',
         ]);
-        if(request()->user()->isSuperAdmin)
-        {
-            $student = Student::find($data['student_id']);
-            $section = Section::findOrFail($data['section_id']);
-            $student->unbindSection($section);
-        }
-        else {
-            $section = Section::findOrFail($data['section_id']);
-            $request->user()->student->unbindSection($section);
-        }
+
+        $student = Student::find($data['student_id']);
+        $student->unbindSection($section);
+
+        return response('', 201);
+    }
+    //enroll by teacher
+    public function enroll(Section $section, Request $request)
+    {
+        $this->authorize('enroll', SectionStudent::class);
+        $data = $request->validate([
+            'student_id' => 'exists:students,id',
+        ]);
+        $student = Student::find($data['student_id']);
+        $section->enroll($student);
 
         return response('', 201);
     }

@@ -27,16 +27,16 @@
                     </div>
                     <div class="card-body">
                         <p v-if="!unapprovedStudents.length">There's nothing to show</p>
-                        <table id="pending_student_table" class="table table-striped table-hover" v-show="unapprovedStudents.length">
+                        <table id="pending_student_table" class="table table-striped table-hover table-bordered" v-show="unapprovedStudents.length">
                             <thead>
                                 <tr>
                                     <th>Student ID</th>
                                     <th>Name</th>
-                                    <th>Email</th>
-                                    <th>NRC</th>
+                                    <th class="min-desktop">Email</th>
+                                    <th class="none">NRC</th>
                                     <th>Father Name</th>
-                                    <th>URN</th>
-                                    <th>Phone</th>
+                                    <th class="none">URN</th>
+                                    <th class="min-desktop">Phone</th>
                                     <th data-priority="1">Action</th>
                                 </tr>
                             </thead>

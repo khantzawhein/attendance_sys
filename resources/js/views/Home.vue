@@ -80,12 +80,32 @@
                         <router-link :to="{name: 'students.pending'}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></router-link>
                     </div>
                 </div>
-
-
-
                 <teacher-dash-component v-if="auth==2"></teacher-dash-component>
-
             </div>
+              <div v-if="auth==1" class="row">
+                  <div class="col-md-6">
+                      <div class="card">
+                          <div v-if="!loadStatus.attendance" class="overlay"><i class="fas fa-2x fa-sync-alt fa-spin"></i></div>
+                          <div class="card-header border-transparent">
+                            <h3 class="card-title">Latest Attendances</h3>
+
+                            <div class="card-tools">
+                              <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                <i class="fas fa-minus"></i>
+                              </button>
+                              <button type="button" class="btn btn-tool" data-card-widget="remove">
+                                <i class="fas fa-times"></i>
+                              </button>
+                            </div>
+                          </div>
+                          <!-- /.card-header -->
+                          <div class="card-body">
+                              <my-attendance-component @loaded="loadStatus.attendance=true"></my-attendance-component>
+                          </div>
+                          <!-- /.card-body -->
+                        </div>
+                  </div>
+              </div>
           </div>
         </div>
     </div>
@@ -103,6 +123,9 @@ export default {
                 courseCount: 0
             },
             loaded: false,
+            loadStatus: {
+                attendance: false
+            }
         }
     },
     created() {

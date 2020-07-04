@@ -25,7 +25,7 @@
                     </div>
                     <div class="card-body">
                         <p v-if="!sections.length">There's nothing to show</p>
-                        <table id="section_table" class="table table-hover" v-show="sections.length">
+                        <table id="section_table" class="table table-hover table-bordered" v-show="sections.length">
                             <thead>
                                 <tr>
                                     <th>#</th>

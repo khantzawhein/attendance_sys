@@ -9,6 +9,11 @@ class AttendancePolicy
 {
     use HandlesAuthorization;
 
+    public function viewAny(User $user)
+    {
+        return $user->isTeacher();
+    }
+
     public function updateStatus(User $user)
     {
         return $user->isTeacher();

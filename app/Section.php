@@ -32,4 +32,8 @@ class Section extends Model
     {
         return $this->access_code;
     }
+    public function enroll(Student $student)
+    {
+        return $this->students()->sync($student, false);
+    }
 }

@@ -10,10 +10,11 @@ use Illuminate\Http\Request;
 
 class AttendanceController extends Controller
 {
-    //This Controller is for retrieve and showing students' attendances to Teachers
+    //This Controller is for retrieve and showing students' attendances to Teachers/Students
 
     public function index(Course $course)
     {
+        $this->authorize('viewAny', Attendance::class);
         $attendances = $course->getCourseAttendances();
         $data = collect([]);
         foreach ($attendances as $attendance) {
@@ -35,6 +36,8 @@ class AttendanceController extends Controller
 
     public function studentAttendance()
     {
+
+        $this->authorize('getAttendance', Student::class);
         $user = request()->user();
         $attendances =  $user->student->attendances()->take(200)->get()->load('timetable.course');
 

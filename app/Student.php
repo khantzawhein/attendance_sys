@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Student extends Model
 {
-    protected $fillable = ['urn', 'nrc', 'phone', 'father_name', 'batch'];
+    protected $fillable = ['urn', 'nrc', 'phone', 'father_name', 'batch',];
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -31,6 +31,10 @@ class Student extends Model
     public function getCourses()
     {
         return $this->sections->map->semester->map->course->flatten();
+    }
+    public function StudentInfoChange()
+    {
+        return $this->hasMany(StudentInfoChange::class);
     }
 
 
