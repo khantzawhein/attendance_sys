@@ -48,7 +48,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right" style="left: inherit; right: 0px;">
               <span class="dropdown-item dropdown-header">{{auth()->user()->role_label()->implode('/')}} Account</span>
               <div class="dropdown-divider"></div>
-              <router-link v-if="auth==2" :to="{name: 'edit_teacher_info'}" class="dropdown-item">
+              <router-link v-if="auth>=2" :to="{name: 'edit_teacher_info'}" class="dropdown-item">
                 <i class="fas fa-user-cog"></i> Edit Personal Details
               </router-link>
               <router-link v-if="auth==1" :to="{name: 'edit_student_info'}" class="dropdown-item">

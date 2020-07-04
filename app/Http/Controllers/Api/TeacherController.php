@@ -54,7 +54,11 @@ class TeacherController extends Controller
     }
     public function show(Teacher $teacher)
     {
-        return Teacher::where('teachers.id',$teacher->id)->join('users', 'teachers.user_id', 'users.id')->select('teachers.id', 'users.name', 'users.email', 'teachers.role',  'teachers.department')->get();
+        $teacher_db = Teacher::where('teachers.id',$teacher->id)->join('users', 'teachers.user_id', 'users.id')->select('teachers.id', 'users.name', 'users.email', 'teachers.role',  'teachers.department', 'users.id AS user_id')->get();
+        return [
+            'data' => $teacher_db,
+            'isSuperAdmin' => Teacher::find($teacher->id)->user->isSuperAdmin()
+        ];
     }
     public function update(Teacher $teacher ,Request $request)
     {

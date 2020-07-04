@@ -71,11 +71,11 @@
                                         <button type="button" class="btn bg-gradient-danger" data-toggle="modal" data-target="#changePassword">Manage Password</button>
                                     </div>
                                     <div class="col-md-6">
-                                        <div class="row">
-                                            <div class="col-2 ml-auto">
+                                        <div class="row text-right">
+                                            <div class="col-12">
+                                                <button v-if="!isSuperAdmin" @click="setAdminConfirm" type="button" class="btn bg-gradient-warning">Set as Superadmin</button>
                                                 <button @click="deleteConfirm" type="button" class="btn bg-gradient-danger">Delete</button>
                                             </div>
-
                                         </div>
                                     </div>
                                     <change-password-component :loaded="changePasswordLoaded">
@@ -114,7 +114,6 @@
     import { diff } from 'deep-diff/dist/deep-diff.min.js';
     export default {
         name: "TeacherManage",
-
         data() {
             return {
                 id: null,
@@ -127,7 +126,8 @@
                 error: null,
                 errorDetails: "",
                 loaded: false,
-                changePasswordLoaded: true
+                changePasswordLoaded: true,
+                isSuperAdmin: false
             }
         },
         created() {
@@ -135,8 +135,9 @@
             axios.get('/api/teachers/' + this.id)
             .then(response => {
                 this.loaded = true
-                this.originalData = response.data[0];
+                this.originalData = response.data.data[0];
                 this.teachers = {...this.originalData}
+                this.isSuperAdmin = response.data.isSuperAdmin
             })
             .catch(error => {
                 this.loaded = true
@@ -193,6 +194,20 @@
                     this.error = error.response.data.message || error.message;
                 })
             },
+            handleSetAdmin() {
+                this.loaded = false;
+                axios.post('/api/roles/super-admin', {user_id: this.teachers.user_id})
+                .then(response => {
+                    swal("This user is set as administrator.", {
+                      icon: "success",
+                    });
+                    this.$router.push({name: 'teachers'})
+                })
+                .catch(error => {
+                    this.loaded = true
+                    this.error = error.response.data.message || error.message;
+                })
+            },
             deleteConfirm() {
                 swal({
                   title: "Are you sure?",
@@ -204,6 +219,20 @@
                 .then((willDelete) => {
                   if (willDelete) {
                       this.handleDelete()
+                  }
+                });
+            },
+            setAdminConfirm() {
+                swal({
+                  title: "Are you sure?",
+                  text: "This user will get all the admin privileges.",
+                  icon: "warning",
+                  buttons: true,
+                  dangerMode: true,
+                })
+                .then((willSet) => {
+                  if (willSet) {
+                      this.handleSetAdmin()
                   }
                 });
             }

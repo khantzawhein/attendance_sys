@@ -192,6 +192,14 @@
                 </p>
             </router-link>
         </li>
+        <li class="nav-item" v-if="auth==3">
+            <router-link :to="{name: 'role_mgmt'}" class="nav-link" exact>
+                <i class="nav-icon fas fa-user-shield"></i>
+                <p>
+                    Role Management
+                </p>
+            </router-link>
+        </li>
         <li class="nav-item">
             <a @click="logout" href="#" :class="['nav-link']">
                 <i class="nav-icon fas fa-sign-out-alt"></i>

@@ -24,5 +24,6 @@ class UserSeeder extends Seeder
             'approved' => 1
         ]);
         User::where('email', 'admin@gmail.com')->first()->assignRole('superadmin');
+        User::where('email', 'admin@gmail.com')->first()->assignRole('teacher');
     }
 }

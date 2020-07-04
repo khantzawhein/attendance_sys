@@ -80,10 +80,27 @@
                         <router-link :to="{name: 'students.pending'}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></router-link>
                     </div>
                 </div>
-                <teacher-dash-component v-if="auth==2"></teacher-dash-component>
+                <div v-if="auth==1" class="col-lg-3 col-6">
+                <!-- small box -->
+                    <div class="small-box bg-warning">
+                        <div v-if="!loaded" class="overlay">
+                            <i class="fas fa-3x fa-sync-alt fa-spin"></i>
+                        </div>
+                        <div class="inner">
+                            <h3>{{dashboard.attendanceLateCount}}</h3>
+
+                            <p>Attendance Late Count</p>
+                        </div>
+                        <div class="icon">
+                            <i class="ion ion-alert"></i>
+                        </div>
+                        <router-link :to="{name: 'my_attendances'}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></router-link>
+                    </div>
+                </div>
+                <teacher-dash-component v-if="auth>=2"></teacher-dash-component>
             </div>
               <div v-if="auth==1" class="row">
-                  <div class="col-md-6">
+                  <div class="col-md-12">
                       <div class="card">
                           <div v-if="!loadStatus.attendance" class="overlay"><i class="fas fa-2x fa-sync-alt fa-spin"></i></div>
                           <div class="card-header border-transparent">
@@ -120,7 +137,8 @@ export default {
                 pendingStudentCount : 0,
                 presentRate: 0,
                 lastMonthPresentRate: 0,
-                courseCount: 0
+                courseCount: 0,
+                attendanceLateCount: 0
             },
             loaded: false,
             loadStatus: {
