@@ -14,7 +14,7 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('users')->updateOrInsert([
+        $user = User::updateOrInsert([
             'email' => 'admin@gmail.com'
         ],
             [
@@ -29,5 +29,6 @@ class UserSeeder extends Seeder
            'role' => 'Admin',
            'department' => "Admin Dept"
         ]);
+        $user->teacher()->save($teacher);
     }
 }
