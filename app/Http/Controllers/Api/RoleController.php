@@ -14,7 +14,7 @@ class RoleController extends Controller
     {
         $this->authorize('manageSuperAdmin', Role::class);
         //Superadmin Lists
-        return Role::where('name', 'superadmin')->first()->users->except(request()->user()->id);
+        return Role::where('role', 'superadmin')->first()->users->except(request()->user()->id);
     }
 
     public function setAsSuperAdmin(Request $request)
