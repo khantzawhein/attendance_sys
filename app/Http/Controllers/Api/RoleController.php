@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Role;
-use App\Teacher;
 use App\User;
 use Illuminate\Http\Request;
 
@@ -14,7 +13,7 @@ class RoleController extends Controller
     {
         $this->authorize('manageSuperAdmin', Role::class);
         //Superadmin Lists
-        return Role::where('role', 'superadmin')->first()->users->except(request()->user()->id);
+        return Role::where('name', 'superadmin')->first()->users->except(request()->user()->id);
     }
 
     public function setAsSuperAdmin(Request $request)
