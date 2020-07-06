@@ -1,8 +1,8 @@
 <?php
 
+use App\Teacher;
 use App\User;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 class UserSeeder extends Seeder
@@ -14,7 +14,7 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        $user = User::updateOrInsert([
+        User::updateOrInsert([
             'email' => 'admin@gmail.com'
         ],
             [
@@ -23,8 +23,9 @@ class UserSeeder extends Seeder
             'password' => Hash::make('11111111'),
             'approved' => 1
         ]);
-        User::where('email', 'admin@gmail.com')->first()->assignRole('superadmin');
-        User::where('email', 'admin@gmail.com')->first()->assignRole('teacher');
+        $user = User::where('email', 'admin@gmail.com')->first();
+        $user->assignRole('superadmin');
+        $user->assignRole('teacher');
         $teacher = new Teacher([
            'role' => 'Admin',
            'department' => "Admin Dept"
