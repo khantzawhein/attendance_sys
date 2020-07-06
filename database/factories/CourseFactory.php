@@ -9,6 +9,8 @@ $factory->define(Course::class, function (Faker $faker) {
     return [
         'module_no' => "CS-{$faker->randomNumber(4)}",
         'module_name' => "TestCourse_{$faker->randomNumber(3)}",
-        'teacher_id' => $faker->numberBetween(1, 5)
+        'teacher_id' => $faker->numberBetween(1,50),
+        'semester_id' => $faker->numberBetween(1,20)
     ];
 });
+

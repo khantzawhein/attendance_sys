@@ -121,26 +121,20 @@ class StudentController extends Controller
             ]], 422);
         }
 
-        $now = Carbon::now();
-        if ($now->greaterThan(Carbon::parse($code->expire_at))) {
+        if ($code->isExpired()) {
             return response(['errors' => [
                 'code' => ['Code has expired.']
             ]], 422);
         }
 
-        $semester_start = $code->timetable->section->semester->start_date;
-        $semester_end = $code->timetable->section->semester->end_date;
-        $start_date = Carbon::parse($semester_start);
-        $end_date = Carbon::parse($semester_end);
-
-        if (Carbon::now()->startOfDay()->greaterThan($end_date))
+        if ($code->timetable->isCourseFinished())
         {
             return response(['errors' => [
                 'code' => ['This course\'s semester has finished.']
             ]], 422);
         }
 
-        $week = Carbon::now()->isoWeek() - $start_date->isoWeek();
+        $week = $code->timetable->getWeek();
 
         $attendance = new Attendance([
             'student_id' => $request->user()->student->id,
@@ -154,7 +148,5 @@ class StudentController extends Controller
         event(new StudentEnterCode($code->timetable->id ,$attendance->student->user->name));
 
         return response('', 201);
-
-
     }
 }

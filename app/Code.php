@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 class Code extends Model
@@ -16,6 +17,11 @@ class Code extends Model
 
     public function timetable() {
         return $this->belongsTo(Timetable::class);
+    }
+    public function isExpired()
+    {
+        $now = Carbon::now();
+        return $now->greaterThan(Carbon::parse($this->expire_at));
     }
 
 }

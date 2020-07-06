@@ -82,6 +82,7 @@ Route::middleware("auth:sanctum")->group(function () {
         Route::post('roles/super-admin', 'RoleController@setAsSuperAdmin');
         Route::delete('roles/super-admin', 'RoleController@removeAsSuperAdmin');
 
+        Route::get('courses/all', 'CourseController@allCourses');
         Route::apiResources(
             [
                 'courses' => 'CourseController',
