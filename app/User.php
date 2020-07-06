@@ -77,11 +77,11 @@ class User extends Authenticatable
 
     public function setAsSuperAdmin()
     {
-        return $this->roles()->sync(Role::find(1), false);
+        return $this->roles()->sync(Role::where('name', 'superadmin')->first(), false);
     }
     public function removeAsSuperAdmin()
     {
-        return $this->roles()->detach(Role::find(1));
+        return $this->roles()->detach(Role::where('name', 'superadmin')->first());
     }
     public function isSuperAdmin() {
         return $this->role_name()->contains('superadmin');
