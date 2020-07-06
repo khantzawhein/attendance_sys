@@ -41,6 +41,10 @@ class CourseController extends Controller
         {
             return CourseResource::collection(request()->user()->student->getCourses());
         }
+    }
+    public function allCourses()
+    {
+        $this->authorize('viewAll', Course::class);
         return CourseResource::collection(Course::all());
     }
 

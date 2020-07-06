@@ -1,10 +1,10 @@
 <template>
     <div>
     <header-component>
-        <template v-slot:title>Courses</template>
+        <template v-slot:title>My Courses</template>
         <template v-slot:breadcrumb>
             <li class="breadcrumb-item"><router-link :to="{name: 'home'}">Home</router-link></li>
-            <li class="breadcrumb-item">Courses</li>
+            <li class="breadcrumb-item">My Courses</li>
         </template>
     </header-component>
     <!-- Main content -->
@@ -20,7 +20,7 @@
                 <div class="card">
                 <div v-if="!loaded" class="overlay"><i class="fas fa-2x fa-sync-alt fa-spin"></i></div>
                     <div class="card-header">
-                        <h3 class="card-title">Course List</h3>
+                        <h3 class="card-title">Courses List</h3>
                         <div class="card-tools">
                             <button v-if="auth>=2" class="btn btn-success" @click="$router.push('/app/courses/create')"><i class="fas fa-plus mr-1"></i> Courses</button>
                         </div>

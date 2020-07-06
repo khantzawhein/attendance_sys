@@ -73,6 +73,10 @@ class CoursePolicy
             return true;
         }
     }
+    public function viewAll(User $user)
+    {
+        return $user->isSuperAdmin();
+    }
 
 
 

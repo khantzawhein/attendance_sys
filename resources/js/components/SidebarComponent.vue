@@ -139,7 +139,13 @@
                 <li class="nav-item">
                     <router-link @click.native="handleSidebarClick" :to="{name:'courses'}" class="nav-link" exact>
                         <i class="fas fa-list nav-icon"></i>
-                        <p>Course Lists</p>
+                        <p>Your Courses</p>
+                    </router-link>
+                </li>
+                <li class="nav-item">
+                    <router-link v-if="auth==3" @click.native="handleSidebarClick" :to="{name:'courses.all'}" class="nav-link" exact>
+                        <i class="fas fa-list nav-icon"></i>
+                        <p>All Courses</p>
                     </router-link>
                 </li>
                 <li v-if="auth>=2" class="nav-item">

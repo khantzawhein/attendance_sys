@@ -80,4 +80,22 @@ class Timetable extends Model
         }
         return $this->attendances()->saveMany($attendances);
     }
+    public function getWeek()
+    {
+        $semester_start = $this->section->semester->start_date;
+        $start_date = Carbon::parse($semester_start);
+        return $week = Carbon::now()->isoWeek() - $start_date->isoWeek();
+    }
+
+    public function finished_jobs()
+    {
+        return $this->hasMany(FinishedJob::class);
+    }
+
+    public function isCourseFinished()
+    {
+        $semester_end = $this->section->semester->end_date;
+        $end_date = Carbon::parse($semester_end);
+        return Carbon::now()->startOfDay()->greaterThan($end_date);
+    }
 }

@@ -95,6 +95,12 @@ const Routes = [
            component: Courses,
            beforeEnter: guard,
        },
+        {
+           path: '/app/courses/all',
+           name: 'courses.all',
+           component: require('./views/Courses/CoursesAll.vue').default,
+           beforeEnter: guard,
+       },
        {
            path: '/app/courses/create',
            name: 'courses.create',

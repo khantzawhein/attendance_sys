@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\FinishedJob;
 use App\Timetable;
 use Carbon\Carbon;
 use Illuminate\Console\Scheduling\Schedule;
@@ -31,8 +32,23 @@ class Kernel extends ConsoleKernel
             $now = Carbon::now();
             $time = $now->startOfMinute()->toTimeString();
             $day = $now->dayOfWeekIso-1;
-            Timetable::where('end_time', $time)->where('day', $day)->get()->map->setAbsentee();
-        })->everyMinute();
+            $timetables = Timetable::where('end_time', '<=', $time)->where('day', $day)->get();
+            foreach ($timetables as $timetable)
+            {
+                if ($timetable->finished_jobs->where('week', $timetable->getWeek())->isEmpty())
+                {
+                    $timetables->map->setAbsentee();
+                    $finished_job = new FinishedJob([
+                        'finished_at' => $now,
+                        'week' => $timetable->getWeek()
+                    ]);
+                    $timetable->finished_jobs()->save($finished_job);
+                    info('Job Done');
+                    return;
+                }
+                info('Job Already Done');
+            }
+        })->everyFiveMinutes();
     }
 
     /**
