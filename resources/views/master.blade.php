@@ -60,7 +60,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
               </router-link>
               <div class="dropdown-divider"></div>
-              <a href="#" @click.prevent="logout()" class="dropdown-item">
+              <a href="#" @click.prevent="logoutConfirm()" class="dropdown-item">
                 <i class="fas fa-sign-out-alt"></i> Log out
               </a>
             </div>

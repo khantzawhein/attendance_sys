@@ -8,7 +8,7 @@
                         <h3 class="card-title">This class' timetables</h3>
                     </div>
                     <div class="col-md-9 mt-3">
-                        <button  v-if="auth>=2" class="btn btn-sm bg-gradient-success" data-toggle="collapse" data-target="#timetable-input" aria-expanded="false" aria-controls="timetable-input"><i class="fas fa-plus mr-1"></i>Add class</button>
+                        <button  v-if="auth>=2" class="btn btn-sm bg-gradient-success" data-toggle="collapse" data-target="#timetable-input" aria-expanded="false" aria-controls="timetable-input"><i class="fas fa-plus mr-1"></i>Add timetable</button>
                     </div>
                 </div>
             </div>

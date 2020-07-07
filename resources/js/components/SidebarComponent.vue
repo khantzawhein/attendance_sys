@@ -11,6 +11,7 @@
                 </p>
               </router-link>
           </li>
+        <li class="nav-header" v-if="auth==1">ATTENDANCES</li>
         <li v-if="auth==1" class="nav-item">
               <router-link @click.native="handleSidebarClick" :to="{name: 'attendance'}" class="nav-link" exact>
                   <i class="nav-icon far fa-calendar-check"></i>
@@ -27,6 +28,7 @@
                 </p>
               </router-link>
           </li>
+        <li class="nav-header" v-if="auth==1">CLASSES</li>
         <li v-if="auth==1" class="nav-item">
             <router-link @click.native="handleSidebarClick" :to="{name: 'my_classes'}" :class="['nav-link', CurrentPathName.includes('my_classes') ? activeClass : '' ]" >
                 <i class="nav-icon fas fa-chalkboard-teacher"></i>
@@ -34,6 +36,7 @@
                     My Classes
                 </p>
             </router-link>
+        <li class="nav-header" v-if="auth>=2">ACCOUNT MANAGEMENT</li>
           <li v-if="auth>=2" class="nav-item has-treeview">
             <a href="#" :class="['nav-link', CurrentPathName.includes('students') ? activeClass : '' ]" >
                 <i class="nav-icon fas fa-user-graduate"></i>
@@ -57,6 +60,15 @@
                 </li>
             </ul>
           </li>
+        <li class="nav-item" v-if="auth>=2">
+            <router-link :to="{name: 'student_info_review'}" class="nav-link" exact>
+                <i class="nav-icon fas fa-user-check"></i>
+                <p>
+                    Student Info Review
+                    <span class="right badge badge-danger" v-if="infoChangeReqCount">{{infoChangeReqCount}}</span>
+                </p>
+            </router-link>
+        </li>
 
         <li v-if="auth==3" class="nav-item has-treeview">
             <a href="#" :class="['nav-link', CurrentPathName.includes('teachers') ? activeClass : '' ]">
@@ -81,6 +93,7 @@
                 </li>
             </ul>
           </li>
+        <li class="nav-header" v-if="auth>=2">ACADEMIC MANAGEMENT</li>
         <li v-if="auth>=2" class="nav-item has-treeview">
             <a href="#" :class="['nav-link', CurrentPathName.includes('years') ? activeClass : '' ]">
                 <i class="nav-icon far fa-calendar"></i>
@@ -189,15 +202,7 @@
                 </li>
             </ul>
           </li>
-        <li class="nav-item" v-if="auth>=2">
-            <router-link :to="{name: 'student_info_review'}" class="nav-link" exact>
-                <i class="nav-icon fas fa-user-check"></i>
-                <p>
-                    Student Info Review
-                    <span class="right badge badge-danger" v-if="infoChangeReqCount">{{infoChangeReqCount}}</span>
-                </p>
-            </router-link>
-        </li>
+        <li class="nav-header" v-if="auth==3">ADMIN MANAGEMENT</li>
         <li class="nav-item" v-if="auth==3">
             <router-link :to="{name: 'role_mgmt'}" class="nav-link" exact>
                 <i class="nav-icon fas fa-user-shield"></i>
@@ -206,8 +211,9 @@
                 </p>
             </router-link>
         </li>
+        <li class="nav-header" >ACCOUNT</li>
         <li class="nav-item">
-            <a @click="logout" href="#" :class="['nav-link']">
+            <a @click="logoutConfirm" href="#" :class="['nav-link']">
                 <i class="nav-icon fas fa-sign-out-alt"></i>
                 <p>
                     Logout
@@ -220,6 +226,7 @@
 </template>
 
 <script>
+    import swal from 'sweetalert';
     export default {
         name: "SidebarComponent",
         props: ['auth'],
@@ -265,7 +272,21 @@
                 .catch(error => {
                     toastr.error(error.message, 'Error')
                 })
-            }
+            },
+            logoutConfirm() {
+                swal({
+                  title: "Are you sure?",
+                  text: "Once logged out, you have to reenter your password to login.",
+                  icon: "info",
+                  buttons: ["Cancel", "Logout"],
+                  dangerMode: false,
+                })
+                .then((willLogout) => {
+                  if (willLogout) {
+                      this.logout()
+                  }
+                });
+            },
         },
 
     }

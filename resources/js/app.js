@@ -35,6 +35,7 @@ let teacherRoute = ['home','teachers', 'teachers.manage',
 let studentRoute = ['home', 'teachers',
  'courses'];
 window.Bus = new Vue()
+import swal from "sweetalert";
 const app = new Vue({
         el: '#app',
         router,
@@ -59,7 +60,21 @@ const app = new Vue({
                     this.$router.push('/')
                     location.reload()
                 })
-            }
+            },
+            logoutConfirm() {
+                swal({
+                  title: "Are you sure?",
+                  text: "Once logged out, you have to reenter your password to login.",
+                  icon: "info",
+                  buttons: ["Cancel", "Logout"],
+                  dangerMode: false,
+                })
+                .then((willLogout) => {
+                  if (willLogout) {
+                      this.logout()
+                  }
+                });
+            },
         },
         computed: {
             auth() {

@@ -72,7 +72,7 @@
 <script>
     export default {
         name: "CoursesCreate",
-
+        props: ['auth'],
         data() {
             return {
                 teachers: {},
@@ -115,7 +115,11 @@
                         data.push({id: teacher.id, text: teacher.name})
                     })
                     this.teachers = data;
+                    if (this.auth == 2) {
+                        this.formData.teacher_id = this.teachers[0].id
+                    }
                     this.loadStatus.teachers = true;
+
                 })
                 .catch(error => {
                     this.loadStatus.teachers = true;
