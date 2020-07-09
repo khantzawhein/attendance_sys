@@ -85,7 +85,7 @@
                     </div>
                 </div>
                 <div class="col-12">
-                    <section-students-component></section-students-component>
+                    <section-students-component :section="originalData"></section-students-component>
                 </div>
             </div>
           </div>
@@ -176,17 +176,17 @@
             },
             deleteConfirm() {
                 swal({
-                    title: "Are you sure?",
-                    text: "Once deleted, you will not be able to recover this!",
+                    title: "Warning, Danger Ahead!",
+                    text: "This action will delete this section and its all associated data, i.e. student's attendances, enrollments, timetables. \n\nAre you sure want to proceed?",
                     icon: "warning",
                     buttons: true,
                     dangerMode: true,
                 })
-                    .then((willDelete) => {
-                        if (willDelete) {
-                            this.handleDelete()
-                        }
-                    });
+                .then((willDelete) => {
+                    if (willDelete) {
+                        this.handleDelete()
+                    }
+                });
             },
             getSemesterData() {
                 this.loadStatus.semesterLoaded = false

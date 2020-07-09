@@ -53,9 +53,10 @@
                                                     <td>{{timetable.module_no}}</td>
                                                     <td>{{timetable.module_name}}</td>
                                                     <td>
-                                                        <button v-if="auth==3" @click="deleteConfirm(timetable.id)" type="button" class="btn btn-sm bg-gradient-danger">Delete</button>
+                                                        <button v-if="auth==3" class="btn btn-sm btn-secondary" data-toggle="modal" :data-target="`#editTimetable${timetable.id}`">Manage</button>
                                                         <button v-if="auth>=2" @click="handleModal(timetable.id)" class="btn btn-sm bg-gradient-primary" data-toggle="modal" :data-target="'#code-modal'+timetable.id">Get Code</button>
                                                         <TeacherCodeComponent :id="timetable.id"></TeacherCodeComponent>
+                                                        <TimetableEditComponent v-if="auth==3" :auth="auth" :timetable="timetable" @refresh-timetable="getTimetableData"></TimetableEditComponent>
                                                     </td>
                                                 </tr>
                                             </tbody>
@@ -64,7 +65,6 @@
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>
@@ -114,38 +114,10 @@
                     toastr.error(error.message, 'Opps! Something went wrong.')
                 })
             },
-            handleDelete(id) {
-                this.loadStatus.timetableLoaded = false
-                axios.delete('/api/sections/' + this.$route.params.id + '/classes/' +id)
-                    .then(response => {
-                        swal("Record has been deleted.", {
-                            icon: "success",
-                        });
-                        this.getTimetableData()
-                    })
-                    .catch(error => {
-                        this.loadStatus.timetableLoaded = true
-                        toastr.error(error.message, 'Opps! Something went wrong.')
-                    })
-            },
-            deleteConfirm(id) {
-                swal({
-                    title: "Are you sure?",
-                    text: "Once deleted, you will not be able to recover this!",
-                    icon: "warning",
-                    buttons: true,
-                    dangerMode: true,
-                })
-                    .then((willDelete) => {
-                        if (willDelete) {
-                            this.handleDelete(id)
-                        }
-                    });
-            },
             handleModal(id)
             {
                 Bus.$emit(`modal${id}open`);
-            }
+            },
         }
     }
 </script>

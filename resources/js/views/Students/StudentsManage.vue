@@ -205,7 +205,7 @@
             deleteConfirm() {
                 swal({
                   title: "Are you sure?",
-                  text: "Once deleted, you will not be able to recover this!",
+                  text: "This action will delete this student account and its attendance data.\n\nAre you sure want to proceed?",
                   icon: "warning",
                   buttons: true,
                   dangerMode: true,

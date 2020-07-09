@@ -87,6 +87,7 @@
                 this.loaded = false
                 axios.post(`/api/student_info_review/${this.id}/approve`)
                 .then(() => {
+                    Bus.$emit('sidebar-update')
                     this.$router.push({name: 'student_info_review'})
                     toastr.success('Student info updated successfully.', 'Success')
                 })
@@ -98,6 +99,7 @@
                 this.loaded = false
                 axios.delete(`/api/student_info_review/${this.id}`)
                 .then(() => {
+                    Bus.$emit('sidebar-update')
                     this.$router.push({name: 'student_info_review'})
                     toastr.success('Request declined successfully.', 'Success')
                 })

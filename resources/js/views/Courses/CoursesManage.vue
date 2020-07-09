@@ -195,8 +195,8 @@
             },
             deleteConfirm() {
                 swal({
-                    title: "Are you sure?",
-                    text: "Once deleted, you will not be able to recover this!",
+                    title: "Warning!",
+                    text: "This action will delete this course and its all associated data, i.e. student's attendances, bindings in sections. \n\nAre you sure want to proceed?",
                     icon: "warning",
                     buttons: true,
                     dangerMode: true,

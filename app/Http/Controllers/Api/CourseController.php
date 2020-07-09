@@ -41,6 +41,7 @@ class CourseController extends Controller
         {
             return CourseResource::collection(request()->user()->student->getCourses());
         }
+        return abort(403, "This action is not authorized");
     }
     public function allCourses()
     {

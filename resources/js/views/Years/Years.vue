@@ -44,8 +44,7 @@
                                     <td>{{year.academic_year}}</td>
                                     <td>{{year.name}}</td>
                                     <td v-if="auth==3">
-                                        <router-link :to="{name: 'years.manage', params:{id: year.id}}" class="btn bg-gradient-gray">Manage</router-link>
-                                        <button @click="deleteConfirm(year.id)" type="button" class="btn bg-gradient-danger">Delete</button>
+                                        <router-link :to="{name: 'years.manage', params:{id: year.id}}" class="btn btn-secondary">Manage</router-link>
                                     </td>
                                 </tr>
                             </tbody>
@@ -89,34 +88,6 @@
                     this.error = error.response.data.message || error.message;
                 })
             },
-            handleDelete(id) {
-                this.loaded = false;
-                axios.delete('/api/years/' + id)
-                .then(response => {
-                    this.getYearData()
-                    swal("Record has been deleted.", {
-                      icon: "success",
-                    });
-                })
-                .catch(error => {
-                    this.loaded = true
-                    this.error = error.response.data.message || error.message;
-                })
-            },
-            deleteConfirm(id) {
-                swal({
-                  title: "Are you sure?",
-                  text: "Once deleted, you will not be able to recover this!",
-                  icon: "warning",
-                  buttons: true,
-                  dangerMode: true,
-                })
-                .then((willDelete) => {
-                  if (willDelete) {
-                      this.handleDelete(id)
-                  }
-                });
-            }
         }
     }
 </script>

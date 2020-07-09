@@ -15,7 +15,7 @@
                     <div class="card card-default">
                         <div v-if="!loaded" class="overlay"><i class="fas fa-2x fa-sync-alt fa-spin"></i></div>
                         <div class="card-header">
-                            <h3 class="card-title">Request form for change infomation</h3>
+                            <h3 class="card-title">Request form for change information</h3>
                         </div>
                         <form @submit.prevent="confirmSubmit" id="student_edit" action="#">
                             <div class="card-body">
@@ -146,7 +146,7 @@
             confirmSubmit() {
                 swal({
                   title: "Are you sure?",
-                  text: "Once submitted, you will not be able to edit this!",
+                  text: "This action will sent your request to administrators and you will not be able to edit this after submitted.\n\nAre you sure to proceed?",
                   icon: "warning",
                   buttons: true,
                   dangerMode: true,

@@ -198,7 +198,7 @@
                 this.loaded = false;
                 axios.post('/api/roles/super-admin', {user_id: this.teachers.user_id})
                 .then(response => {
-                    swal("This user is set as administrator.", {
+                    swal("This user was set as administrator.", {
                       icon: "success",
                     });
                     this.$router.push({name: 'teachers'})
@@ -210,8 +210,8 @@
             },
             deleteConfirm() {
                 swal({
-                  title: "Are you sure?",
-                  text: "Once deleted, you will not be able to recover this!",
+                  title: "Warning!",
+                  text: "This action will delete this teacher account and its all associated data, i.e. student's attendances, courses. \n\nAre you sure want to proceed?",
                   icon: "warning",
                   buttons: true,
                   dangerMode: true,

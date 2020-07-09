@@ -27,7 +27,7 @@
                                 <th>Name</th>
                                 <th>Day</th>
                                 <th>Weeks (from semester start)</th>
-                                <th>DateTime</th>
+                                <th>Timestamp</th>
                                 <th data-priority="2">Status</th>
                                 <th data-priority="1">Mark as</th>
                             </tr>
@@ -139,7 +139,7 @@
                 }
             },
             updateStatus(id, event) {
-                this.loaded = false
+                this.loadStatus.attendance = false
                 axios.post(`/api/courses/${this.id}/attendances/${id}/update-status`, {
                     status: event.target.value
                 })

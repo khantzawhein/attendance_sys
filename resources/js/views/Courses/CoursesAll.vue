@@ -122,7 +122,7 @@
                             {
                                 extend: 'csvHtml5',
                                 text: '<i class="fas fa-file-csv mr-2"></i>CSV',
-                                title: 'CoursesExport',
+                                title: 'AllCoursesExport',
                                 exportOptions: {
                                     columns: [ 0, 1, 2, 3, 4, 5, 6 ]
                                 },
@@ -131,7 +131,7 @@
                             {
                                 extend: 'excelHtml5',
                                 text: '<i class="far fa-file-excel mr-2"></i> Excel',
-                                title: 'CoursesExport',
+                                title: 'AllCoursesExport',
                                 exportOptions: {
                                     columns: [ 0, 1, 2, 3, 4, 5, 6 ]
                                 },
@@ -140,7 +140,7 @@
                             {
                                 extend: 'print',
                                 text: '<i class="fas fa-print mr-2"></i> Print',
-                                title: 'Course Lists',
+                                title: 'All Courses',
                                 exportOptions: {
                                     columns: [ 0, 1, 2, 3, 4, 5, 6 ]
                                 },

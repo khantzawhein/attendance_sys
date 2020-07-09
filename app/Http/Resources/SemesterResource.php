@@ -20,8 +20,8 @@ class SemesterResource extends JsonResource
             'academic_year' => $this->year->academic_year,
             'year' => $this->year->name,
             'semester_name' => $this->semester_name,
-            'start_date' => Carbon::parse($this->start_date)->format('d-M-yy'),
-            'end_date' => Carbon::parse($this->end_date)->format('d-M-yy')
+            'start_date' => Carbon::parse($this->start_date)->format('d-M-Y'),
+            'end_date' => Carbon::parse($this->end_date)->format('d-M-Y')
         ];
     }
 }

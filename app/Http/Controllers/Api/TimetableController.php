@@ -9,6 +9,7 @@ use App\Rules\TimeAvailable;
 use App\Section;
 use App\Timetable;
 use Carbon\Carbon;
+use http\Env\Response;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Ramsey\Uuid\Type\Time;
@@ -79,12 +80,23 @@ class TimetableController extends Controller
      * Update the specified resource in storage.
      *
      * @param \Illuminate\Http\Request $request
-     * @param int $id
+     * @param Section $section
+     * @param Timetable $class
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Timetable $class)
+    public function update(Request $request, Section $section, Timetable $class)
     {
-        //
+        $data = $request->validate([
+            'day' => 'required|numeric|between:0,6',
+            'start_time' => ['required', 'date_format:"g:ia"', new TimeAvailable($request->end_time, $request->day, $class->id)],
+            'end_time' => 'required|after:start_time|date_format:"g:ia"',
+        ]);
+        $class->update([
+                'day' => $data['day'],
+                'start_time' => Carbon::parse($data['start_time'])->format('H:i'),
+                'end_time' => Carbon::parse($data['end_time'])->subMinute(1)->format('H:i'),
+            ]);
+        return response('', 201);
     }
 
     /**

@@ -41,13 +41,12 @@
                                     <div class="col-md-12">
                                         <div class="row">
                                             <div class="col-md-6">
-                                                <button :disabled="!hasChanged"  type="submit" class="btn bg-gradient-primary">Save</button></div>
+                                                <button :disabled="!hasChanged"  type="submit" class="btn btn-primary">Save</button></div>
                                             <div class="col-md-6">
                                                 <div class="row">
                                                     <div class="col-2 ml-auto">
-                                                        <button @click="deleteConfirm" type="button" class="btn bg-gradient-danger">Delete</button>
+                                                        <button @click="deleteConfirm" type="button" class="btn btn-danger">Delete</button>
                                                     </div>
-
                                                 </div>
                                             </div>
                                         </div>
@@ -128,17 +127,17 @@
             },
             deleteConfirm() {
                 swal({
-                    title: "Are you sure?",
-                    text: "Once deleted, you will not be able to recover this!",
+                    title: "Warning, Danger Ahead!",
+                    text: "This action will delete this semester and its all associated data, i.e. its all semesters and each of associated data. \n\nAre you sure want to proceed?",
                     icon: "warning",
                     buttons: true,
                     dangerMode: true,
                 })
-                    .then((willDelete) => {
-                        if (willDelete) {
-                            this.handleDelete()
-                        }
-                    });
+                .then((willDelete) => {
+                    if (willDelete) {
+                        this.handleDelete()
+                    }
+                });
             },
         }
     }

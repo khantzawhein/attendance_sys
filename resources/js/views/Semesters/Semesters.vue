@@ -63,7 +63,6 @@
                                                     <td>{{semester.end_date}}</td>
                                                     <td>
                                                         <router-link :to="{name: 'semesters.manage', params: {id : semester.id}}" class="btn btn-secondary">Manage</router-link >
-                                                        <button @click="deleteConfirm(semester.id)" class="btn btn-danger">Delete</button>
                                                     </td>
                                                 </tr>
                                             </tbody>
@@ -112,34 +111,6 @@
                     this.error = error.response.data.message || error.message;
                 })
             },
-            handleDelete(id) {
-                this.loaded = false;
-                axios.delete('/api/semesters/' + id)
-                .then(response => {
-                    this.getSemestersData()
-                    swal("Record has been deleted.", {
-                      icon: "success",
-                    });
-                })
-                .catch(error => {
-                    this.loaded = true
-                    this.error = error.response.data.message || error.message;
-                })
-            },
-            deleteConfirm(id) {
-                swal({
-                  title: "Are you sure?",
-                  text: "Once deleted, you will not be able to recover this!",
-                  icon: "warning",
-                  buttons: true,
-                  dangerMode: true,
-                })
-                .then((willDelete) => {
-                  if (willDelete) {
-                      this.handleDelete(id)
-                  }
-                });
-            }
         }
     }
 </script>

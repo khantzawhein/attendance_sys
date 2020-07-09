@@ -8,15 +8,29 @@ use Illuminate\Contracts\Validation\Rule;
 
 class TimeAvailable implements Rule
 {
+    private $day;
+    private $end_time_value;
+    /**
+     * @var null
+     */
+    private $timetable_id;
+    /**
+     * @var string
+     */
+    private $end_time;
+
     /**
      * Create a new rule instance.
      *
-     * @return void
+     * @param $end_time_value
+     * @param $day
+     * @param null $timetable_id
      */
-    public function __construct($end_time_value, $day)
+    public function __construct($end_time_value, $day, $timetable_id = null)
     {
         $this->day = $day;
         $this->end_time_value = $end_time_value;
+        $this->timetable_id = $timetable_id;
         try {
             $this->end_time = Carbon::parse($end_time_value)->format('H:i:s');
         }
@@ -51,10 +65,21 @@ class TimeAvailable implements Rule
                     ->orWhereRaw('? BETWEEN start_time AND end_time',[$value])
                     ->orWhereRaw('? BETWEEN start_time AND end_time)',[$this->end_time])
                     ->get();
-        if($timetable->isEmpty())
+        if ($this->timetable_id)
         {
-            return true;
+            if ($timetable->except($this->timetable_id)->isEmpty())
+            {
+                return true;
+            }
         }
+        else
+        {
+            if($timetable->isEmpty())
+            {
+                return true;
+            }
+        }
+
         return false;
     }
 

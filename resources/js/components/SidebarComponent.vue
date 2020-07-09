@@ -237,8 +237,15 @@
             }
         },
         created() {
-            if(this.auth >= 2) {
-                this.getInfoChangeReqCount()
+            Bus.$on('sidebar-update', () => {
+                this.getInfoChangeReqCount();
+            })
+        },
+        watch: {
+            auth() {
+                if(this.auth >= 2) {
+                    this.getInfoChangeReqCount()
+                }
             }
         },
         computed: {

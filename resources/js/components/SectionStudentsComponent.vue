@@ -63,6 +63,7 @@
 <script>
     export default {
         name: "SectionStudents",
+        props: ['section'],
         data() {
             return {
                 id: this.$route.params.id,
@@ -184,7 +185,7 @@
                     {
                         extend: 'csvHtml5',
                         text: '<i class="fas fa-file-csv mr-2"></i>CSV',
-                        title: 'StudentsExport',
+                        title: `StudentsIn${this.section.name}Export`,
                         exportOptions: {
                             columns: [ 0, 1, 2, 3, 4, 5, 6]
                         },
@@ -192,7 +193,7 @@
                     {
                         extend: 'excelHtml5',
                         text: '<i class="far fa-file-excel mr-2"></i> Excel',
-                        title: 'StudentsExport',
+                        title: `StudentsIn${this.section.name}Export`,
                         exportOptions: {
                             columns: [ 0, 1, 2, 3, 4, 5, 6]
                         },
@@ -200,7 +201,7 @@
                     {
                         extend: 'print',
                         text: '<i class="fas fa-print mr-2"></i> Print',
-                        title: 'Student Lists',
+                        title: `Student Enrolled in ${this.section.name}`,
                         exportOptions: {
                             columns: [ 0, 1, 2, 3, 4, 5, 6]
                         },
