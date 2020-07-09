@@ -18,7 +18,6 @@ use Illuminate\Support\Facades\Route;
 //    return $request->user();
 //});
 
-
 Route::middleware("auth:sanctum")->group(function () {
     Route::namespace('Api')->group(function() {
         Route::get('user/name', function () {
@@ -83,10 +82,11 @@ Route::middleware("auth:sanctum")->group(function () {
         Route::delete('roles/super-admin', 'RoleController@removeAsSuperAdmin');
 
         Route::get('courses/all', 'CourseController@allCourses');
+
+        Route::apiResource('students', 'StudentController')->except(['store']);
         Route::apiResources(
             [
                 'courses' => 'CourseController',
-                'students' => 'StudentController',
                 'teachers' => 'TeacherController',
                 'semesters' => 'SemesterController',
                 'sections' => 'SectionController',

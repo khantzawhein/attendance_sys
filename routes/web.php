@@ -13,6 +13,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 // Authentication Routes...
+//Mobile App Login
+Route::post('api/auth/get-token', 'Api\TokenController@login');
+
 Route::get('login', [
   'as' => 'login',
   'uses' => 'Auth\LoginController@showLoginForm'
