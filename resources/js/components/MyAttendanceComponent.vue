@@ -30,6 +30,7 @@
 <script>
     export default {
         name: "MyAttendanceComponent",
+        props: ['student_name'],
         data() {
             return {
                 attendances: [],

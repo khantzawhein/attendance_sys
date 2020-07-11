@@ -50,7 +50,7 @@
                                     </div>
 
                                     <div :id="`course${data[0].course_id}`" class="collapse" aria-labelledby="headingOne" data-parent="#days_slide">
-                                        <div class="card-body">
+                                        <div class="card-body table-responsive p-0">
                                             <table class="table table-hover table-nowrap" >
                                                 <thead>
                                                     <tr>

@@ -18,7 +18,7 @@
                             <h3 class="card-title">{{student_name}}'s Attendances</h3>
                         </div>
                         <div class="card-body">
-                            <my-attendance-component @loaded="loaded=true"></my-attendance-component>
+                            <my-attendance-component :student_name="student_name" @loaded="loaded=true"></my-attendance-component>
                         </div>
                     </div>
                     <!-- Modal -->

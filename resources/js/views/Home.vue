@@ -119,7 +119,7 @@
                           </div>
                           <!-- /.card-header -->
                           <div class="card-body">
-                              <my-attendance-component @loaded="loadStatus.attendance=true"></my-attendance-component>
+                              <my-attendance-component :student_name="student_name" @loaded="loadStatus.attendance=true"></my-attendance-component>
                           </div>
                           <!-- /.card-body -->
                         </div>
@@ -145,11 +145,13 @@ export default {
             loaded: false,
             loadStatus: {
                 attendance: false
-            }
+            },
+            student_name: null
         }
     },
     created() {
         this.getDashBoardData();
+        this.getUserName()
     },
     methods: {
         getDashBoardData() {
@@ -161,6 +163,15 @@ export default {
             })
             .catch(error => {
                 this.loaded = true;
+                toastr.error (error, 'Error');
+            })
+        },
+        getUserName() {
+            axios.get('/api/user/name')
+            .then(({data}) => {
+                this.student_name = data;
+            })
+            .catch(error => {
                 toastr.error (error, 'Error');
             })
         }

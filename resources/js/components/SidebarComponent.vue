@@ -16,7 +16,7 @@
               <router-link @click.native="handleSidebarClick" :to="{name: 'attendance'}" class="nav-link" exact>
                   <i class="nav-icon far fa-calendar-check"></i>
                 <p>
-                    Attendance
+                    Get Attendance
                 </p>
               </router-link>
           </li>
