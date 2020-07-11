@@ -25,7 +25,7 @@
             <div class="tab-content" :id="`code${id}-tabContent`">
                 <div v-if="courseFinished" class="alert alert-info alert-dismissible">
                   <h5><i class="icon fas fa-info"></i> This course's semester has finished!</h5>
-                      This course's semester has been finished. You won't be able to get the attendance code.
+                      This course's semester has finished. You won't be able to get the attendance code.
                 </div>
                 <div class="tab-pane fade text-center  active show" :id="`qr${id}`" role="tabpanel" :aria-labelledby="`qr${id}-tab`">
                     <h1 v-if="expired">Expired</h1>
