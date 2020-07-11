@@ -23,21 +23,25 @@
 
              </ul>
             <div class="tab-content" :id="`code${id}-tabContent`">
+                <div v-if="courseFinished" class="alert alert-info alert-dismissible">
+                  <h5><i class="icon fas fa-info"></i> This course's semester has finished!</h5>
+                      This course's semester has been finished. You won't be able to get the attendance code.
+                </div>
                 <div class="tab-pane fade text-center  active show" :id="`qr${id}`" role="tabpanel" :aria-labelledby="`qr${id}-tab`">
                     <h1 v-if="expired">Expired</h1>
                     <canvas v-if="!expired" :id="'QRCanvas'+id"></canvas>
-                    <p class="text-center" >Scan this QR in the student portal</p>
+                    <p class="text-center">Scan this QR in the student portal</p>
                 </div>
                 <div class="tab-pane fade" :id="`code${id}`" role="tabpanel" :aria-labelledby="`code${id}-tab`">
                     <h1 v-if="expired" class="text-center">Expired</h1>
                     <h1 v-if="!expired" class="text-center" >{{code}}</h1>
-                    <p class="text-center" >Enter this code in the student portal</p>
+                    <p  class="text-center" >Enter this code in the student portal</p>
                 </div>
             </div>
                 <h4 v-if="countdown" class="text-center text-danger">
                     Expires in {{countdown}} <span><button @click="extendCode(id, 5)" type="button" class="btn btn-sm btn-success"><i class="fas fa-plus mr-1"></i>5 mins</button></span>
                 </h4>
-                <p class="text-center text-bold text-green" v-if="!realtimeStudents.length">Waiting for students {{waitingDot}}</p>
+                <p class="text-center text-bold text-green" v-if="!realtimeStudents.length" v-show="!courseFinished">Waiting for students {{waitingDot}}</p>
                 <div class="p-3">
                     <table v-if="realtimeStudents.length" :id="`realtime_table${id}`" class="table table-striped">
                         <thead>
@@ -55,7 +59,7 @@
                     </table>
                 </div>
             <div class="modal-footer">
-                <button @click="revokeCode(id)" class="btn btn-danger">Revoke Code</button>
+                <button @click="revokeCode(id)" class="btn btn-danger" v-if="!courseFinished">Revoke Code</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
         </div>
@@ -80,6 +84,7 @@
                 expired: false,
                 realtimeStudents: [],
                 waitingDot: '',
+                courseFinished: false,
             }
         },
         created() {
@@ -116,8 +121,13 @@
                     this.code = data.code;
                     this.expire_at = data.expire_at || null
                     this.loaded = true
-                    this.timeToNow(this.expire_at)
                     this.renderQR(id)
+                    if (this.code === "finished") {
+                        this.courseFinished = true
+                    }
+                    else {
+                        this.timeToNow(this.expire_at)
+                    }
                 })
                 .catch((error) => {
                     toastr.error(error.message, 'Error')

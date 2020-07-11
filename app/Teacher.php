@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 class Teacher extends Model
@@ -19,6 +20,6 @@ class Teacher extends Model
     }
     public function getTeacherTimetable()
     {
-        return $this->courses->map->timetable->map->load('course')->flatten();
+        return $this->courses->map->timetable->map->load('course')->flatten()->where('course.semester.end_date' , '>=', Carbon::now()->format('Y-m-d'));
     }
 }

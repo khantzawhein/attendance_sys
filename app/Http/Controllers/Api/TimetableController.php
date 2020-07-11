@@ -122,7 +122,7 @@ class TimetableController extends Controller
         $end_date = Carbon::parse($semester_end);
 
         if (Carbon::now()->startOfDay()->greaterThan($end_date)) {
-            return response(['code' => 'This course\'s semester has finished.', 'expire'], 200);
+            return response(['code' => 'finished'], 200);
         }
 
         if ($timetable->code == null) {
