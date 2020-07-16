@@ -84,7 +84,7 @@ class Timetable extends Model
     {
         $semester_start = $this->section->semester->start_date;
         $start_date = Carbon::parse($semester_start);
-        return $week = Carbon::now()->isoWeek() - $start_date->isoWeek();
+        return Carbon::now()->diffInWeeks($start_date);
     }
 
     public function finished_jobs()
