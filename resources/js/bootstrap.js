@@ -13,7 +13,6 @@ try {
     require('air-datepicker/dist/js/datepicker.min.js')
     require('air-datepicker/dist/js/i18n/datepicker.en.js')
     require('timepicker/jquery.timepicker.min.js')
-    require('@fortawesome/fontawesome-free/js/all.min.js')
     window.toastr = require('toastr/build/toastr.min.js')
     require('bootstrap');
     window._ = require('underscore/underscore-min.js')

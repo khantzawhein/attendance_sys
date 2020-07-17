@@ -14,7 +14,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 
-class StudentController extends Controller
+class  StudentController extends Controller
 {
 
     public function __construct()
