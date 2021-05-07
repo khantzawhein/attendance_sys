@@ -40,7 +40,7 @@
         "sweetalert": "^2.1.2",
         "timepicker": "^1.13.11",
         "toastr": "^2.1.4",
-        "underscore": "^1.10.2",
+        "underscore": "^1.12.1",
         "vue-progressbar": "^0.7.5",
         "vue-router": "^3.3.4",
         "vuex": "^3.5.1"
